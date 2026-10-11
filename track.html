@@ -31,7 +31,7 @@ a{color:#0878D1;text-decoration:none}
 /* CONTAINER */
 .container{max-width:640px;margin:0 auto;padding:16px 12px}
 
-/* HERO / INTRO CARD */
+/* HERO */
 .hero{background:linear-gradient(135deg,#0e0e0e 0%,#161616 100%);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
 .hero h2{margin:0 0 6px;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.3px}
 .hero p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5}
@@ -63,12 +63,14 @@ a{color:#0878D1;text-decoration:none}
 .alert-error{background:rgba(255,59,48,.08);border:1px solid var(--red)}
 .alert-success{background:rgba(0,166,80,.08);border:1px solid var(--green)}
 .alert-info{background:rgba(8,120,209,.08);border:1px solid var(--blue)}
+.alert-warn{background:rgba(255,159,10,.08);border:1px solid var(--orange)}
 .alert-icon{font-size:24px;line-height:1;flex-shrink:0}
 .alert-body{flex:1;min-width:0}
 .alert-title{margin:0 0 3px;font-size:14px;font-weight:800;letter-spacing:.2px}
 .alert-error .alert-title{color:var(--red)}
 .alert-success .alert-title{color:var(--green)}
 .alert-info .alert-title{color:var(--blue)}
+.alert-warn .alert-title{color:var(--orange)}
 .alert-text{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
@@ -84,7 +86,7 @@ a{color:#0878D1;text-decoration:none}
 .order-copy:hover{background:#1a1a1a}
 .order-copy svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Status badge (top-right) */
+/* Status badge */
 .status-badge{padding:7px 14px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;flex-shrink:0}
 .status-pending{background:rgba(255,159,10,.15);color:#ff9f0a;border:1px solid #ff9f0a}
 .status-processing{background:rgba(8,120,209,.15);color:var(--blue-light);border:1px solid var(--blue-light)}
@@ -99,7 +101,6 @@ a{color:#0878D1;text-decoration:none}
 .stepper{display:flex;justify-content:space-between;position:relative;z-index:3}
 .step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:0}
 .step-circle{width:42px;height:42px;border-radius:50%;background:#0a0a0a;border:2px solid #262626;color:#666;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;transition:all .4s cubic-bezier(.19,1,.22,1);position:relative}
-.step-circle svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:3}
 .step-label{font-size:10.5px;color:#555;margin-top:10px;text-align:center;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:color .4s;line-height:1.2;padding:0 2px}
 .step.completed .step-circle{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 12px rgba(8,120,209,.4)}
 .step.completed .step-label{color:var(--blue-light)}
@@ -121,7 +122,14 @@ a{color:#0878D1;text-decoration:none}
 .payment-pending{background:rgba(255,159,10,.15);color:#ff9f0a;border:1px solid #ff9f0a}
 .payment-rejected{background:rgba(255,59,48,.15);color:var(--red);border:1px solid var(--red)}
 
-/* PAY NOW button (heartbeat) */
+/* CASH SEND PIN DISPLAY */
+.cash-pin-display{background:rgba(255,159,10,.08);border:1px solid var(--orange);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;animation:slideDown .35s ease-out}
+.cash-pin-body{flex:1;min-width:0}
+.cash-pin-label{font-size:10.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:6px}
+.cash-pin-value{font-family:ui-monospace,SFMono-Regular,monospace;font-size:22px;font-weight:800;color:#fff;letter-spacing:4px;line-height:1;word-break:break-all}
+.cash-pin-hint{font-size:11px;color:var(--muted);margin:8px 0 0;line-height:1.4}
+
+/* PAY NOW button */
 .pay-now-btn{background:var(--green);color:#fff;font-weight:800;font-size:14.5px;width:100%;padding:15px;border-radius:12px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.4px;animation:heartbeat 1.8s infinite ease-in-out;border:0}
 .pay-now-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
 .pay-now-btn:disabled{animation:none;opacity:.7;cursor:not-allowed}
@@ -212,13 +220,11 @@ a{color:#0878D1;text-decoration:none}
 
 <div class="container">
 
-  <!-- ============ INTRO HERO ============ -->
   <div class="hero">
     <h2>📦 Track Your Order</h2>
     <p>Enter your Order ID below to see live status, payment info, and delivery progress.</p>
   </div>
 
-  <!-- ============ PAYMENT SUCCESS BANNER ============ -->
   <div id="payfast-success" class="alert-card alert-success hidden">
     <div class="alert-icon">✅</div>
     <div class="alert-body">
@@ -227,7 +233,6 @@ a{color:#0878D1;text-decoration:none}
     </div>
   </div>
 
-  <!-- ============ SEARCH CARD ============ -->
   <div class="search-card">
     <label class="search-label">Order Reference</label>
     <input id="orderId" class="search-input" placeholder="e.g. aBc123XyZ..." autocomplete="off" spellcheck="false">
@@ -241,14 +246,12 @@ a{color:#0878D1;text-decoration:none}
       </button>
     </div>
 
-    <!-- Recent order chips -->
     <div id="recent-orders" class="recent-orders hidden">
       <div class="recent-label">Recent searches</div>
       <div id="recent-chips" class="recent-chips"></div>
     </div>
   </div>
 
-  <!-- ============ ERROR STATE ============ -->
   <div id="error-card" class="alert-card alert-error hidden">
     <div class="alert-icon">⚠️</div>
     <div class="alert-body">
@@ -261,7 +264,6 @@ a{color:#0878D1;text-decoration:none}
     </div>
   </div>
 
-  <!-- ============ LOADING SKELETON ============ -->
   <div id="loading-card" class="skel-card hidden">
     <div class="skel skel-line short" style="height:20px"></div>
     <div class="skel skel-circle"></div>
@@ -273,9 +275,7 @@ a{color:#0878D1;text-decoration:none}
     </div>
   </div>
 
-  <!-- ============ RESULT ============ -->
   <div id="result" class="result-card hidden">
-    <!-- Order header -->
     <div class="order-head">
       <div class="order-id-wrap">
         <span class="order-id-label">Order ID</span>
@@ -288,14 +288,12 @@ a{color:#0878D1;text-decoration:none}
       <span class="status-badge" id="status-badge">Pending</span>
     </div>
 
-    <!-- Cancelled -->
     <div id="cancelled-banner" class="cancelled-banner hidden">
       <div class="cancelled-icon">❌</div>
       <h3>Order Cancelled</h3>
       <p>This order has been cancelled. If this is unexpected, please contact support.</p>
     </div>
 
-    <!-- Stepper -->
     <div id="stepper-wrapper" class="stepper-wrap">
       <div class="stepper-line"></div>
       <div class="stepper-fill" id="stepper-glow"></div>
@@ -319,7 +317,6 @@ a{color:#0878D1;text-decoration:none}
       </div>
     </div>
 
-    <!-- Info grid -->
     <div class="info-grid">
       <div class="info-item">
         <span class="info-label">Recipient</span>
@@ -343,10 +340,21 @@ a{color:#0878D1;text-decoration:none}
       </div>
     </div>
 
-    <!-- Pay Now button (injected dynamically) -->
+    <!-- Cash Send PIN display (auto-shown when the order used cash send) -->
+    <div id="cash-pin-display" class="cash-pin-display hidden">
+      <div class="cash-pin-body">
+        <span class="cash-pin-label">🔑 Cash Send PIN on File</span>
+        <div class="cash-pin-value" id="cash-pin-value">••••</div>
+        <p class="cash-pin-hint">We've recorded this PIN from your payment submission.</p>
+      </div>
+      <button class="order-copy" onclick="copyCashPin()" title="Copy PIN">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+    </div>
+
     <div id="pay-now-wrap"></div>
 
-    <!-- Items -->
     <div class="items-section">
       <div class="items-heading">
         <h3>Items</h3>
@@ -355,7 +363,6 @@ a{color:#0878D1;text-decoration:none}
       <div id="items"></div>
     </div>
 
-    <!-- Totals -->
     <div class="totals" id="totals">
       <div class="total-row"><span>Subtotal</span><span id="subtotal">R0</span></div>
       <div class="total-row hidden" id="discount-row"><span>Discount</span><span class="discount" id="discount">−R0</span></div>
@@ -363,7 +370,6 @@ a{color:#0878D1;text-decoration:none}
       <div class="total-row grand"><span>Total</span><span id="total">R0</span></div>
     </div>
 
-    <!-- Actions -->
     <div class="actions-grid">
       <button class="action-btn" onclick="reorder()">
         <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
@@ -380,7 +386,6 @@ a{color:#0878D1;text-decoration:none}
     </div>
   </div>
 
-  <!-- ============ SUPPORT CARD (always shown) ============ -->
   <div class="support-card">
     <h3>💬 Need Help?</h3>
     <p>Our team is happy to assist with any questions about your order, delivery, or payment.</p>
@@ -396,7 +401,6 @@ a{color:#0878D1;text-decoration:none}
     </div>
   </div>
 
-  <!-- ============ FOOTER ============ -->
   <div class="footer">
     <span class="footer-brand">SbheneCart</span>
     <div>Real-time order tracking • Updated live</div>
@@ -409,7 +413,6 @@ a{color:#0878D1;text-decoration:none}
 
 <div id="toast-holder"></div>
 
-<!-- ============ FIREBASE + TRACKER LOGIC ============ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getFirestore, doc, onSnapshot, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
@@ -432,7 +435,7 @@ const PAYFAST_PASSPHRASE = "";
 const IS_SANDBOX = true;
 
 let activeUnsubscribe = null;
-let currentOrder = null; // latest snapshot data
+let currentOrder = null;
 
 /* ============ HELPERS ============ */
 const $ = id => document.getElementById(id);
@@ -524,15 +527,12 @@ window.trackOrder = function(){
   localStorage.setItem("trackOrderId", id);
   addRecentOrder(id);
 
-  // Reset UI states
   $("error-card").classList.add("hidden");
   $("result").classList.add("hidden");
   $("loading-card").classList.remove("hidden");
 
-  // Disconnect previous listener
   if (activeUnsubscribe) { activeUnsubscribe(); activeUnsubscribe = null; }
 
-  let firstLoad = true;
   let spokeResult = false;
 
   activeUnsubscribe = onSnapshot(doc(db, "orders", id), snap => {
@@ -541,17 +541,14 @@ window.trackOrder = function(){
     if (!snap.exists()) {
       $("result").classList.add("hidden");
       $("error-card").classList.remove("hidden");
-      // 🔊 Voice: invalid order
       if (!spokeResult) { speak("Invalid order number"); spokeResult = true; }
       toast("Order not found", "error");
       return;
     }
 
-    // ✅ Order exists
     $("error-card").classList.add("hidden");
     $("result").classList.remove("hidden");
 
-    // 🔊 Voice: valid order (only once per search)
     if (!spokeResult) {
       speak("Order number confirmed");
       toast("Order found", "success");
@@ -562,16 +559,13 @@ window.trackOrder = function(){
     currentOrder = o;
     const orderId = snap.id;
 
-    // Header
     $("order-id-display").textContent = orderId;
 
-    // Status badge
     const status = o.status || "Pending";
     const badge = $("status-badge");
     badge.textContent = status;
     badge.className = "status-badge status-" + status.toLowerCase();
 
-    // Cancelled banner vs stepper
     if (status === "Cancelled") {
       $("cancelled-banner").classList.remove("hidden");
       $("stepper-wrapper").classList.add("hidden");
@@ -581,13 +575,11 @@ window.trackOrder = function(){
       updateProgressUI(status);
     }
 
-    // Info
     $("name").textContent = o.customer?.name || "—";
     $("phone").textContent = o.customer?.phone || "—";
     $("address").textContent = o.customer?.address || "—";
     $("order-date").textContent = o.timestamp ? new Date(o.timestamp).toLocaleString('en-ZA', { dateStyle: 'medium', timeStyle: 'short' }) : "—";
 
-    // Payment badge
     const payStatus = o.payment?.status || "Pending Verification";
     const payBadge = $("payment-status-badge");
     payBadge.textContent = payStatus;
@@ -596,6 +588,16 @@ window.trackOrder = function(){
       payStatus.includes("Rejected") ? "payment-rejected" :
       "payment-pending"
     );
+
+    /* ============ CASH SEND PIN DISPLAY ============ */
+    const cashPin = o.payment?.cashSendPin;
+    const pinBox = $("cash-pin-display");
+    if (cashPin && String(cashPin).trim()) {
+      $("cash-pin-value").textContent = String(cashPin).trim();
+      pinBox.classList.remove("hidden");
+    } else {
+      pinBox.classList.add("hidden");
+    }
 
     // Pay Now button for unpaid online orders
     const payWrap = $("pay-now-wrap");
@@ -612,7 +614,6 @@ window.trackOrder = function(){
       payWrap.appendChild(payBtn);
     }
 
-    // Items
     const items = o.items || [];
     $("items-count").textContent = `${items.reduce((s,i) => s + (i.quantity||0), 0)} item${items.length === 1 ? "" : "s"}`;
     $("items").innerHTML = items.length ? items.map(i => {
@@ -633,7 +634,6 @@ window.trackOrder = function(){
       `;
     }).join('') : '<p style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0">No items in this order</p>';
 
-    // Totals
     const subtotal = Number(o.subtotal || items.reduce((s,i) => s + (i.price||0)*(i.quantity||0), 0));
     const discount = Number(o.discountApplied || 0);
     const deliveryFee = Number(o.delivery?.fee || 0);
@@ -643,8 +643,6 @@ window.trackOrder = function(){
     if (deliveryFee > 0) { $("delivery-row").classList.remove("hidden"); $("delivery").textContent = money(deliveryFee); }
     else { $("delivery-row").classList.add("hidden"); }
     $("total").textContent = money(o.total || 0);
-
-    firstLoad = false;
   }, err => {
     console.error(err);
     $("loading-card").classList.add("hidden");
@@ -697,6 +695,17 @@ window.copyOrderId = async () => {
     toast("Order ID copied", "success");
   } catch {
     prompt("Copy your Order ID:", id);
+  }
+};
+
+window.copyCashPin = async () => {
+  const pin = $("cash-pin-value").textContent;
+  if (!pin || pin === "••••") return;
+  try {
+    await navigator.clipboard.writeText(pin);
+    toast("Cash Send PIN copied", "success");
+  } catch {
+    prompt("Copy your Cash Send PIN:", pin);
   }
 };
 
@@ -850,7 +859,7 @@ const firebaseConfig = {
   storageBucket: "sbhenecart.firebasestorage.app",
   messagingSenderId: "1074011270711",
   appId: "1:1074011270711:web:72dffe0237f7eea4edd9b2",
-  measurementId: "G-RWRGNK00BY"
+  measurementKind: "G-RWRGNK00BY"
 };
 const app = initializeApp(firebaseConfig);
 try { getAnalytics(app); } catch {}
