@@ -15,7 +15,7 @@ button,input,select,textarea{font-family:inherit;font-size:16px}
 button{cursor:pointer;border:0;background:none;color:inherit;padding:0}
 input,select,textarea{-webkit-appearance:none;appearance:none}
 a{color:#0878D1;text-decoration:none}
-:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a}
+:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a;--purple:#7B1FA2}
 .hidden{display:none!important}
 .site-header{padding:12px 12px 4px;background:#000;position:sticky;top:0;z-index:100}
 .header-panel{background:var(--blue);border-radius:20px;padding:14px;box-shadow:0 6px 24px rgba(8,120,209,.28)}
@@ -99,13 +99,17 @@ a{color:#0878D1;text-decoration:none}
 .badge-pill.green{background:var(--green)}
 .badge-pill.gold{background:var(--gold);color:#000}
 .badge-pill.out{background:#333;color:#888}
+.badge-pill.orange{background:var(--orange);color:#000}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
-.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;transition:border-color .15s,transform .15s}
+.stat-card.clickable{cursor:pointer}
+.stat-card.clickable:hover{border-color:var(--blue);transform:translateY(-2px)}
 .stat-card .label{color:var(--muted);font-size:12px;font-weight:500;display:block;margin-bottom:6px}
 .stat-card .value{font-size:24px;font-weight:800;color:#fff;line-height:1}
 .stat-card .value.blue{color:var(--blue)}
 .stat-card .value.red{color:var(--red)}
 .stat-card .value.green{color:var(--green)}
+.stat-card .value.orange{color:var(--orange)}
 .chart-container{position:relative;height:240px}
 .chart-grid{display:grid;grid-template-columns:1fr;gap:14px}
 @media(min-width:800px){.chart-grid{grid-template-columns:1fr 1fr}}
@@ -130,6 +134,8 @@ a{color:#0878D1;text-decoration:none}
 .tab{padding:9px 16px;background:#0a0a0a;border:1px solid #262626;border-radius:999px;font-size:13px;font-weight:600;color:#fff;white-space:nowrap;flex-shrink:0}
 .tab.active{background:var(--blue);border-color:var(--blue)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;z-index:99999;font-weight:600;font-size:13.5px;box-shadow:0 8px 24px rgba(8,120,209,.4);max-width:90vw;text-align:center;animation:toast-in .25s ease-out}
+.toast.error{background:var(--red);box-shadow:0 8px 24px rgba(255,59,48,.4)}
+.toast.success{background:var(--green);box-shadow:0 8px 24px rgba(0,166,80,.4)}
 @keyframes toast-in{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;justify-content:center;align-items:flex-start;padding:16px;overflow-y:auto}
 .modal.open{display:flex}
@@ -160,6 +166,13 @@ a{color:#0878D1;text-decoration:none}
 .img-preview{aspect-ratio:1;background:#fff;border-radius:8px;overflow:hidden;position:relative;border:1px solid #262626}
 .img-preview img{width:100%;height:100%;object-fit:contain;padding:3px}
 .variant-section{border-top:1px dashed #262626;margin-top:18px;padding-top:14px}
+
+/* Payment verification badge in queue */
+.pay-status-chip{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:4px 10px;border-radius:999px}
+.pay-chip-pending{background:rgba(255,159,10,.15);color:var(--orange);border:1px solid var(--orange)}
+.pay-chip-uploaded{background:rgba(8,120,209,.15);color:var(--blue-light);border:1px solid var(--blue-light)}
+.pay-chip-whatsapp{background:rgba(37,211,102,.15);color:#25D366;border:1px solid rgba(37,211,102,.4)}
+.pay-chip-rejected{background:rgba(255,59,48,.15);color:var(--red);border:1px solid var(--red)}
 </style>
 </head>
 <body>
@@ -258,6 +271,11 @@ a{color:#0878D1;text-decoration:none}
     </button>
 
     <div class="sidebar-section-label">Sales</div>
+    <button class="nav-btn" data-page="payment-queue" onclick="showPage('payment-queue')">
+      <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Payment Queue
+      <span class="nav-badge" id="payment-queue-badge" data-empty="true">0</span>
+    </button>
     <button class="nav-btn" data-page="orders" onclick="showPage('orders')">
       <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
       Orders & Map
@@ -299,6 +317,10 @@ a{color:#0878D1;text-decoration:none}
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg>
       Manage Sellers
     </button>
+    <button class="nav-btn" data-page="seller-revenue" onclick="showPage('seller-revenue')">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Seller Revenue
+    </button>
 
     <div class="sidebar-section-label">System</div>
     <button class="nav-btn" data-page="security" onclick="showPage('security')">
@@ -315,6 +337,10 @@ a{color:#0878D1;text-decoration:none}
           <div class="stat-card"><span class="label">Revenue</span><span class="value green" id="stat-revenue">R0</span></div>
           <div class="stat-card"><span class="label">Pending Orders</span><span class="value red" id="stat-pending">0</span></div>
           <div class="stat-card"><span class="label">Customers</span><span class="value blue" id="stat-customers">0</span></div>
+          <div class="stat-card clickable" onclick="showPage('payment-queue')">
+            <span class="label">Payments to Verify</span>
+            <span class="value" id="stat-payqueue" style="color:var(--orange)">0</span>
+          </div>
         </div>
         <div class="chart-grid">
           <div class="card"><h3 class="card-title">📈 Revenue (ZAR)</h3><div class="chart-container"><canvas id="revenueChart"></canvas></div></div>
@@ -390,6 +416,15 @@ a{color:#0878D1;text-decoration:none}
           <input id="newSubSubCat" class="form-input" placeholder="e.g. Android">
           <button class="btn btn-block" style="margin-top:12px" onclick="addSubSubCat()">Add Sub-subcategory</button>
           <div id="subsubcats" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <!-- NEW PAGE: Payment Verification Queue -->
+      <section id="page-payment-queue" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">🔔 Payment Verification Queue</h3>
+          <p class="card-sub">Orders awaiting payment confirmation — approve or reject in one place</p>
+          <div id="payment-queue-list"></div>
         </div>
       </section>
 
@@ -469,6 +504,15 @@ a{color:#0878D1;text-decoration:none}
           <button id="create-sel-btn" class="btn btn-block" style="margin-top:14px" onclick="generateSellerAccount()">Generate & Whitelist</button>
         </div>
         <div class="card"><h3 class="card-title">📋 Registered Sellers</h3><div id="sellers-list"></div></div>
+      </section>
+
+      <!-- NEW PAGE: Seller Revenue -->
+      <section id="page-seller-revenue" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">💰 Seller Performance</h3>
+          <p class="card-sub">Revenue, orders, and product counts for each registered seller</p>
+          <div id="seller-revenue-list"></div>
+        </div>
       </section>
 
       <section id="page-security" class="admin-page hidden">
@@ -635,10 +679,10 @@ const $ = id => document.getElementById(id);
 const money = n => `R${Number(n||0).toLocaleString('en-ZA')}`;
 const escapeHtml = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function toast(msg, ms=2600){
+function toast(msg, ms=2600, type=""){
   const holder = $("toast-holder");
   const t = document.createElement("div");
-  t.className = "toast";
+  t.className = "toast " + type;
   t.textContent = msg;
   holder.appendChild(t);
   setTimeout(() => t.remove(), ms);
@@ -674,6 +718,8 @@ window.showPage = (id) => {
     $("sidebar-backdrop").classList.remove("open");
   }
   if (id === "orders" && window.google && !window._adminMapInit) setTimeout(initAdminMap, 200);
+  if (id === "seller-revenue") renderSellerRevenue();
+  if (id === "payment-queue") renderPaymentQueue();
 };
 
 window.verifyCreatorPasskey = () => {
@@ -722,7 +768,6 @@ onAuthStateChanged(auth, (user) => {
       $("admin-app").classList.remove("hidden");
       $("admin-email-label").textContent = user.email;
 
-      // 🔊 Greet + announce any pending orders on login
       setTimeout(() => {
         const pending = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
         if (pending > 0) {
@@ -1179,6 +1224,18 @@ window.archiveOrder = async id => { await updateDoc(doc(db, "orders", id), { arc
 window.unarchiveOrder = async id => { await updateDoc(doc(db, "orders", id), { archived: false }); toast("📂 Restored"); };
 window.deleteOrder = async id => { if (confirm("Delete permanently?")) { await deleteDoc(doc(db, "orders", id)); toast("🗑️ Deleted"); } };
 
+window.copyCashPin = async (pin, btn) => {
+  try {
+    await navigator.clipboard.writeText(pin);
+    const original = btn.textContent;
+    btn.textContent = "✓ Copied";
+    btn.style.color = "var(--green)";
+    setTimeout(() => { btn.textContent = original; btn.style.color = "#fff"; }, 1500);
+  } catch {
+    prompt("Copy this PIN:", pin);
+  }
+};
+
 function renderOrders(){
   const el = $("orders-list");
   const activeStatuses = ["Pending","Processing","Shipped"];
@@ -1197,9 +1254,46 @@ function renderOrders(){
 
   el.innerHTML = filtered.map(o => {
     const pay = o.payment?.status || "Pending Verification";
-    const payColor = pay === "Paid" ? "var(--green)" : (pay.includes("Pending") ? "var(--orange)" : "var(--red)");
-    const popHtml = o.payment?.proofOfPaymentUrl
-      ? `<div style="margin:10px 0;padding:10px;border:1px dashed var(--blue);border-radius:8px"><a href="${o.payment.proofOfPaymentUrl}" target="_blank" style="color:#fff;font-size:12px;font-weight:600">📄 View Proof of Payment</a></div>` : "";
+    const payColor = pay === "Paid" ? "var(--green)" : (pay.includes("Pending") || pay.includes("Uploaded") || pay.includes("WhatsApp") ? "var(--orange)" : "var(--red)");
+
+    // ===== NEW: Richer PoP + Cash Send PIN panel =====
+    const popHtml = (() => {
+      const proofUrl = o.payment?.proofOfPaymentUrl;
+      const pin = o.payment?.cashSendPin;
+      const method = (o.payment?.method || "").toLowerCase();
+      const isCashSend = method.includes("cash");
+      const hasProof = !!proofUrl;
+      const hasPin = !!pin;
+      if (!hasProof && !hasPin) return "";
+
+      let html = `<div style="margin:12px 0;padding:12px;border:1px dashed var(--blue);border-radius:8px;background:rgba(8,120,209,.04)">`;
+      html += `<div style="font-size:11px;font-weight:800;color:var(--blue-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">💳 Payment Verification</div>`;
+
+      if (hasProof) {
+        const isImg = /\.(jpe?g|png|gif|webp)$/i.test(proofUrl);
+        html += `<div style="margin-bottom:8px">
+          <span style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px">📄 Proof of Payment</span>
+          <a href="${proofUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;padding:7px 12px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none">
+            🔍 View Receipt
+          </a>
+          ${isImg ? `<div style="margin-top:8px"><img src="${proofUrl}" style="max-width:100%;max-height:120px;object-fit:contain;border-radius:6px;border:1px solid #262626;cursor:zoom-in" onclick="window.open('${proofUrl}','_blank')"></div>` : ''}
+        </div>`;
+      }
+
+      if (hasPin && isCashSend) {
+        html += `<div style="background:rgba(255,159,10,.08);border:1px solid var(--orange);border-radius:8px;padding:10px">
+          <span style="font-size:10.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">🔑 Cash Send PIN</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-family:ui-monospace,monospace;font-size:20px;font-weight:800;color:#fff;letter-spacing:3px">${escapeHtml(pin)}</span>
+            <button onclick="copyCashPin('${escapeHtml(pin)}', this)" style="background:transparent;border:1px solid #262626;color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">📋 Copy</button>
+          </div>
+        </div>`;
+      }
+
+      html += `</div>`;
+      return html;
+    })();
+
     const itemsHtml = o.items?.map(i => {
       const variant = [i.selectedColor, i.selectedSize].filter(Boolean).join(" / ");
       return `<div style="font-size:12px;color:var(--muted)">• ${escapeHtml(i.name)} ${variant ? `(${escapeHtml(variant)}) ` : ""}(×${i.quantity}) — ${money(i.price)}</div>`;
@@ -1480,6 +1574,221 @@ function renderSellers(){
   `).join('');
 }
 
+/* ============ NEW: SELLER REVENUE ============ */
+function renderSellerRevenue(){
+  const el = $("seller-revenue-list");
+  if (!el) return;
+
+  if (!dbSellers.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">👥</div><h3>No sellers yet</h3></div>`;
+    return;
+  }
+
+  const stats = dbSellers.map(seller => {
+    const myProducts = dbProducts.filter(p => p.sellerId === seller.id);
+    const liveProducts = myProducts.filter(p => p.approved && p.visible !== false).length;
+    const pendingProducts = myProducts.filter(p => !p.approved).length;
+    const productIds = new Set(myProducts.map(p => p.id));
+
+    let totalRevenue = 0;
+    let deliveredRevenue = 0;
+    let orderCount = 0;
+    let deliveredCount = 0;
+
+    dbOrders.forEach(o => {
+      const myItems = (o.items || []).filter(i => productIds.has(i.id));
+      if (!myItems.length) return;
+      orderCount++;
+      const lineTotal = myItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0);
+      if (o.status === "Delivered") {
+        deliveredRevenue += lineTotal;
+        deliveredCount++;
+      }
+      totalRevenue += lineTotal;
+    });
+
+    return {
+      id: seller.id,
+      name: seller.name || "Unnamed",
+      email: seller.email || "",
+      phone: seller.phone || "",
+      active: seller.active !== false,
+      productCount: myProducts.length,
+      liveProducts,
+      pendingProducts,
+      orderCount,
+      deliveredCount,
+      totalRevenue,
+      deliveredRevenue
+    };
+  });
+
+  stats.sort((a, b) => b.deliveredRevenue - a.deliveredRevenue);
+
+  const grandTotal = stats.reduce((s, x) => s + x.deliveredRevenue, 0);
+  const grandOrders = stats.reduce((s, x) => s + x.orderCount, 0);
+
+  el.innerHTML = `
+    <div class="stat-grid" style="margin-bottom:16px">
+      <div class="stat-card"><span class="label">Total Sellers</span><span class="value">${stats.length}</span></div>
+      <div class="stat-card"><span class="label">Combined Revenue</span><span class="value green">${money(grandTotal)}</span></div>
+      <div class="stat-card"><span class="label">Total Orders</span><span class="value blue">${grandOrders}</span></div>
+      <div class="stat-card"><span class="label">Pending Approvals</span><span class="value red">${dbProducts.filter(p => !p.approved && p.sellerId).length}</span></div>
+    </div>
+
+    ${stats.map(s => {
+      const initial = (s.name || "?")[0].toUpperCase();
+      return `
+        <div class="list-item" style="align-items:flex-start;flex-wrap:wrap">
+          <div style="width:52px;height:52px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0">${initial}</div>
+          <div class="list-body">
+            <p class="list-title">${escapeHtml(s.name)} ${!s.active ? '<span class="badge-pill out">Disabled</span>' : ''}</p>
+            <p class="list-meta">${escapeHtml(s.email || "No email on file")} ${s.phone ? `• ${escapeHtml(s.phone)}` : ""}</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:10px">
+              <div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700">Products</div>
+                <div style="font-size:16px;font-weight:800;color:#fff">${s.productCount}</div>
+                <div style="font-size:10.5px;color:var(--muted)">${s.liveProducts} live • ${s.pendingProducts} pending</div>
+              </div>
+              <div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700">Orders</div>
+                <div style="font-size:16px;font-weight:800;color:#fff">${s.orderCount}</div>
+                <div style="font-size:10.5px;color:var(--muted)">${s.deliveredCount} delivered</div>
+              </div>
+              <div style="background:rgba(0,166,80,.08);border:1px solid rgba(0,166,80,.3);border-radius:8px;padding:8px 10px">
+                <div style="font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:.4px;font-weight:700">Delivered Revenue</div>
+                <div style="font-size:16px;font-weight:800;color:var(--green)">${money(s.deliveredRevenue)}</div>
+              </div>
+              <div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700">Gross (all orders)</div>
+                <div style="font-size:16px;font-weight:800;color:#fff">${money(s.totalRevenue)}</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+              <button class="btn-secondary" style="font-size:12px;padding:8px 14px" onclick="filterSellerProducts('${s.id}')">📦 View Products</button>
+              ${s.phone ? `<a href="https://wa.me/${s.phone.replace(/\D/g,'')}?text=${encodeURIComponent('Hi ' + s.name + ' — admin here from SbheneCart.')}" target="_blank" class="btn-secondary" style="font-size:12px;padding:8px 14px;background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.3);color:#25D366;text-decoration:none">💬 WhatsApp</a>` : ""}
+              <button class="btn-danger" style="font-size:12px;padding:8px 14px" onclick="deleteSeller('${s.id}')">🗑️ Revoke</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+window.filterSellerProducts = (sellerId) => {
+  showPage('products');
+  const seller = dbSellers.find(s => s.id === sellerId);
+  const filtered = dbProducts.filter(p => p.sellerId === sellerId);
+  $("products-count").textContent = `${filtered.length} from ${seller?.name || "seller"}`;
+  renderProducts(filtered);
+};
+
+/* ============ NEW: PAYMENT VERIFICATION QUEUE ============ */
+function renderPaymentQueue(){
+  const el = $("payment-queue-list");
+  if (!el) return;
+
+  const pending = dbOrders.filter(o => {
+    if (o.archived) return false;
+    const s = o.payment?.status || "";
+    return s !== "Paid" && s !== "Unverified / Rejected";
+  }).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+  const badge = $("payment-queue-badge");
+  if (badge) {
+    badge.textContent = pending.length;
+    badge.dataset.empty = pending.length === 0 ? "true" : "false";
+  }
+
+  if (!pending.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><h3>All payments verified</h3><p>Nothing waiting on your review</p></div>`;
+    return;
+  }
+
+  el.innerHTML = pending.map(o => {
+    const payStatus = o.payment?.status || "Pending Verification";
+    const isUploaded = payStatus.includes("Uploaded");
+    const isWhatsApp = payStatus.includes("WhatsApp");
+    const isRejected = payStatus.includes("Rejected");
+    const chipCls = isRejected ? "pay-chip-rejected" : isUploaded ? "pay-chip-uploaded" : isWhatsApp ? "pay-chip-whatsapp" : "pay-chip-pending";
+    const borderColor = isUploaded ? "var(--blue-light)" : isWhatsApp ? "#25D366" : isRejected ? "var(--red)" : "var(--orange)";
+
+    const proofUrl = o.payment?.proofOfPaymentUrl;
+    const pin = o.payment?.cashSendPin;
+    const isCash = (o.payment?.method || "").toLowerCase().includes("cash");
+    const timeAgo = o.timestamp ? new Date(o.timestamp).toLocaleString('en-ZA', { dateStyle: 'medium', timeStyle: 'short' }) : "—";
+
+    return `
+      <div class="card" style="border-left:3px solid ${borderColor}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+          <div style="flex:1;min-width:180px">
+            <b style="color:#fff;font-size:13px">Order #${o.id.substring(0, 8)}</b><br>
+            <span style="font-size:12px;color:var(--muted)">${escapeHtml(o.customer?.name || "Unknown")} • ${escapeHtml(o.customer?.phone || "—")}</span>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:3px">${timeAgo}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:20px;font-weight:800;color:var(--blue);line-height:1">${money(o.total)}</div>
+            <div class="pay-status-chip ${chipCls}" style="margin-top:4px;display:inline-block">${escapeHtml(payStatus)}</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px">
+          <b style="color:#fff">Method:</b> ${escapeHtml(o.payment?.method || "—")}
+        </div>
+
+        ${proofUrl ? `
+          <div style="margin-bottom:10px">
+            <a href="${proofUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#1a1a1a;border:1px solid #2a2a2a;color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none">
+              📄 Open Receipt
+            </a>
+          </div>
+        ` : `<div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:10px">No receipt uploaded yet</div>`}
+
+        ${(isCash && pin) ? `
+          <div style="background:rgba(255,159,10,.08);border:1px solid var(--orange);border-radius:8px;padding:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+            <div>
+              <span style="font-size:10.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:2px">🔑 Cash Send PIN</span>
+              <span style="font-family:ui-monospace,monospace;font-size:18px;font-weight:800;color:#fff;letter-spacing:2px">${escapeHtml(pin)}</span>
+            </div>
+            <button onclick="copyCashPin('${escapeHtml(pin)}', this)" style="background:transparent;border:1px solid #262626;color:#fff;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">📋 Copy</button>
+          </div>
+        ` : ""}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button onclick="verifyPayment('${o.id}', 'Paid')" style="background:var(--green);color:#fff;padding:11px;border-radius:8px;font-weight:700;font-size:13px;border:0;cursor:pointer">✓ Mark as Paid</button>
+          <button onclick="verifyPayment('${o.id}', 'Unverified / Rejected')" style="background:#1a1a1a;border:1px solid var(--red);color:var(--red);padding:11px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">✕ Reject</button>
+        </div>
+
+        ${o.customer?.phone ? `
+          <button onclick="contactCustomer('${escapeHtml(o.customer.phone)}', '${escapeHtml(o.customer.name || '')}', '${o.id.substring(0, 8)}')" style="width:100%;margin-top:8px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25D366;padding:11px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
+            💬 WhatsApp Customer
+          </button>
+        ` : ""}
+      </div>
+    `;
+  }).join('');
+}
+
+window.verifyPayment = async (orderId, newStatus) => {
+  if (!confirm(`Mark this payment as "${newStatus}"?`)) return;
+  try {
+    await updateDoc(doc(db, "orders", orderId), { "payment.status": newStatus });
+    toast(newStatus === "Paid" ? "✅ Payment verified!" : "❌ Payment rejected", 3000, newStatus === "Paid" ? "success" : "error");
+    logAction(`Payment ${newStatus} for order ${orderId.substring(0, 8)}`);
+    renderPaymentQueue();
+  } catch (err) {
+    console.error(err);
+    alert("Failed: " + err.message);
+  }
+};
+
+window.contactCustomer = (phone, name, orderId) => {
+  const clean = phone.replace(/\D/g, "");
+  const msg = encodeURIComponent(`Hi ${name || "there"}, this is SbheneCart. We're verifying payment for your order #${orderId}. Could you please send us proof of payment? Thank you!`);
+  window.open(`https://wa.me/${clean}?text=${msg}`, "_blank");
+};
+
 function renderCharts(){
   const revCtx = $("revenueChart")?.getContext("2d");
   const stockCtx = $("stockChart")?.getContext("2d");
@@ -1575,15 +1884,14 @@ window.toggleVoiceAlerts = () => {
   if (voiceAlertsOn) speak("Voice alerts enabled");
 };
 
-// 3-tone ascending "ka-ching" — louder than the old one
 function playChime(){
   if (!audioAlertsOn) return;
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const notes = [
-      { freq: 523.25, delay: 0    }, // C5
-      { freq: 659.25, delay: 160  }, // E5
-      { freq: 783.99, delay: 320  }  // G5
+      { freq: 523.25, delay: 0    },
+      { freq: 659.25, delay: 160  },
+      { freq: 783.99, delay: 320  }
     ];
     notes.forEach(({ freq, delay }) => {
       setTimeout(() => {
@@ -1602,7 +1910,6 @@ function playChime(){
   } catch (e) { console.warn("Chime failed:", e); }
 }
 
-// New order alert — plays chime THEN speaks after a small pause
 window.alertNewOrder = (customerName, total) => {
   playChime();
   setTimeout(() => {
@@ -1670,6 +1977,7 @@ onSnapshot(collection(db, "products"), snap => {
   renderLowStock();
   renderStats();
   renderCharts();
+  if ($("seller-revenue-list")) renderSellerRevenue();
 });
 onSnapshot(collection(db, "orders"), snap => {
   const isInitial = knownOrderIds.size === 0;
@@ -1686,6 +1994,7 @@ onSnapshot(collection(db, "orders"), snap => {
   renderStats();
   renderCharts();
   refreshAdminMapPins();
+  if ($("payment-queue-list")) renderPaymentQueue();
 
   const pending = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
   const badge = $("orders-badge");
@@ -1714,6 +2023,7 @@ onSnapshot(collection(db, "users"), snap => {
 onSnapshot(collection(db, "sellers"), snap => {
   dbSellers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   renderSellers();
+  if ($("seller-revenue-list")) renderSellerRevenue();
 });
 onSnapshot(collection(db, "custom_requests"), snap => {
   dbRequests = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
@@ -1738,6 +2048,18 @@ function renderStats(){
   $("stat-revenue").textContent = money(rev);
   $("stat-pending").textContent = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
   $("stat-customers").textContent = dbCustomers.length;
+
+  // Payment verification count
+  const payQueueEl = $("stat-payqueue");
+  if (payQueueEl) {
+    const count = dbOrders.filter(o => {
+      if (o.archived) return false;
+      const s = o.payment?.status || "";
+      return s !== "Paid" && s !== "Unverified / Rejected";
+    }).length;
+    payQueueEl.textContent = count;
+    payQueueEl.style.color = count > 0 ? "var(--orange)" : "var(--green)";
+  }
 }
 
 function isLight(hex){
@@ -1772,6 +2094,7 @@ function renderProducts(list){
     }).join('');
     const vis = p.visible === false ? `<span class="badge-pill out">Hidden</span>` : "";
     const badge = p.badge ? `<span class="badge-pill">${escapeHtml(p.badge)}</span>` : "";
+    const sellerBadge = p.sellerId ? `<span class="badge-pill orange">Seller</span>` : "";
 
     return `
       <div class="list-item" style="align-items:flex-start;flex-wrap:wrap">
@@ -1780,7 +2103,7 @@ function renderProducts(list){
           <p class="list-title">${escapeHtml(p.name)}</p>
           <p class="list-meta">${money(p.price)} ${p.originalPrice ? `<s style="color:#666">${money(p.originalPrice)}</s>` : ""} • ${p.stock||0} in stock</p>
           <p class="list-meta">${escapeHtml(p.category || "")} ${p.subcategory ? `› ${escapeHtml(p.subcategory)}` : ""}</p>
-          ${badge} ${vis}
+          ${badge} ${sellerBadge} ${vis}
           ${(colorPills || sizePills) ? `<div class="variant-pills" style="margin-top:8px">${colorPills}${sizePills}</div>` : ""}
         </div>
         <div class="list-actions" style="flex-direction:column;gap:6px">
@@ -1853,7 +2176,12 @@ function renderSubSubcategories(){
 renderActivityLog();
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY&callback=() => {}"></script>
+<!-- ============ GOOGLE MAPS (OPTIONAL) ============
+     Replace YOUR_GOOGLE_MAPS_KEY with your real key, OR delete this entire block.
+     If you don't have a key, orders still work — just no map pins. -->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY&callback=initAdminMap">
+</script>
 
 </body>
 </html>
