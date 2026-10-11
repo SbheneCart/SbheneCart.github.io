@@ -1,185 +1,520 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0878D1">
 <title>SbheneCart Admin Pro</title>
-
-<!-- Google Maps JavaScript API with places library -->
-
-<!-- Chart.js for real-time sales analytics -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
-:root {
-  --bg: #000;
-  --text: #0f8;
-  --primary: #0f8;
-  --card: #111;
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#000;color:#fff;line-height:1.4;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+button,input,select,textarea{font-family:inherit;font-size:16px}
+button{cursor:pointer;border:0;background:none;color:inherit;padding:0}
+input,select,textarea{-webkit-appearance:none;appearance:none}
+a{color:#0878D1;text-decoration:none}
+:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a}
+.hidden{display:none!important}
+.site-header{padding:12px 12px 4px;background:#000;position:sticky;top:0;z-index:100}
+.header-panel{background:var(--blue);border-radius:20px;padding:14px;box-shadow:0 6px 24px rgba(8,120,209,.28)}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.header-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.header-brand h1{margin:0;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-brand small{color:#fff;opacity:.85;font-size:11px;display:block}
+.icon-btn{background:rgba(255,255,255,.14);color:#fff;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;transition:background .15s,opacity .15s}
+.icon-btn:active{background:rgba(255,255,255,.3)}
+.icon-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.header-search{display:flex;align-items:center;background:#fff;border-radius:12px;padding:0 14px;height:44px;gap:10px}
+.header-search svg{width:18px;height:18px;stroke:#6a6a6a;fill:none;stroke-width:2;flex-shrink:0}
+.header-search input{flex:1;border:none;outline:none;background:transparent;color:#111;font-size:15px;padding:0;height:100%;min-width:0}
+.admin-layout{display:flex;min-height:calc(100vh - 120px)}
+.admin-sidebar{position:fixed;top:0;bottom:0;left:0;width:280px;background:#0a0a0a;border-right:1px solid #1a1a1a;z-index:1000;padding:20px;overflow-y:auto;transform:translateX(-100%);transition:transform .3s cubic-bezier(.19,1,.22,1);box-shadow:8px 0 30px rgba(0,0,0,.6)}
+.admin-sidebar.open{transform:translateX(0)}
+@media(min-width:1000px){
+.admin-sidebar{position:sticky;top:120px;transform:none;height:calc(100vh - 120px);width:260px;box-shadow:none;padding:14px;background:#050505}
+.admin-layout{padding:0 12px 40px;gap:14px}
 }
-body { margin:0; font-family:Arial, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
-header { background:#000; padding:15px; border-bottom:2px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
-nav { display:flex; gap:8px; flex-wrap:wrap; padding:10px; background:#181818; }
-nav button { padding:10px 15px; background: #222; color: var(--text); border: 1px solid var(--primary); border-radius: 4px; cursor: pointer; transition: 0.2s; font-size: 13px; font-weight: bold; }
-nav button:hover, nav button.active { background: var(--primary); color: #000; font-weight: bold; }
-.page { display:none; padding:20px; }
-.page.active { display:block; }
-.card { border:1px solid var(--primary); padding:20px; margin:15px 0; background: var(--card); border-radius: 8px; }
-input, select, textarea { width:100%; margin:8px 0; padding:10px; box-sizing:border-box; background:#1e1e1e; color: var(--text); border:1px solid var(--primary); border-radius: 4px; font-size: 14px; }
-button { background: var(--primary); color: #000; font-weight: bold; border: 0; padding: 10px 15px; cursor: pointer; border-radius: 4px; transition: 0.2s; font-size: 14px; }
-button:hover { background: #0a6; color: #fff; }
-button:disabled { background: #333; color: #666; cursor: not-allowed; border: 1px solid #444; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-@media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
-
-
-.pulsing-badge { display: inline-block; animation: pulse-glow 1.8s infinite; }
-@keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(255, 17, 68, 0.7); }
-  70% { box-shadow: 0 0 0 8px rgba(255, 17, 68, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 17, 68, 0); }
-}
-.screen-alert-flash { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; pointer-events: none; animation: flash-screen 0.8s ease-out; }
-@keyframes flash-screen {
-  0% { background: rgba(0, 255, 136, 0); }
-  50% { background: rgba(0, 255, 136, 0.2); }
-  100% { background: rgba(0, 255, 136, 0); }
-}
-.chart-container { width: 100%; max-width: 500px; height: 260px; margin: auto; }
+.admin-main{flex:1;min-width:0;padding:14px 12px 40px}
+@media(min-width:1000px){.admin-main{padding:14px 0}}
+.sidebar-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid #1a1a1a;margin-bottom:14px}
+.sidebar-head h3{margin:0;font-size:16px;font-weight:700}
+.sidebar-close{background:#1a1a1a;color:#fff;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-btn{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;background:transparent;color:#fff;border-radius:10px;font-size:14px;font-weight:500;text-align:left;transition:background .15s;border:0;margin-bottom:2px;position:relative}
+.nav-btn:hover{background:#1a1a1a}
+.nav-btn.active{background:var(--blue);color:#fff}
+.nav-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;border-radius:999px;padding:2px 7px;min-width:18px;text-align:center}
+.nav-badge[data-empty="true"]{display:none}
+.sidebar-section-label{font-size:10px;font-weight:700;color:#666;letter-spacing:.8px;text-transform:uppercase;padding:14px 14px 6px;margin-top:8px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+.card-title{margin:0 0 12px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card-sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+.btn{background:var(--blue);color:#fff;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s;border:0}
+.btn:hover{background:var(--blue-dark)}
+.btn:disabled{background:#333;color:#888;cursor:not-allowed}
+.btn-secondary{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600}
+.btn-secondary:hover{background:#242424}
+.btn-danger{background:var(--red);color:#fff}
+.btn-success{background:var(--green);color:#fff}
+.btn-block{width:100%}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.form-label{display:block;margin:14px 0 6px;font-size:13px;color:var(--muted);font-weight:500}
+.form-label:first-child{margin-top:0}
+.form-label .req{color:var(--red)}
+.form-input,.form-select,.form-textarea{width:100%;padding:12px 14px;background:#0a0a0a;border:1px solid #262626;border-radius:10px;color:#fff;font-size:15px;outline:none;transition:border-color .15s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blue)}
+.form-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B8B8B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:40px}
+.form-textarea{min-height:100px;resize:vertical;font-family:inherit}
+.grid-2{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:500px){.grid-2{grid-template-columns:1fr 1fr;gap:12px}}
+.color-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-top:8px}
+.color-opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;background:#0a0a0a;border:2px solid #262626;border-radius:10px;color:#fff;font-size:11px;font-weight:500;text-align:center;transition:all .15s;position:relative;cursor:pointer;min-height:76px;justify-content:center}
+.color-opt:active{transform:scale(.96)}
+.color-opt.active{border-color:var(--blue);background:rgba(8,120,209,.08)}
+.color-opt.oos{border-color:#3a1010;opacity:.55}
+.color-opt.oos .color-dot{opacity:.4}
+.color-opt .color-dot{width:26px;height:26px;border-radius:50%;border:2px solid #333;display:block}
+.color-opt.active .color-dot{border-color:#fff}
+.color-opt .check-icon{position:absolute;top:4px;right:4px;width:18px;height:18px;stroke:#fff;fill:none;stroke-width:3;background:var(--blue);border-radius:50%;padding:3px;display:none}
+.color-opt.active .check-icon{display:block}
+.color-opt .x-icon{position:absolute;top:4px;right:4px;width:18px;height:18px;stroke:#fff;fill:none;stroke-width:3;background:var(--red);border-radius:50%;padding:3px;display:none}
+.color-opt.oos .x-icon{display:block}
+.color-opt .label{line-height:1.1;word-break:break-word}
+.oos-tag{font-size:9px;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.3px;display:none}
+.color-opt.oos .oos-tag{display:block}
+.custom-color-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px;align-items:center}
+.custom-color-row input[type="text"]{padding:10px 12px;font-size:13px}
+.custom-color-row input[type="color"]{width:48px;height:44px;border:2px solid #262626;border-radius:10px;background:#0a0a0a;padding:2px;cursor:pointer}
+.color-hint{font-size:11.5px;color:var(--muted);line-height:1.5;background:rgba(8,120,209,.06);border-left:3px solid var(--blue);padding:10px 12px;border-radius:6px;margin-top:8px}
+.color-hint b{color:#fff}
+.size-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.size-opt{padding:10px 16px;background:#0a0a0a;border:2px solid #262626;border-radius:8px;color:#fff;font-size:13px;font-weight:600;transition:all .15s;cursor:pointer;min-width:52px;text-align:center;position:relative}
+.size-opt:active{transform:scale(.95)}
+.size-opt.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.size-opt.oos{border-color:#3a1010;color:#666;text-decoration:line-through}
+.badge-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:.3px;text-transform:uppercase;background:var(--blue);color:#fff}
+.badge-pill.red{background:var(--red)}
+.badge-pill.green{background:var(--green)}
+.badge-pill.gold{background:var(--gold);color:#000}
+.badge-pill.out{background:#333;color:#888}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px}
+.stat-card .label{color:var(--muted);font-size:12px;font-weight:500;display:block;margin-bottom:6px}
+.stat-card .value{font-size:24px;font-weight:800;color:#fff;line-height:1}
+.stat-card .value.blue{color:var(--blue)}
+.stat-card .value.red{color:var(--red)}
+.stat-card .value.green{color:var(--green)}
+.chart-container{position:relative;height:240px}
+.chart-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:800px){.chart-grid{grid-template-columns:1fr 1fr}}
+.list-item{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;transition:border-color .15s}
+.list-item:hover{border-color:#2a2a2a}
+.list-thumb{width:64px;height:64px;border-radius:10px;background:#fff;object-fit:contain;padding:4px;flex-shrink:0}
+.list-body{flex:1;min-width:0}
+.list-title{font-size:14px;font-weight:600;color:#fff;margin:0 0 4px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list-meta{font-size:12px;color:var(--muted);margin:0}
+.list-meta b{color:#fff;font-weight:600}
+.list-actions{display:flex;gap:6px;flex-shrink:0}
+.icon-act{width:34px;height:34px;border-radius:8px;background:#1a1a1a;border:1px solid #262626;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.icon-act:hover{background:#262626}
+.icon-act svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8}
+.icon-act.danger svg{stroke:var(--red)}
+.variant-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.variant-pill{font-size:10px;padding:2px 7px;border-radius:999px;background:#1a1a1a;border:1px solid #2a2a2a;color:var(--muted)}
+.variant-pill.color{color:#fff}
+.variant-pill.oos{opacity:.45;text-decoration:line-through}
+.tab-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab{padding:9px 16px;background:#0a0a0a;border:1px solid #262626;border-radius:999px;font-size:13px;font-weight:600;color:#fff;white-space:nowrap;flex-shrink:0}
+.tab.active{background:var(--blue);border-color:var(--blue)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;z-index:99999;font-weight:600;font-size:13.5px;box-shadow:0 8px 24px rgba(8,120,209,.4);max-width:90vw;text-align:center;animation:toast-in .25s ease-out}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;justify-content:center;align-items:flex-start;padding:16px;overflow-y:auto}
+.modal.open{display:flex}
+.modal-box{background:#141414;border-radius:16px;padding:20px;width:100%;max-width:640px;position:relative;max-height:94vh;overflow-y:auto;border:1px solid #1f1f1f;margin:auto}
+.modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:#1e1e1e;border-radius:50%;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;z-index:5;border:0}
+.modal-box h2{margin:0 0 14px;font-size:19px;font-weight:700}
+.security-modal{position:fixed;inset:0;background:#000;z-index:99999;display:flex;justify-content:center;align-items:center;padding:20px}
+.security-box{background:#0e0e0e;border:1px solid #1a1a1a;border-radius:16px;padding:28px 24px;max-width:400px;width:100%;text-align:center}
+.security-box h2{margin:0 0 8px;color:var(--blue);font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.security-box p{color:var(--muted);font-size:13px;margin:0 0 20px}
+.security-box .form-input{text-align:center;font-size:16px;letter-spacing:2px}
+.security-icon{font-size:44px;margin-bottom:8px;display:block}
+.broadcast-ticker{position:fixed;top:12px;left:12px;right:12px;z-index:5000;background:var(--blue);color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;font-size:13px;text-align:center;box-shadow:0 6px 20px rgba(8,120,209,.4);display:flex;align-items:center;justify-content:center;gap:10px}
+.broadcast-close{background:rgba(255,255,255,.2);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(255,59,48,.7)}70%{box-shadow:0 0 0 8px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
+.pulsing{animation:pulse-ring 1.8s infinite}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;opacity:0;pointer-events:none;transition:opacity .25s}
+.backdrop.open{opacity:1;pointer-events:auto}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-icon{font-size:40px;margin-bottom:8px;opacity:.5}
+.empty h3{margin:0 0 4px;font-size:15px;color:#fff}
+.empty p{margin:0;font-size:13px}
+.log-entry{font-family:ui-monospace,SFMono-Regular,monospace;font-size:11.5px;padding:6px 8px;border-bottom:1px solid #1a1a1a;color:var(--muted)}
+.log-entry b{color:var(--blue)}
+.decor-info{background:rgba(8,120,209,.06);border:1px dashed var(--blue);border-radius:10px;padding:12px;font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.decor-info b{color:#fff}
+.img-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:10px}
+.img-preview{aspect-ratio:1;background:#fff;border-radius:8px;overflow:hidden;position:relative;border:1px solid #262626}
+.img-preview img{width:100%;height:100%;object-fit:contain;padding:3px}
+.variant-section{border-top:1px dashed #262626;margin-top:18px;padding-top:14px}
 </style>
 </head>
 <body>
 
-<div id="alert-overlay"></div>
-
-<!-- Full-Screen Creator and Admin Security Verification Modal -->
-<div id="admin-security-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 99999;">
-  <div style="background: #111; border: 2px solid var(--primary); border-radius: 12px; padding: 30px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 0 25px rgba(0, 255, 136, 0.15);">
-    
-    <!-- STEP 1: Creator Passkey Panel -->
+<!-- ============ SECURITY GATE ============ -->
+<div id="security-gate" class="security-modal">
+  <div class="security-box">
     <div id="step-passkey">
-      <h2 style="color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Creator Security</h2>
-      <p style="color: #ccc; font-size: 14px; margin-bottom: 20px;">Enter the Admin Passkey provided by the Creator:</p>
-      <input type="password" id="creator-passkey-input" placeholder="Enter Passkey..." style="width: 100%; padding: 12px; border: 1px solid var(--primary); background: #000; color: var(--primary); text-align: center; border-radius: 4px; font-size: 16px;">
-      <button onclick="verifyCreatorPasskey()" style="width: 100%; margin-top: 15px; background: var(--primary); color: var(--bg); font-weight: bold; padding: 12px; border: none; border-radius: 4px;">Verify Passkey</button>
-      <button onclick="window.location.href='index.html'" style="width: 100%; margin-top: 10px; background: transparent; color: #888; border: 1px solid #333; padding: 10px; border-radius: 4px; cursor: pointer;">Cancel</button>
+      <span class="security-icon">🔐</span>
+      <h2>Creator Security</h2>
+      <p>Enter the Admin Passkey provided by the Creator</p>
+      <input type="password" id="creator-passkey-input" class="form-input" placeholder="Enter Passkey" autocomplete="off">
+      <button class="btn btn-block" style="margin-top:14px" onclick="verifyCreatorPasskey()">Verify Passkey</button>
+      <button class="btn-secondary btn-block" style="margin-top:8px" onclick="window.location.href='index.html'">Cancel</button>
     </div>
-
-    <!-- STEP 2: Admin Login Panel (Hidden initially) -->
-    <div id="step-login" style="display: none;">
-      <h2 style="color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Admin Credentials</h2>
-      <p style="color: #ccc; font-size: 14px; margin-bottom: 20px;">Enter your admin details to access the dashboard:</p>
+    <div id="step-login" class="hidden">
+      <span class="security-icon">👤</span>
+      <h2>Admin Login</h2>
+      <p>Enter your authorized admin credentials</p>
       <form onsubmit="handleAdminLogin(event)">
-        <input type="email" id="admin-email-input" required placeholder="Admin Email" style="width: 100%; padding: 12px; border: 1px solid var(--primary); background: #000; color: var(--primary); border-radius: 4px; font-size: 16px; margin-bottom: 10px; box-sizing: border-box;">
-        <input type="password" id="admin-password-input" required placeholder="Admin Password" style="width: 100%; padding: 12px; border: 1px solid var(--primary); background: #000; color: var(--primary); border-radius: 4px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box;">
-        <button type="submit" style="width: 100%; background: var(--primary); color: var(--bg); font-weight: bold; padding: 12px; border: none; border-radius: 4px; cursor: pointer;">Log In to Dashboard</button>
+        <input type="email" id="admin-email-input" class="form-input" placeholder="admin@email.com" required autocomplete="username">
+        <input type="password" id="admin-password-input" class="form-input" placeholder="Password" required autocomplete="current-password" style="margin-top:10px">
+        <button type="submit" class="btn btn-block" style="margin-top:14px">Access Dashboard</button>
       </form>
     </div>
-
   </div>
 </div>
 
-<!-- Main Admin Panel Wrapper -->
-<div id="admin-wrapper" style="display:none;">
-  <header>
-    <h2>SbheneCart Admin Pro</h2>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <button id="audio-toggle-btn" onclick="toggleAudioAlerts()" style="background:#222; color:var(--primary); border:1px solid var(--primary);">🔊 Alerts: ON</button>
-      <button onclick="logoutAdmin()" style="background:#222; color:var(--primary); border:1px solid var(--primary);">Lock Panel</button>
+<!-- ============ ADMIN APP ============ -->
+<div id="admin-app" class="hidden">
+  <header class="site-header">
+    <div class="header-panel">
+      <div class="header-top">
+        <div class="header-left">
+          <button class="icon-btn" onclick="toggleSidebar()" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="header-brand">
+            <h1>SbheneCart Admin</h1>
+            <small id="admin-email-label">—</small>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="icon-btn" id="audio-toggle-btn" onclick="toggleAudioAlerts()" aria-label="Sound" title="Toggle chime sound">
+            <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </button>
+          <button class="icon-btn" id="voice-toggle-btn" onclick="toggleVoiceAlerts()" aria-label="Voice" title="Toggle voice announcements">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
+          <button class="icon-btn" onclick="logoutAdmin()" aria-label="Logout">
+            <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="header-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="admin-search" type="text" placeholder="Search products, orders, customers…" oninput="handleAdminSearch()">
+      </div>
     </div>
   </header>
-  
-  <nav id="admin-nav">
-    <button onclick="showPage('approvals')">Sellers Approvals</button>
-<button onclick="showPage('sellers-mgr')">Manage Sellers</button>
-    <button onclick="showPage('dash')" class="active">Dashboard</button>
-    <button onclick="showPage('products')">Products</button>
-    <button onclick="showPage('decor-upload')">🏺 Upload Decor</button>
-    <button onclick="showPage('categories')">Categories</button>
-    <button onclick="showPage('subcategories')">Subcategories</button>
-    <button onclick="showPage('subsubcategories')">Subsubcategories</button>
-    <button onclick="showPage('orders')">Orders & Map <span id="orders-badge" class="pulsing-badge" style="background:#ff1744; color:#fff; border-radius:50%; padding:2px 6px; font-size:11px; font-weight:bold; display:none;">0</span></button>
-    <button onclick="showPage('users')">Customers & Loyalty</button>
-    <button onclick="showPage('alerts')">Low Stock Alerts</button>
-    <button onclick="showPage('custom-requests')">🎙️ Sewing Requests</button>
-    <button onclick="showPage('coupons-mgr')">🎟️ Coupons</button>
-    <button onclick="showPage('banners-mgr')">🖼️ Banners</button>
-    <button onclick="showPage('push-mgr')">📢 Broadcasts</button>
-    <button onclick="showPage('security-settings')">🔒 Security Settings</button>
-  </nav>
 
-<!-- idk -->
-<section id="approvals" class="page">
-  <div class="card">
-    <h3>Sellers Products Review Queue</h3>
-    <div id="approvals-list"></div>
-  </div>
-</section>
+  <div class="backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
-<section id="sellers-mgr" class="page">
-  <div class="card" style="border-color: #0f8;">
-    <h3>🔑 Create & Authorize Seller Account</h3>
-    <input id="sel_email" placeholder="Seller Email *">
-    <input id="sel_password" type="password" placeholder="Create Seller Password *">
-    <input id="sel_name" placeholder="Seller Studio Name *">
-    <button id="create-sel-btn" onclick="generateSellerAccount()">Generate & Whitelist Seller</button>
-    <div id="sellers-list" style="margin-top:15px;"></div>
-  </div>
-</section>
-
-  <!-- DASHBOARD: Analytics Charts & Audit Logs -->
-  
-  <section id="dash" class="page active">
-    <div class="card">
-      <div id="stats" style="margin-bottom: 20px; line-height: 1.6;"></div>
-      <div class="grid-2">
-        <div class="card" style="margin: 0; padding:10px;">
-          <h3 style="text-align: center; margin: 5px 0;">Revenue Stream (ZAR)</h3>
-          <div class="chart-container"><canvas id="revenueChart"></canvas></div>
-        </div>
-        <div class="card" style="margin: 0; padding:10px;">
-          <h3 style="text-align: center; margin: 5px 0;">Product Stock Status</h3>
-          <div class="chart-container"><canvas id="stockChart"></canvas></div>
-        </div>
-      </div>
-      
-      <!-- Real-Time Activity Log Dashboard Extension -->
-      <div class="card" style="margin-top:20px;">
-        <h3 style="color:var(--primary); text-transform:uppercase;">📝 Admin Activity Logs</h3>
-        <div id="admin-activity-logs" style="max-height:200px; overflow-y:auto; font-family:monospace; line-height:1.8;">
-          <p style="color:#666;">Loading live administrative logs...</p>
-        </div>
-      </div>
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-head">
+      <h3>Navigation</h3>
+      <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
     </div>
-  </section>
 
-  <!-- PRODUCTS: Catalog Editor with AI Description & Sizing Switches -->
-  <section id="products" class="page">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="margin:0;">Add / Edit Catalog Product</h3>
-        <button onclick="generateAIDescription()" style="background:transparent; color:var(--primary); border:1px solid var(--primary); font-size:12px; padding:6px 12px;">✨ AI Auto Generator</button>
-      </div>
-      
-      <input id="pn" placeholder="Product Name">
-      <div class="grid-2">
-        <input id="pp" type="number" placeholder="Sale Price (ZAR)">
-        <input id="p_original" type="number" placeholder="Original Price (Before Discount)">
-      </div>
-      
-      <label style="display:block; margin: 10px 0 5px 0; font-size:12px;">Product Image Gallery (Select Multiple Files):</label>
-      <input id="pi" type="file" accept="image/*" multiple>
-      
-      <div class="grid-2">
-        <select id="pc"></select>
-        <select id="psc"><option value="">Select Subcategory</option></select>
-      </div>
-      <select id="pssc"><option value="">Select Sub-subcategory</option></select>
-      
-      <div class="grid-2">
-        <input id="ps" type="number" placeholder="Stock Quantity">
-        <select id="p_badge" onchange="toggleFlashSaleInput()">
-          <option value="">No Badge / Standard Item</option>
+    <div class="sidebar-section-label">Overview</div>
+    <button class="nav-btn active" data-page="dash" onclick="showPage('dash')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      Dashboard
+    </button>
+
+    <div class="sidebar-section-label">Catalogue</div>
+    <button class="nav-btn" data-page="products" onclick="showPage('products')">
+      <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg>
+      Products
+    </button>
+    <button class="nav-btn" data-page="decor" onclick="showPage('decor')">
+      <svg viewBox="0 0 24 24"><path d="M12 2v6"/><path d="M5 8h14l-1 12H6z"/><path d="M9 12h6"/></svg>
+      Upload Decor
+    </button>
+    <button class="nav-btn" data-page="categories" onclick="showPage('categories')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      Categories
+    </button>
+    <button class="nav-btn" data-page="subcategories" onclick="showPage('subcategories')">
+      <svg viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></svg>
+      Subcategories
+    </button>
+    <button class="nav-btn" data-page="subsubcategories" onclick="showPage('subsubcategories')">
+      <svg viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/><circle cx="12" cy="14" r="2"/></svg>
+      Sub-subcategories
+    </button>
+
+    <div class="sidebar-section-label">Sales</div>
+    <button class="nav-btn" data-page="orders" onclick="showPage('orders')">
+      <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      Orders & Map
+      <span class="nav-badge" id="orders-badge" data-empty="true">0</span>
+    </button>
+    <button class="nav-btn" data-page="customers" onclick="showPage('customers')">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Customers & Loyalty
+    </button>
+    <button class="nav-btn" data-page="lowstock" onclick="showPage('lowstock')">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Low Stock Alerts
+    </button>
+    <button class="nav-btn" data-page="requests" onclick="showPage('requests')">
+      <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+      Sewing Requests
+    </button>
+
+    <div class="sidebar-section-label">Marketing</div>
+    <button class="nav-btn" data-page="coupons" onclick="showPage('coupons')">
+      <svg viewBox="0 0 24 24"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0l-7.9-7.9A2 2 0 0 1 2 11.3V4a2 2 0 0 1 2-2h7.3a2 2 0 0 1 1.4.6l7.9 7.9a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Coupons
+    </button>
+    <button class="nav-btn" data-page="banners" onclick="showPage('banners')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      Banners
+    </button>
+    <button class="nav-btn" data-page="broadcasts" onclick="showPage('broadcasts')">
+      <svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l4 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 8a5 5 0 0 1 0 8"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+      Broadcasts
+    </button>
+
+    <div class="sidebar-section-label">Sellers</div>
+    <button class="nav-btn" data-page="approvals" onclick="showPage('approvals')">
+      <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Product Approvals
+    </button>
+    <button class="nav-btn" data-page="sellers" onclick="showPage('sellers')">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg>
+      Manage Sellers
+    </button>
+
+    <div class="sidebar-section-label">System</div>
+    <button class="nav-btn" data-page="security" onclick="showPage('security')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Security Settings
+    </button>
+  </aside>
+
+  <div class="admin-layout">
+    <main class="admin-main">
+      <section id="page-dash" class="admin-page">
+        <div class="stat-grid">
+          <div class="stat-card"><span class="label">Products</span><span class="value" id="stat-products">0</span></div>
+          <div class="stat-card"><span class="label">Revenue</span><span class="value green" id="stat-revenue">R0</span></div>
+          <div class="stat-card"><span class="label">Pending Orders</span><span class="value red" id="stat-pending">0</span></div>
+          <div class="stat-card"><span class="label">Customers</span><span class="value blue" id="stat-customers">0</span></div>
+        </div>
+        <div class="chart-grid">
+          <div class="card"><h3 class="card-title">📈 Revenue (ZAR)</h3><div class="chart-container"><canvas id="revenueChart"></canvas></div></div>
+          <div class="card"><h3 class="card-title">📦 Stock Status</h3><div class="chart-container"><canvas id="stockChart"></canvas></div></div>
+        </div>
+        <div class="card"><h3 class="card-title">📝 Activity Log</h3><div id="activity-log" style="max-height:220px;overflow-y:auto"></div></div>
+      </section>
+
+      <section id="page-products" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title"><span>Products (<span id="products-count">0</span>)</span><button class="btn" onclick="openProductModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Product</button></h3>
+          <div id="product-list"></div>
+        </div>
+      </section>
+
+      <section id="page-decor" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">🏺 Upload Decoration</h3>
+          <div class="decor-info"><b>Optimised for decor items.</b> Pre-fills category as "Decoration". Use Product form if you need colors/sizes.</div>
+          <label class="form-label">Decor Name <span class="req">*</span></label>
+          <input id="dec_name" class="form-input" placeholder="e.g. Bohemian Macrame Wall Hanging">
+          <div class="grid-2">
+            <div><label class="form-label">Sale Price (R) <span class="req">*</span></label><input id="dec_price" type="number" class="form-input" placeholder="0"></div>
+            <div><label class="form-label">Original Price (R)</label><input id="dec_orig" type="number" class="form-input" placeholder="optional"></div>
+          </div>
+          <label class="form-label">Images <span class="req">*</span></label>
+          <input id="dec_images_file" type="file" accept="image/*" multiple class="form-input">
+          <div id="dec_img_preview" class="img-preview-grid"></div>
+          <label class="form-label">Subcategory</label>
+          <select id="dec_subcategory" class="form-select"><option value="">Select Subcategory</option></select>
+          <div class="grid-2">
+            <div><label class="form-label">Stock <span class="req">*</span></label><input id="dec_stock" type="number" class="form-input" placeholder="0"></div>
+            <div style="display:flex;align-items:flex-end;padding-bottom:12px"><label style="display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);cursor:pointer"><input type="checkbox" id="dec_is_booking" style="width:18px;height:18px;accent-color:var(--blue)">📅 Book Now!</label></div>
+          </div>
+          <label class="form-label">Room Tag</label>
+          <input id="dec_room_tag" class="form-input" placeholder="e.g. Minimalist Living Room">
+          <label class="form-label">Description</label>
+          <textarea id="dec_description" class="form-textarea"></textarea>
+          <button id="save-decor-btn" class="btn btn-block" style="margin-top:16px" onclick="saveDecorProduct()">🏺 Save Decor Item</button>
+        </div>
+      </section>
+
+      <section id="page-categories" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">📁 Categories</h3>
+          <label class="form-label">New Category Name</label>
+          <input id="newCat" class="form-input" placeholder="e.g. Electronics">
+          <button class="btn btn-block" style="margin-top:12px" onclick="addCat()">Add Category</button>
+          <div id="cats" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section id="page-subcategories" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">📂 Subcategories</h3>
+          <label class="form-label">Parent Category</label>
+          <select id="parentCat" class="form-select"></select>
+          <label class="form-label">New Subcategory Name</label>
+          <input id="newSubCat" class="form-input" placeholder="e.g. Smartphones">
+          <button class="btn btn-block" style="margin-top:12px" onclick="addSubCat()">Add Subcategory</button>
+          <div id="subcats" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section id="page-subsubcategories" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">🏷️ Sub-subcategories</h3>
+          <label class="form-label">Category</label>
+          <select id="parentCategorySS" class="form-select"></select>
+          <label class="form-label">Subcategory</label>
+          <select id="parentSubcategorySS" class="form-select"><option value="">Select Subcategory</option></select>
+          <label class="form-label">New Name</label>
+          <input id="newSubSubCat" class="form-input" placeholder="e.g. Android">
+          <button class="btn btn-block" style="margin-top:12px" onclick="addSubSubCat()">Add Sub-subcategory</button>
+          <div id="subsubcats" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section id="page-orders" class="admin-page hidden">
+        <div class="tab-bar">
+          <button class="tab active" id="tab-active" onclick="setOrderTab('active')">🟢 Active</button>
+          <button class="tab" id="tab-history" onclick="setOrderTab('history')">✅ Completed</button>
+          <button class="tab" id="tab-archived" onclick="setOrderTab('archived')">📦 Archived</button>
+        </div>
+        <div id="orders-map" style="height:200px;border-radius:12px;border:1px solid var(--border);margin-bottom:14px;display:none"></div>
+        <div id="orders-list"></div>
+      </section>
+
+      <section id="page-customers" class="admin-page hidden">
+        <div class="card"><h3 class="card-title">👥 Customers & Loyalty</h3><div id="customers-list"></div></div>
+      </section>
+
+      <section id="page-lowstock" class="admin-page hidden">
+        <div class="card"><h3 class="card-title">⚠️ Critical Inventory</h3><p class="card-sub">Items with 5 or fewer units</p><div id="lowstock-list"></div></div>
+      </section>
+
+      <section id="page-requests" class="admin-page hidden">
+        <div class="card"><h3 class="card-title">🎙️ Sewing Requests</h3><div id="requests-list"></div></div>
+      </section>
+
+      <section id="page-coupons" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">🎟️ Coupons</h3>
+          <label class="form-label">Code</label>
+          <input id="cp_code" class="form-input" placeholder="WELCOME50">
+          <div class="grid-2">
+            <div><label class="form-label">Discount (R)</label><input id="cp_discount" type="number" class="form-input"></div>
+            <div><label class="form-label">Min Spend (R)</label><input id="cp_min" type="number" class="form-input"></div>
+          </div>
+          <label class="form-label">Expiry</label>
+          <input id="cp_expiry" type="date" class="form-input">
+          <button class="btn btn-block" style="margin-top:14px" onclick="saveCoupon()">Create Coupon</button>
+          <div id="coupons-list" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section id="page-banners" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">🖼️ Banners</h3>
+          <label class="form-label">Heading</label>
+          <input id="bn_title" class="form-input" placeholder="Winter Sale">
+          <label class="form-label">Image</label>
+          <input id="bn_file" type="file" accept="image/*" class="form-input">
+          <button id="save-banner-btn" class="btn btn-block" style="margin-top:14px" onclick="saveBanner()">Upload & Publish</button>
+          <div id="banners-list" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section id="page-broadcasts" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">📢 Broadcasts</h3>
+          <p class="card-sub">Sends a live ticker to every connected storefront.</p>
+          <textarea id="push_msg" class="form-textarea" placeholder="🎉 Weekend Sale! 20% off!"></textarea>
+          <button class="btn btn-block" style="margin-top:14px" onclick="sendBroadcast()">Dispatch Broadcast</button>
+          <div id="broadcasts-list" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section id="page-approvals" class="admin-page hidden">
+        <div class="card"><h3 class="card-title">✅ Product Approvals</h3><div id="approvals-list"></div></div>
+      </section>
+
+      <section id="page-sellers" class="admin-page hidden">
+        <div class="card">
+          <h3 class="card-title">🔑 Create Seller Account</h3>
+          <label class="form-label">Seller Email</label>
+          <input id="sel_email" type="email" class="form-input">
+          <label class="form-label">Password</label>
+          <input id="sel_password" type="password" class="form-input">
+          <label class="form-label">Studio Name</label>
+          <input id="sel_name" class="form-input">
+          <button id="create-sel-btn" class="btn btn-block" style="margin-top:14px" onclick="generateSellerAccount()">Generate & Whitelist</button>
+        </div>
+        <div class="card"><h3 class="card-title">📋 Registered Sellers</h3><div id="sellers-list"></div></div>
+      </section>
+
+      <section id="page-security" class="admin-page hidden">
+        <div class="card" style="border-color:var(--gold)">
+          <h3 class="card-title" style="color:var(--gold)">🔒 Creator Passkey</h3>
+          <p class="card-sub">Required before admin login. Updates Firestore immediately.</p>
+          <label class="form-label">Active Passkey</label>
+          <input id="new-passkey-input" type="text" class="form-input" placeholder="Loading…">
+          <button class="btn btn-block" style="margin-top:14px" onclick="updatePasskeyInDatabase()">💾 Save Passkey</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============ PRODUCT MODAL ============ -->
+<div class="modal" id="product-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeProductModal()">✕</button>
+    <h2 id="product-modal-title">Add Product</h2>
+
+    <label class="form-label">Product Images (multi-select)</label>
+    <input id="p_images_file" type="file" accept="image/*" multiple class="form-input">
+    <div id="p_img_preview" class="img-preview-grid"></div>
+
+    <label class="form-label">Product Name <span class="req">*</span></label>
+    <input id="pn" class="form-input" placeholder="e.g. iPhone 11">
+    <div class="grid-2">
+      <div><label class="form-label">Sale Price (R) <span class="req">*</span></label><input id="pp" type="number" class="form-input"></div>
+      <div><label class="form-label">Original Price (R)</label><input id="p_original" type="number" class="form-input"></div>
+    </div>
+
+    <div class="grid-2">
+      <div><label class="form-label">Category <span class="req">*</span></label><select id="pc" class="form-select"></select></div>
+      <div><label class="form-label">Subcategory</label><select id="psc" class="form-select"><option value="">—</option></select></div>
+    </div>
+    <label class="form-label">Sub-subcategory</label>
+    <select id="pssc" class="form-select"><option value="">—</option></select>
+
+    <div class="grid-2">
+      <div><label class="form-label">Stock <span class="req">*</span></label><input id="ps" type="number" class="form-input" placeholder="0"></div>
+      <div>
+        <label class="form-label">Badge</label>
+        <select id="p_badge" class="form-select" onchange="toggleFlashSaleInput()">
+          <option value="">— None —</option>
           <option value="New">🆕 New</option>
           <option value="Hot Deal">🔥 Hot Deal</option>
           <option value="Featured">⭐ Featured</option>
@@ -188,211 +523,80 @@ button:disabled { background: #333; color: #666; cursor: not-allowed; border: 1p
           <option value="Staff Pick">👤 Staff Pick</option>
           <option value="Clearance">🏷️ Clearance</option>
           <option value="Eco Friendly">🌱 Eco Friendly</option>
-          <option value="Sale">💥 Sale / Flash Sale</option>
+          <option value="Sale">💥 Sale / Flash</option>
         </select>
       </div>
+    </div>
 
-      <label style="display:block; font-size:12px; margin-top:10px;">📐 Product Sizing Scheme *</label>
-      <select id="p_sizing_type">
-        <option value="none">No Sizing Options (Standard / Decor)</option>
-        <option value="clothing">Clothing Sizing (XS, S, M, L, XL)</option>
-        <option value="shoes">Shoe Sizing (EU 36 - 46)</option>
+    <div id="flash-sale-scheduler" class="hidden">
+      <label class="form-label">Flash Sale Ends</label>
+      <input id="p_flash_end" type="datetime-local" class="form-input">
+    </div>
+
+    <div class="variant-section">
+      <label class="form-label" style="margin-top:0;font-size:14px;font-weight:700;color:#fff">🎨 Available Colors</label>
+      <div class="color-hint">
+        <b>Tap to cycle:</b> Not shown → ✅ In stock → ❌ Out of stock → Not shown again.
+      </div>
+      <div id="color-picker" class="color-picker"></div>
+
+      <label class="form-label" style="margin-top:14px">Add Custom Color</label>
+      <div class="custom-color-row">
+        <input type="text" id="custom_color_name" class="form-input" placeholder="e.g. Mint Green">
+        <input type="color" id="custom_color_hex" value="#00BFA5">
+      </div>
+      <button class="btn-secondary btn-block" style="margin-top:8px" onclick="addCustomColor()">+ Add to Palette</button>
+    </div>
+
+    <div class="variant-section">
+      <label class="form-label" style="margin-top:0;font-size:14px;font-weight:700;color:#fff">📐 Sizing Scheme</label>
+      <select id="p_sizing_type" class="form-select" onchange="onSizingTypeChange()">
+        <option value="none">No sizing (standard / decor)</option>
+        <option value="clothing">Clothing sizes (XS – 3XL)</option>
+        <option value="shoes">Shoe sizes (EU 36 – 46)</option>
       </select>
 
-      <!-- Expiration Date for Flash Sales (Conditional Display) -->
-      <div id="flash-sale-scheduler" style="display:none;">
-        <label style="display:block; font-size:12px; margin-top:5px;">Set Flash Sale Expiration Target:</label>
-        <input id="p_flash_end" type="datetime-local">
+      <div id="size-picker-wrap" class="hidden">
+        <label class="form-label" style="margin-top:12px;font-size:14px;font-weight:700;color:#fff">Available Sizes</label>
+        <div class="color-hint"><b>Tap to cycle:</b> Not shown → ✅ In stock → ❌ Out of stock → Not shown.</div>
+        <div id="size-picker" class="size-picker"></div>
       </div>
-
-      <!-- Sizing Model Switches -->
-      <div class="grid-2" style="margin-top: 10px; border-top: 1px dashed #333; padding-top:10px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="checkbox" id="p_requires_sizing" style="width:auto; margin:0;">
-          <label for="p_requires_sizing">📐 Requires Sewing Sizing (Bust/Waist/Hips)</label>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="checkbox" id="p_visible" style="width:auto; margin:0;" checked>
-          <label for="p_visible">👁️ Visible on Storefront</label>
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; gap:8px; margin-top: 10px;">
-        <input type="checkbox" id="p_is_booking" style="width:auto; margin:0;">
-        <label for="p_is_booking">📅 Enable 'Book Now!' button (Decoration Bypasses Cart)</label>
-      </div>
-      
-      <input id="p_decor_tag" placeholder="Inspiration / Decor Room Tag (e.g. Minimalist Living Room, Rustic Cozy)">
-      <textarea id="pd" placeholder="Detailed Product Description" style="height:100px;"></textarea>
-      
-      <button id="save-prod-btn" onclick="saveProduct()" style="width:100%; margin-top:15px;">Save Product</button>
     </div>
-    <div id="plist"></div>
-  </section>
 
-  <!-- DECOR UPLOADER: Isolated Form specifically for Decorations -->
-  <section id="decor-upload" class="page">
-    <div class="card">
-      <h3>🏺 Streamlined Decor Upload</h3>
-      <p style="color:#888; font-size:12px; margin:0 0 15px 0;">This portal is pre-configured and optimized exclusively for Home Decorations.</p>
-      
-      <input id="dec_name" placeholder="Decoration Name">
-      <div class="grid-2">
-        <input id="dec_price" type="number" placeholder="Sale Price (ZAR)">
-        <input id="dec_orig" type="number" placeholder="Original Price (ZAR)">
-      </div>
-      
-      <label style="display:block; font-size:12px; margin-top:10px;">Select Decor Images:</label>
-      <input id="dec_images_file" type="file" accept="image/*" multiple style="margin-bottom:10px;">
-      
-      <select id="dec_subcategory">
-        <option value="">Select Decor Subcategory</option>
-      </select>
-      
-      <div class="grid-2" style="margin-top:10px;">
-        <input id="dec_stock" type="number" placeholder="Stock Quantity">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="checkbox" id="dec_is_booking" style="width:auto; margin:0;">
-          <label for="dec_is_booking">📅 Enable 'Book Now!' button</label>
-        </div>
-      </div>
-      
-      <input id="dec_room_tag" placeholder="Inspiration Room Tag (e.g. Minimalist Living Room, Rustic Cozy)">
-      <textarea id="dec_description" placeholder="Description of Decor Item" style="height:100px;"></textarea>
-      
-      <button id="save-decor-btn" onclick="window.saveDecorProduct()" style="width:100%; margin-top:20px;">🏺 Save Decor Item</button>
+    <div class="variant-section">
+      <label style="display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer;margin-bottom:10px">
+        <input type="checkbox" id="p_requires_sizing" style="width:20px;height:20px;accent-color:var(--blue)">
+        📐 Requires Sewing Measurements (Bust/Waist/Hips)
+      </label>
+      <label style="display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer;margin-bottom:10px">
+        <input type="checkbox" id="p_visible" checked style="width:20px;height:20px;accent-color:var(--blue)">
+        👁️ Visible on Storefront
+      </label>
+      <label style="display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer">
+        <input type="checkbox" id="p_is_booking" style="width:20px;height:20px;accent-color:var(--blue)">
+        📅 Enable 'Book Now!' (Decoration bypasses cart)
+      </label>
     </div>
-  </section>
 
-  <!-- CATEGORIES -->
-  <section id="categories" class="page">
-    <div class="card">
-      <input id="newCat" placeholder="Category Name">
-      <button onclick="addCat()">Add Category</button>
-      <div id="cats"></div>
+    <label class="form-label">Room / Inspiration Tag</label>
+    <input id="p_decor_tag" class="form-input" placeholder="e.g. Minimalist Living Room">
+
+    <label class="form-label">Description</label>
+    <textarea id="pd" class="form-textarea" placeholder="Describe the product…"></textarea>
+
+    <div style="display:flex;gap:8px;margin-top:18px">
+      <button id="save-prod-btn" class="btn" style="flex:1" onclick="saveProduct()">💾 Save Product</button>
+      <button class="btn-secondary" onclick="generateAIDescription()" title="AI Auto Generator">✨ AI</button>
     </div>
-  </section>
-
-  <!-- SUBCATEGORIES -->
-  <section id="subcategories" class="page">
-    <div class="card">
-      <select id="parentCat"></select>
-      <input id="newSubCat" placeholder="Subcategory Name">
-      <button onclick="addSubCat()">Add Subcategory</button>
-      <div id="subcats"></div>
-    </div>
-  </section>
-
-  <!-- SUBSUBCATEGORIES (HTML Page ID Typo Fixed to avoid page breaks!) -->
-  <section id="subsubcategories" class="page">
-    <div class="card">
-      <select id="parentCategorySS"></select>
-      <select id="parentSubcategorySS"><option value="">Select Subcategory</option></select>
-      <input id="newSubSubCat" placeholder="Sub-subcategory Name">
-      <button onclick="addSubSubCat()">Add Sub-subcategory</button>
-      <div id="subsubcats"></div>
-    </div>
-  </section>
-
-  <!-- ORDERS & FULFILLMENT -->
-  <section id="orders" class="page">
-    <div class="card">
-      
-      
-      <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-        <button id="tab-active-btn" onclick="toggleOrderTab('active')" style="background:var(--primary); color:#000;">Active Queue</button>
-        <button id="tab-history-btn" onclick="toggleOrderTab('history')" style="background:#222; color:var(--primary); border:1px solid var(--primary);">Completed & Cancelled</button>
-        <button id="tab-archived-btn" onclick="toggleOrderTab('archived')" style="background:#222; color:var(--primary); border:1px solid var(--primary);">Archived Transactions</button>
-      </div>
-
-      <h3 id="current-tab-title">Active Queue</h3>
-      <div id="olist"></div>
-    </div>
-  </section>
-
-  <!-- CUSTOMERS & LOYALTY -->
-  <section id="users" class="page">
-    <div class="card">
-      <h3>Customer Profiles & Loyalty Center</h3>
-      <div id="ulist"></div>
-    </div>
-  </section>
-
-  <!-- LOW STOCK WARNINGS -->
-  <section id="alerts" class="page">
-    <div class="card">
-      <h3>Critical Inventory Warnings Center</h3>
-      <p style="color:#888;">Items showing below 5 remaining units require immediate restock attention.</p>
-      <div id="critical-stock-list"></div>
-    </div>
-  </section>
-
-  <!-- SEWING REQUESTS -->
-  <section id="custom-requests" class="page">
-    <div class="card">
-      <h3>Custom Sewing & Tailoring Inquiries</h3>
-      <p style="color:#888;">Listen to voice recordings or read custom request logs submitted by customers.</p>
-      <div id="requests-list"></div>
-    </div>
-  </section>
-
-  <!-- COUPON MANAGER -->
-  <section id="coupons-mgr" class="page">
-    <div class="card">
-      <h3>🎟️ Coupons & Promotions Manager</h3>
-      <input id="cp_code" placeholder="Coupon Code (e.g. WELCOME50)">
-      <div class="grid-2">
-        <input id="cp_discount" type="number" placeholder="Discount Amount (ZAR)">
-        <input id="cp_min" type="number" placeholder="Minimum Purchase Requirement (ZAR)">
-      </div>
-      <input id="cp_expiry" type="date" placeholder="Expiration Date">
-      <button id="save-coupon-btn" onclick="window.saveCoupon()" style="width:100%; margin-top:15px;">💾 Create Promo Coupon</button>
-      <div id="coupons-list" style="margin-top:20px;"></div>
-    </div>
-  </section>
-
-  <!-- BANNER MANAGER -->
-  <section id="banners-mgr" class="page">
-    <div class="card">
-      <h3>🖼️ Homepage Promo Banner Manager</h3>
-      <input id="bn_title" placeholder="Banner Heading (e.g. Winter Sale)">
-      <input id="bn_file" type="file" accept="image/*">
-      <button id="save-banner-btn" onclick="window.saveBanner()" style="width:100%; margin-top:15px;">💾 Upload and Publish Banner</button>
-      <div id="banners-list" style="margin-top:20px;"></div>
-    </div>
-  </section>
-
-  <!-- BROADCAST PUSH MESSENGER -->
-  <section id="push-mgr" class="page">
-    <div class="card">
-      <h3>📢 Push Broadcast Notifications</h3>
-      <p style="color:#888;">Broadcasting pushes a live, glowing ticker alert onto all connected customer screens instantly.</p>
-      <textarea id="push_msg" placeholder="Enter broadcast message (e.g. 🎉 Weekend Sale is Live! 20% off all sewn items!)" style="height:100px;"></textarea>
-      <button id="send-push-btn" onclick="window.sendBroadcast()" style="width:100%; margin-top:15px;">📢 Dispatch Broadcast Ticker</button>
-      <div id="broadcasts-list" style="margin-top:20px;"></div>
-    </div>
-  </section>
-
-  <!-- NEW: CREATOR SECURITY & SETTINGS MANAGER -->
-  <section id="settings-mgr" class="page">
-    <div class="card" style="border-color: #ffd700; background: #110e00;">
-      <h3 style="color: #ffd700; margin-top: 0;">⚙️ Creator Security Settings</h3>
-      <p style="color:#888; font-size:12px;">View, edit, or reset the master Creator Passkey dynamically. This updates your database instantly.</p>
-      
-      <label style="display:block; font-size:13px; margin-bottom:5px; color:#ffd700;">🔑 Active Creator Passkey</label>
-      <input type="text" id="new-passkey-input" placeholder="Fetching current passkey from database...">
-      <button onclick="window.updatePasskeyInDatabase()" style="background:#ffd700; color:#000; width:100%; margin-top:15px;">💾 Save New Creator Passkey</button>
-    </div>
-  </section>
+  </div>
 </div>
 
-<div id="toast-notif" style="position:fixed; bottom:20px; right:20px; background:var(--primary); color:#000; padding:15px 25px; border-radius:4px; font-weight:bold; box-shadow:0 4px 15px rgba(0,255,136,0.3); display:none; z-index:10000; transition: opacity 0.3s ease; opacity:0;"></div>
+<div id="toast-holder"></div>
 
-<!-- CONSOLIDATED, EXTREMELY SECURE ADMIN SCRIPT BLOCK -->
 <script type="module">
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, inMemoryPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, inMemoryPersistence, setPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
@@ -408,1463 +612,1248 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+if (typeof Notification !== "undefined" && Notification.permission !== "granted") Notification.requestPermission();
 
-// Request Native Push Notification Access
-if (typeof Notification !== "undefined" && Notification.permission !== "granted") {
-  Notification.requestPermission();
-}
+const AUTHORIZED_ADMINS = ["sbhenecart@gmail.com","nhlakanipho.ndawonde80@gmail.com"];
+let activePasskey = "SbheneCartAdmin2026!";
+let currentUser = null;
+let currentPage = "dash";
+let editingId = null;
 
-// =========================================================================
-// Real-time Passkey Database Lookups
-// =========================================================================
-let activePasskey = "SbheneCartAdmin2026!"; // Fallback default
-const AUTHORIZED_ADMINS = [
-  "sbhenecart@gmail.com",
-  "nhlakanipho.ndawonde80@gmail.com"
-];
+let dbCats = [], dbSubs = [], dbSubSubs = [], dbProducts = [], dbOrders = [], dbCustomers = [], dbSellers = [], dbRequests = [], dbCoupons = [], dbBanners = [], dbBroadcasts = [];
+let orderTab = "active";
+let knownOrderIds = new Set();
+let audioAlertsOn = true;
+let revChart = null, stockChart = null;
+let activityLog = [];
 
-// Stream unapproved items to review queue
-onSnapshot(collection(db, "products"), (snap) => {
-  const prods = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  const unapproved = prods.filter(p => !p.approved);
-  document.getElementById("approvals-list").innerHTML = unapproved.length
-    ? unapproved.map(p => `
-      <div class="card">
-        <b>${p.name}</b> (Price: R${p.price})<br>
-        <button onclick="approveProduct('${p.id}', true)">Approve (Go Live)</button>
-        <button onclick="approveProduct('${p.id}', false)" style="background:#ff1744; color:#fff;">Reject</button>
-      </div>
-    `).join('')
-    : "<p>All products approved!</p>";
-});
-
-// Check if SecondaryApp exists before initializing
-const secondaryApp = getApps().find(app => app.name === "SecondaryApp") 
-  || initializeApp(firebaseConfig, "SecondaryApp");
+const secondaryApp = getApps().find(a => a.name === "SecondaryApp") || initializeApp(firebaseConfig, "SecondaryApp");
 const secondaryAuth = getAuth(secondaryApp);
-
-// Force in-memory persistence so it never interferes with Admin local storage!
 setPersistence(secondaryAuth, inMemoryPersistence);
 
+const $ = id => document.getElementById(id);
+const money = n => `R${Number(n||0).toLocaleString('en-ZA')}`;
+const escapeHtml = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-// Stream registered sellers
-onSnapshot(collection(db, "sellers"), (snap) => {
-  const sellers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  document.getElementById("sellers-list").innerHTML = sellers.map(s => `
-    <div style="padding:10px; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
-      <span><b>${s.name}</b> (UID: ${s.id})</span>
-      <button onclick="deleteSeller('${s.id}')" style="background:#ff1744; padding:5px 10px;">Remove</button>
-    </div>
-  `).join('');
-});
+function toast(msg, ms=2600){
+  const holder = $("toast-holder");
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.textContent = msg;
+  holder.appendChild(t);
+  setTimeout(() => t.remove(), ms);
+}
+window.toast = toast;
 
-// Read/Listen to dynamic passkey changes in the database
-onSnapshot(doc(db, "settings", "security"), (docSnap) => {
-  if (docSnap.exists()) {
-    activePasskey = docSnap.data().creatorPasskey || "SbheneCartAdmin2026!";
-    const passkeyInput = document.getElementById("new-passkey-input");
-    if (passkeyInput) passkeyInput.value = activePasskey;
+function logAction(msg){
+  activityLog.unshift({ time: Date.now(), msg });
+  activityLog = activityLog.slice(0, 50);
+  renderActivityLog();
+}
+function renderActivityLog(){
+  const el = $("activity-log");
+  if (!el) return;
+  el.innerHTML = activityLog.length
+    ? activityLog.map(l => `<div class="log-entry"><b>${new Date(l.time).toLocaleTimeString()}</b> — ${escapeHtml(l.msg)}</div>`).join('')
+    : '<p style="color:#666;font-size:12px">No activity yet</p>';
+}
+
+window.toggleSidebar = () => {
+  $("admin-sidebar").classList.toggle("open");
+  $("sidebar-backdrop").classList.toggle("open");
+};
+
+window.showPage = (id) => {
+  currentPage = id;
+  document.querySelectorAll(".admin-page").forEach(p => p.classList.add("hidden"));
+  const pg = $("page-" + id);
+  if (pg) pg.classList.remove("hidden");
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.page === id));
+  if (window.innerWidth < 1000) {
+    $("admin-sidebar").classList.remove("open");
+    $("sidebar-backdrop").classList.remove("open");
   }
-});
-
-// create sellers
-window.generateSellerAccount = async () => {
-  const email = document.getElementById("sel_email").value.trim();
-  const password = document.getElementById("sel_password").value.trim();
-  const name = document.getElementById("sel_name").value.trim();
-  const btn = document.getElementById("create-sel-btn");
-
-  if (!email || !password || !name) return alert("Please fill in all fields.");
-  if (password.length < 6) return alert("Password must be at least 6 characters.");
-
-  btn.innerText = "Generating Account..."; btn.disabled = true;
-
-  try {
-    // 1. Create seller credentials on the secondary isolated instance
-    const userCred = await createUserWithEmailAndPassword(secondaryAuth, email, password);
-    const newUid = userCred.user.uid;
-
-    // 2. Whitelist the newly generated UID in Firestore sellers database
-    await setDoc(doc(db, "sellers", newUid), { name, active: true }, { merge: true });
-
-    // 3. Immediately log out the secondary instance to clean up local state
-    await signOut(secondaryAuth);
-
-    alert(`🎉 Account Successfully Created!\n\nEmail: ${email}\nPassword: ${password}\nUID: ${newUid}\n\nHand these login details to your seller!`);
-    
-    document.getElementById("sel_email").value = "";
-    document.getElementById("sel_password").value = "";
-    document.getElementById("sel_name").value = "";
-  } catch (err) {
-    alert("Generation failed: " + err.message);
-  } finally {
-    btn.innerText = "Generate & Whitelist Seller"; btn.disabled = false;
-  }
+  if (id === "orders" && window.google && !window._adminMapInit) setTimeout(initAdminMap, 200);
 };
 
-// approve sellers
-window.approveProduct = async (id, state) => {
-  await updateDoc(doc(db, "products", id), { approved: state });
-  showToast(state ? "Product approved and live!" : "Product denied.");
-};
-
-window.addSeller = async () => {
-  const uid = document.getElementById("sel_uid").value.trim();
-  const name = document.getElementById("sel_name").value.trim();
-  if (!uid || !name) return alert("Fill in details.");
-  await setDoc(doc(db, "sellers", uid), { name, active: true }, { merge: true });
-  showToast("Seller successfully authorized!");
-};
-
-window.deleteSeller = async (id) => {
-  if (confirm("Revoke seller access?")) {
-    await deleteDoc(doc(db, "sellers", id));
-    showToast("Access revoked.");
-  }
-};
-
-// Verify Creator Passkey
 window.verifyCreatorPasskey = () => {
-  const input = document.getElementById("creator-passkey-input").value;
+  const input = $("creator-passkey-input").value;
   if (input === activePasskey) {
-    document.getElementById("step-passkey").style.display = "none";
-    document.getElementById("step-login").style.display = "block";
+    $("step-passkey").classList.add("hidden");
+    $("step-login").classList.remove("hidden");
   } else {
-    alert("❌ Incorrect Creator Passkey! Access Denied.");
+    alert("❌ Incorrect Creator Passkey");
     window.location.href = "index.html";
   }
 };
 
-// Update Passkey dynamically in Firestore
-window.updatePasskeyInDatabase = async () => {
-  const newKey = document.getElementById("new-passkey-input").value.trim();
-  if (!newKey) return alert("Passkey cannot be empty!");
-  
-  try {
-    await setDoc(doc(db, "settings", "security"), { creatorPasskey: newKey }, { merge: true });
-    showToast("🔑 Passkey updated in database successfully!");
-  } catch (err) {
-    showToast("⚠️ Failed to update passkey.");
-  }
-};
-
-// Handle Authentication Submission
 window.handleAdminLogin = async (e) => {
   e.preventDefault();
-  const email = document.getElementById("admin-email-input").value.trim();
-  const password = document.getElementById("admin-password-input").value;
-
+  const email = $("admin-email-input").value.trim();
+  const password = $("admin-password-input").value;
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    showToast("🔑 Access Granted!");
+    logAction(`Login: ${email}`);
   } catch (err) {
-    alert("❌ Login Failed: " + err.message);
+    alert("❌ " + err.message);
   }
 };
 
 window.logoutAdmin = async () => {
   await signOut(auth);
-  showToast("🔒 Locked out.");
+  logAction("Logged out");
+  toast("🔒 Locked out");
 };
 
-// Monitor Auth States securely
+onSnapshot(doc(db, "settings", "security"), (snap) => {
+  if (snap.exists()) {
+    activePasskey = snap.data().creatorPasskey || activePasskey;
+    const inp = $("new-passkey-input");
+    if (inp) inp.value = activePasskey;
+  }
+});
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    const userEmail = user.email ? user.email.toLowerCase() : "";
-    
-    if (AUTHORIZED_ADMINS.includes(userEmail)) {
-      document.getElementById("admin-security-modal").style.display = "none";
-      document.getElementById("admin-wrapper").style.display = "block";
-      
-      injectStreamlinedDecorUI();
-      injectExtendedAdminManagers();
-      refresh();
+    const email = (user.email || "").toLowerCase();
+    if (AUTHORIZED_ADMINS.includes(email)) {
+      currentUser = user;
+      $("security-gate").classList.add("hidden");
+      $("admin-app").classList.remove("hidden");
+      $("admin-email-label").textContent = user.email;
+
+      // 🔊 Greet + announce any pending orders on login
+      setTimeout(() => {
+        const pending = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
+        if (pending > 0) {
+          speak(`Welcome back. You have ${pending} new order${pending === 1 ? "" : "s"} waiting on SbheneCart.`);
+          playChime();
+        } else {
+          speak("Welcome back. No new orders.");
+        }
+      }, 700);
     } else {
       signOut(auth).then(() => {
-        alert("⚠️ Access Denied! This account is not an authorized Admin.");
+        alert("⚠️ Access denied — unauthorized account.");
         window.location.reload();
       });
     }
   } else {
-    document.getElementById("admin-security-modal").style.display = "flex";
-    document.getElementById("admin-wrapper").style.display = "none";
+    currentUser = null;
+    $("security-gate").classList.remove("hidden");
+    $("admin-app").classList.add("hidden");
   }
 });
 
+window.updatePasskeyInDatabase = async () => {
+  const newKey = $("new-passkey-input").value.trim();
+  if (!newKey) return alert("Passkey cannot be empty");
+  await setDoc(doc(db, "settings", "security"), { creatorPasskey: newKey }, { merge: true });
+  toast("🔑 Passkey updated!");
+  logAction("Creator passkey updated");
+};
 
-// Bind Inputs
-const pn = document.getElementById('pn');
-const pp = document.getElementById('pp');
-const p_original = document.getElementById('p_original');
-const pi = document.getElementById('pi');
-const pc = document.getElementById('pc');
-const psc = document.getElementById('psc');
-const pssc = document.getElementById("pssc");
-const p_badge = document.getElementById("p_badge");
-const p_flash_end = document.getElementById("p_flash_end");
-const p_requires_sizing = document.getElementById("p_requires_sizing");
-const p_visible = document.getElementById("p_visible");
-const p_is_booking = document.getElementById("p_is_booking");
-const p_decor_tag = document.getElementById("p_decor_tag");
-const parentCat = document.getElementById('parentCat');
-const newSubCat = document.getElementById('newSubCat');
-const ps = document.getElementById('ps');
-const pd = document.getElementById('pd');
-const plist = document.getElementById('plist');
-const newCat = document.getElementById('newCat');
-const olist = document.getElementById('olist');
-const ulist = document.getElementById('ulist');
-const stats = document.getElementById('stats');
-const parentCategorySS = document.getElementById("parentCategorySS");
-const parentSubcategorySS = document.getElementById("parentSubcategorySS");
-const newSubSubCat = document.getElementById("newSubSubCat");
+/* ============ COLOR + SIZE PICKERS ============ */
+const COLOR_PALETTE = [
+  {name:"Black",hex:"#111111"},{name:"White",hex:"#FFFFFF"},{name:"Red",hex:"#E53935"},{name:"Blue",hex:"#0878D1"},
+  {name:"Navy",hex:"#1A237E"},{name:"Sky Blue",hex:"#29B6F6"},{name:"Green",hex:"#00A650"},{name:"Olive",hex:"#808000"},
+  {name:"Yellow",hex:"#FFD60A"},{name:"Orange",hex:"#FF9500"},{name:"Maroon",hex:"#800000"},{name:"Pink",hex:"#FF2D55"},
+  {name:"Purple",hex:"#7B1FA2"},{name:"Brown",hex:"#8D6E63"},{name:"Beige",hex:"#F5F5DC"},{name:"Grey",hex:"#8E8E93"},
+  {name:"Silver",hex:"#C0C0C0"},{name:"Gold",hex:"#FFD700"},{name:"Teal",hex:"#008080"},{name:"Cyan",hex:"#00BCD4"}
+];
+let palette = [...COLOR_PALETTE];
+let colorStates = {};
+let sizeStates = {};
 
-parentCategorySS.onchange = updateSSSubcategories;
-pc.onchange = updateSubcategories;
-psc.onchange = updateProductSubSubcategories;
+function renderColorPicker(){
+  const el = $("color-picker");
+  if (!el) return;
+  el.innerHTML = palette.map(c => {
+    const state = colorStates[c.name] || null;
+    const isIn = state === "inStock";
+    const isOos = state === "outOfStock";
+    return `
+      <button type="button" class="color-opt ${isIn ? "active" : ""} ${isOos ? "oos" : ""}" onclick="cycleColor('${escapeHtml(c.name)}')" title="Tap to cycle: Not shown → In stock → Out of stock">
+        <span class="color-dot" style="background:${c.hex}"></span>
+        <span class="label">${escapeHtml(c.name)}</span>
+        <span class="oos-tag">OUT</span>
+        <svg class="check-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg class="x-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    `;
+  }).join('');
+}
 
-function updateSubcategories() {
-  psc.innerHTML = '<option value="">Select Subcategory</option>' +
-    subcats.filter(s => s.category === pc.value).map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+window.cycleColor = (name) => {
+  const current = colorStates[name];
+  if (!current) colorStates[name] = "inStock";
+  else if (current === "inStock") colorStates[name] = "outOfStock";
+  else delete colorStates[name];
+  renderColorPicker();
+};
+
+window.addCustomColor = () => {
+  const name = $("custom_color_name").value.trim();
+  const hex = $("custom_color_hex").value;
+  if (!name) return alert("Enter a color name");
+  if (palette.some(c => c.name.toLowerCase() === name.toLowerCase())) return alert("That name already exists");
+  palette.push({ name, hex });
+  colorStates[name] = "inStock";
+  $("custom_color_name").value = "";
+  renderColorPicker();
+  toast(`🎨 Added "${name}"`);
+};
+
+const SIZE_PRESETS = {
+  none: [],
+  clothing: ["XS","S","M","L","XL","XXL","3XL"],
+  shoes: ["36","37","38","39","40","41","42","43","44","45","46"]
+};
+
+function renderSizePicker(){
+  const type = $("p_sizing_type").value;
+  const wrap = $("size-picker-wrap");
+  const picker = $("size-picker");
+  const presets = SIZE_PRESETS[type] || [];
+
+  if (!presets.length) { wrap.classList.add("hidden"); return; }
+  wrap.classList.remove("hidden");
+
+  picker.innerHTML = presets.map(s => {
+    const state = sizeStates[s];
+    const isIn = state === "inStock";
+    const isOos = state === "outOfStock";
+    return `<button type="button" class="size-opt ${isIn ? "active" : ""} ${isOos ? "oos" : ""}" onclick="cycleSize('${s}')" title="Tap to cycle: Not shown → In stock → Out of stock">${escapeHtml(s)}</button>`;
+  }).join('');
 }
-function updateSSSubcategories() {
-  parentSubcategorySS.innerHTML = '<option value="">Select Subcategory</option>' +
-    subcats.filter(s => s.category === parentCategorySS.value).map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-}
-function updateProductSubSubcategories() {
-  pssc.innerHTML = '<option value="">Select Sub-subcategory</option>' +
-    subsubcats.filter(s => s.subcategory === psc.value).map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-}
+
+window.cycleSize = (s) => {
+  const current = sizeStates[s];
+  if (!current) sizeStates[s] = "inStock";
+  else if (current === "inStock") sizeStates[s] = "outOfStock";
+  else delete sizeStates[s];
+  renderSizePicker();
+};
+
+window.onSizingTypeChange = () => {
+  if ($("p_sizing_type").value === "none") sizeStates = {};
+  renderSizePicker();
+};
 
 window.toggleFlashSaleInput = () => {
-  const target = document.getElementById("flash-sale-scheduler");
-  target.style.display = p_badge.value === "Sale" ? "block" : "none";
+  const show = $("p_badge").value === "Sale";
+  $("flash-sale-scheduler").classList.toggle("hidden", !show);
 };
 
-let cats = [];
-let subcats = [];
-let subsubcats = [];
-let products = [];
-let orders = [];
-let customers = [];
-let edit = -1;
-
-let currentOrderTab = 'active';
-let knownOrderIds = new Set();
-
-let audioAlertsEnabled = true;
-let isTitleFlashing = false;
-let titleFlashInterval = null;
-
-// Dynamic Dashboard Chart State Holders
-let revChartInstance = null;
-let stockChartInstance = null;
-
-// Real-time Collections Listeners
-onSnapshot(collection(db, "categories"), (snap) => {
-  cats = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort((a,b)=>a.name.localeCompare(b.name));
-  if (auth.currentUser) refresh();
-});
-
-onSnapshot(collection(db, "subcategories"), (snap) => {
-  subcats = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  if (auth.currentUser) refresh();
-});
-
-onSnapshot(collection(db, "subsubcategories"), (snap) => {
-  subsubcats = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  if (auth.currentUser) refresh();
-});
-
-onSnapshot(collection(db, "products"), (snap) => {
-  products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  if (auth.currentUser) {
-    refresh();
-    renderLowStockWarnings();
+/* ============ IMAGE PREVIEW ============ */
+document.addEventListener("change", (e) => {
+  if (e.target.id === "p_images_file" || e.target.id === "dec_images_file") {
+    const previewId = e.target.id === "p_images_file" ? "p_img_preview" : "dec_img_preview";
+    const el = $(previewId);
+    if (!el) return;
+    const files = [...e.target.files];
+    el.innerHTML = files.map(f => {
+      const url = URL.createObjectURL(f);
+      return `<div class="img-preview"><img src="${url}" alt=""></div>`;
+    }).join('');
   }
 });
 
-onSnapshot(collection(db, "users"), (snap) => {
-  customers = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  if (auth.currentUser) refresh();
-});
-
-// Real-time Tailoring Requests Listener
-onSnapshot(collection(db, "custom_requests"), (snap) => {
-  const container = document.getElementById("requests-list");
-  if (!container) return;
-
-  const requests = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  requests.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
-
-  container.innerHTML = requests.length
-    ? requests.map(r => {
-        const date = r.timestamp ? new Date(r.timestamp).toLocaleString() : "Unknown Date";
-        
-        let contentHtml = "";
-        if (r.type === "voice") {
-          contentHtml = `
-            <p style="margin: 5px 0;"><b>🎙️ Voice Note:</b></p>
-            <audio controls src="${r.voiceUrl}" style="width:100%; margin-top:5px;"></audio>
-          `;
-        } else {
-          contentHtml = `<p style="margin: 5px 0; line-height:1.4;"><b>✍️ Text Specifications:</b><br>${r.textMessage}</p>`;
-        }
-
-        return `
-          <div class="card" style="border-left: 3px solid var(--primary); padding-left:15px;">
-            <b>Customer Name:</b> ${r.clientName}<br>
-            <b>Contact Phone:</b> ${r.clientPhone}<br>
-            <b>Date Received:</b> ${date}<br>
-            ${contentHtml}
-            <button onclick="window.contactRequestClient('${r.clientPhone}', '${r.clientName}')" style="background:#25d366; color:#fff; width:100%; margin-top:15px; font-weight:bold;">
-              💬 Chat on WhatsApp
-            </button>
-          </div>
-        `;
-      }).join('<hr style="border-color:#222; margin:15px 0;">')
-    : `<p style="color:#666;">No custom sewing requests received yet.</p>`;
-});
-
-window.contactRequestClient = (phone, name) => {
-  const msg = encodeURIComponent(`Hi ${name}! I received your custom sewing request on SbheneCart and would love to coordinate the design and details with you.`);
-  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
-};
-
-// =========================================================================
-// Notifications chime & visual flashers
-// =========================================================================
-window.showToast = (msg, duration = 3000) => {
-  const toast = document.getElementById("toast-notif");
-  if (!toast) return;
-  toast.innerText = msg;
-  toast.style.display = "block";
-  setTimeout(() => toast.style.opacity = "1", 50);
-  setTimeout(() => {
-    toast.style.opacity = "0";
-    setTimeout(() => toast.style.display = "none", 300);
-  }, duration);
-};
-
-function playOrderChime() {
-  if (!audioAlertsEnabled) return;
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc1 = audioCtx.createOscillator();
-    const gain1 = audioCtx.createGain();
-    osc1.type = 'triangle';
-    osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-    gain1.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
-    osc1.connect(gain1);
-    gain1.connect(audioCtx.destination);
-    osc1.start(); osc1.stop(audioCtx.currentTime + 0.35);
-    
-    setTimeout(() => {
-      const osc2 = audioCtx.createOscillator();
-      const gain2 = audioCtx.createGain();
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(783.99, audioCtx.currentTime);
-      gain2.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
-      osc2.connect(gain2);
-      gain2.connect(audioCtx.destination);
-      osc2.start(); osc2.stop(audioCtx.currentTime + 0.45);
-    }, 110);
-  } catch (e) {
-    console.warn("Audio block bypassed: ", e);
-  }
-}
-
-window.toggleAudioAlerts = () => {
-  audioAlertsEnabled = !audioAlertsEnabled;
-  const btn = document.getElementById("audio-toggle-btn");
-  if (!btn) return;
-  if (audioAlertsEnabled) {
-    btn.innerText = "🔊 Alerts: ON"; btn.style.color = "var(--primary)"; btn.style.borderColor = "var(--primary)";
-    playOrderChime();
-    showToast("🔔 Sound alerts activated!");
-  } else {
-    btn.innerText = "🔇 Alerts: MUTED"; btn.style.color = "#ff1744"; btn.style.borderColor = "#ff1744";
-    showToast("🔕 Sound alerts muted.");
-  }
-};
-
-onSnapshot(collection(db, "orders"), (snap) => {
-  orders = [];
-  let isInitialLoad = (knownOrderIds.size === 0);
-  let triggerAlert = false;
-  let clientName = "";
-
-  snap.forEach(d => {
-    const data = { id: d.id, ...d.data() };
-    orders.push(data);
-
-    if (!knownOrderIds.has(d.id)) {
-      knownOrderIds.add(d.id);
-      if (!isInitialLoad && data.status === "Pending") {
-        triggerAlert = true;
-        clientName = data.customer?.name || "Customer";
-        if (typeof Notification !== "undefined" && Notification.permission === "granted") {
-          new Notification("🛒 New SbheneCart Order!", {
-            body: `${clientName} ordered products worth R${data.total}`,
-            tag: d.id
-          });
-        }
-      }
-    }
-  });
-
-  if (triggerAlert) {
-    playOrderChime();
-    const alertOverlay = document.getElementById("alert-overlay");
-    const flash = document.createElement("div");
-    flash.className = "screen-alert-flash";
-    alertOverlay.appendChild(flash);
-    flash.addEventListener("animationend", () => flash.remove());
-    showToast(`🛒 ALERT: New Order received from ${clientName}!`, 5000);
-  }
-
-  orders.sort((a,b)=>(b.timestamp || 0) - (a.timestamp || 0));
-  if (auth.currentUser) {
-    refresh();
-    
-  }
-});
-
-// Authentication Handlers
-window.logoutAdmin = async () => {
-  await signOut(auth);
-  showToast("🔒 Locked out.");
-};
-
-window.showPage = (id) => {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('#admin-nav button').forEach(b => b.classList.remove('active'));
-
-  // Highlight currently active tab button visually
-  const activeNavBtn = Array.from(document.querySelectorAll('#admin-nav button')).find(b => b.getAttribute("onclick")?.includes(id));
-  if (activeNavBtn) activeNavBtn.classList.add('active');
-
-  refresh();
-};
-  
-
-// Admin Map Initialization
-window.initAdminMap = () => {
-  const mapDiv = document.getElementById('admin-map');
-  if (!mapDiv) return;
-
-  const darkMapStyle = [
-    { elementType: "geometry", stylers: [{ color: "#212121" }] },
-    { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-    { featureType: "water", elementType: "geometry", stylers: [{ color: "#000000" }] }
-  ];
-
-  adminMap = new google.maps.Map(mapDiv, {
-    center: { lat: -29.8587, lng: 31.0218 },
-    zoom: 8,
-    styles: darkMapStyle,
-    zoomControl: true,
-    streetViewControl: false,
-    mapTypeControl: false
-  });
-
-  updateAdminMapPins();
-};
-
-function updateAdminMapPins() {
-  if (!adminMap || !orders.length) return;
-  mapMarkers.forEach(m => m.setMap(null));
-  mapMarkers = [];
-
-  const bounds = new google.maps.LatLngBounds();
-  let validCoord = false;
-
-  orders.forEach(o => {
-    if (o.customer?.coordinates && o.customer.coordinates.lat && o.customer.coordinates.lng) {
-      const pos = { lat: Number(o.customer.coordinates.lat), lng: Number(o.customer.coordinates.lng) };
-      let color = "#00e676";
-      if (o.status === "Processing") color = "#ffd600";
-      if (o.status === "Shipped") color = "#29b6f6";
-      if (o.status === "Delivered") color = "#388e3c";
-      if (o.status === "Cancelled") color = "#ff1744";
-
-      const marker = new google.maps.Marker({
-        position: pos,
-        map: adminMap,
-        title: `Order #${o.id.substring(0,8)}`,
-        icon: {
-          path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-          fillColor: color,
-          fillOpacity: 1,
-          strokeColor: "#000",
-          scale: 6
-        }
-      });
-
-      const info = new google.maps.InfoWindow({
-        content: `<div style="color:#000; font-family:Arial; font-size:12px; line-height:1.4;">
-          <strong>Order ID: ${o.id.substring(0, 8)}...</strong><br>
-          Customer: ${o.customer.name}<br>
-          Address: ${o.customer.address}<br>
-          Status: <strong>${o.status}</strong><br>
-          Total: <strong>R${o.total}</strong>
-        </div>`
-      });
-
-      marker.addListener('click', () => info.open(adminMap, marker));
-      mapMarkers.push(marker);
-      bounds.extend(pos);
-      validCoord = true;
-    }
-  });
-
-  if (validCoord) adminMap.fitBounds(bounds);
-}
-
-// Category Operations
-window.addCat = async () => {
-  const name = newCat.value.trim();
-  if (!name) return;
-  if (cats.some(c => c.name.toLowerCase() === name.toLowerCase())) return showToast("⚠️ Category exists.");
-  await addDoc(collection(db, "categories"), { name });
-  newCat.value = "";
-  showToast("📁 Category added!");
-};
-
-window.addSubCat = async () => {
-  if (parentCat.value === "" || newSubCat.value.trim() === "") return showToast("⚠️ Fill fields.");
-  await addDoc(collection(db, "subcategories"), { category: parentCat.value, name: newSubCat.value.trim() });
-  newSubCat.value = "";
-  showToast("📂 Subcategory added!");
-};
-
-window.addSubSubCat = async () => {
-  if (parentCategorySS.value === "" || parentSubcategorySS.value === "" || newSubSubCat.value.trim() === "") return showToast("⚠️ Complete fields.");
-  await addDoc(collection(db, "subsubcategories"), {
-    category: parentCategorySS.value,
-    subcategory: parentSubcategorySS.value,
-    name: newSubSubCat.value.trim()
-  });
-  newSubSubCat.value = "";
-  showToast("🏷️ Sub-subcategory added!");
-};
-
-window.deleteCategory = async (id) => { if (confirm("Delete?")) { await deleteDoc(doc(db, "categories", id)); showToast("🗑️ Deleted."); } };
-window.deleteSubCategory = async (id) => { if (confirm("Delete?")) { await deleteDoc(doc(db, "subcategories", id)); showToast("🗑️ Deleted."); } };
-window.deleteSubSubCategory = async (id) => { if (confirm("Delete?")) { await deleteDoc(doc(db, "subsubcategories", id)); showToast("🗑️ Deleted."); } };
-
-// Product Operations
-window.saveProduct = async () => {
-  const btn = document.getElementById('save-prod-btn');
-  btn.innerText = "Uploading Gallery...";
-  btn.disabled = true;
-
-  if (!pn.value.trim() || !pp.value || !pc.value || !ps.value) {
-    showToast("⚠️ Missing required product configurations.");
-    btn.innerText = "Save Product"; btn.disabled = false;
-    return;
-  }
-
-  const files = [...pi.files];
-  let galleryUrls = [];
-
+async function uploadImages(files){
+  const urls = [];
   for (const f of files) {
     const form = new FormData();
     form.append("file", f);
     form.append("upload_preset", "SbheneCart");
     try {
-      const resp = await fetch("https://api.cloudinary.com/v1_1/qocn8gjn/image/upload", { method: "POST", body: form });
-      const data = await resp.json();
-      if (resp.ok && data.secure_url) galleryUrls.push(data.secure_url);
-    } catch {
-      showToast("⚠️ Image upload failed.");
-      btn.innerText = "Save Product"; btn.disabled = false;
-      return;
-    }
+      const r = await fetch("https://api.cloudinary.com/v1_1/qocn8gjn/image/upload", { method:"POST", body: form });
+      const data = await r.json();
+      if (r.ok && data.secure_url) urls.push(data.secure_url);
+    } catch (e) { console.error(e); }
+  }
+  return urls;
+}
+
+/* ============ PRODUCT MODAL ============ */
+window.openProductModal = (id = null) => {
+  editingId = id;
+  const p = id ? dbProducts.find(x => x.id === id) : null;
+
+  $("product-modal-title").textContent = id ? "Edit Product" : "Add Product";
+  $("pn").value = p?.name || "";
+  $("pp").value = p?.price || "";
+  $("p_original").value = p?.originalPrice || "";
+  $("ps").value = p?.stock ?? "";
+  $("pd").value = p?.description || "";
+  $("p_badge").value = p?.badge || "";
+  $("p_decor_tag").value = p?.decorTag || "";
+  $("p_flash_end").value = p?.flashSaleEnd ? new Date(p.flashSaleEnd).toISOString().substring(0,16) : "";
+  $("p_sizing_type").value = p?.sizingType || "none";
+  $("p_requires_sizing").checked = !!p?.requiresMeasurements;
+  $("p_visible").checked = p?.visible !== false;
+  $("p_is_booking").checked = !!p?.isBooking;
+  $("p_images_file").value = "";
+  $("p_img_preview").innerHTML = "";
+
+  populateCategorySelects();
+  $("pc").value = p?.category || (dbCats[0]?.name || "");
+  updateSubcategoryOptions();
+  $("psc").value = p?.subcategory || "";
+  updateSubSubcategoryOptions();
+  $("pssc").value = p?.subsubcategory || "";
+
+  colorStates = {};
+  if (p?.colors && Array.isArray(p.colors)) {
+    p.colors.forEach(c => {
+      if (typeof c === "object" && c.name) {
+        colorStates[c.name] = c.outOfStock ? "outOfStock" : "inStock";
+        if (!palette.some(pc => pc.name.toLowerCase() === c.name.toLowerCase())) {
+          palette.push({ name: c.name, hex: c.hex || "#888888" });
+        }
+      }
+    });
+  }
+  sizeStates = {};
+  if (p?.sizes && Array.isArray(p.sizes)) {
+    p.sizes.forEach(s => {
+      if (typeof s === "object" && s.name) {
+        sizeStates[s.name] = s.outOfStock ? "outOfStock" : "inStock";
+      } else {
+        sizeStates[String(s)] = "inStock";
+      }
+    });
   }
 
-  let productDetails = {
-    name: pn.value.trim(),
-    price: Number(pp.value),
-    originalPrice: p_original.value ? Number(p_original.value) : null,
-    category: pc.value,
-    subcategory: psc.value || "",
-    subsubcategory: pssc.value || "",
-    stock: Number(ps.value),
-    badge: p_badge.value || "",
-    flashSaleEnd: p_badge.value === "Sale" && p_flash_end.value ? Date.parse(p_flash_end.value) : null,
-    requiresMeasurements: p_requires_sizing.checked,
-    visible: p_visible.checked,
-    isBooking: p_is_booking.checked,
-    decorTag: p_decor_tag.value.trim(),
-    description: pd.value.trim(),
-    sizingType: document.getElementById("p_sizing_type").value
+  renderColorPicker();
+  renderSizePicker();
+  toggleFlashSaleInput();
+
+  $("product-modal").classList.add("open");
+};
+
+window.closeProductModal = () => {
+  $("product-modal").classList.remove("open");
+  editingId = null;
+};
+
+function populateCategorySelects(){
+  $("pc").innerHTML = dbCats.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+}
+function updateSubcategoryOptions(){
+  const cat = $("pc").value;
+  const subs = dbSubs.filter(s => s.category === cat);
+  $("psc").innerHTML = '<option value="">—</option>' + subs.map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+}
+function updateSubSubcategoryOptions(){
+  const sub = $("psc").value;
+  const list = dbSubSubs.filter(s => s.subcategory === sub);
+  $("pssc").innerHTML = '<option value="">—</option>' + list.map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+}
+
+document.addEventListener("change", (e) => {
+  if (e.target.id === "pc") updateSubcategoryOptions();
+  if (e.target.id === "psc") updateSubSubcategoryOptions();
+});
+
+window.saveProduct = async () => {
+  const btn = $("save-prod-btn");
+  btn.disabled = true;
+  btn.textContent = "Saving…";
+
+  const name = $("pn").value.trim();
+  const price = Number($("pp").value);
+  const stock = Number($("ps").value);
+  const category = $("pc").value;
+
+  if (!name || !price || !category || Number.isNaN(stock)) {
+    alert("Name, price, category, and stock are required");
+    btn.disabled = false; btn.textContent = "💾 Save Product";
+    return;
+  }
+
+  const files = [...$("p_images_file").files];
+  let newUrls = [];
+  if (files.length) {
+    btn.textContent = "Uploading images…";
+    newUrls = await uploadImages(files);
+  }
+
+  const old = editingId ? dbProducts.find(x => x.id === editingId) : null;
+  const images = newUrls.length ? newUrls : (old?.images || []);
+
+  const colors = Object.keys(colorStates).map(name => {
+    const pal = palette.find(p => p.name === name) || { hex: "#888888" };
+    return {
+      name,
+      hex: pal.hex,
+      outOfStock: colorStates[name] === "outOfStock"
+    };
+  });
+
+  const sizes = Object.keys(sizeStates).map(name => ({
+    name,
+    outOfStock: sizeStates[name] === "outOfStock"
+  }));
+
+  const payload = {
+    name,
+    price,
+    originalPrice: $("p_original").value ? Number($("p_original").value) : null,
+    category,
+    subcategory: $("psc").value || "",
+    subsubcategory: $("pssc").value || "",
+    stock,
+    badge: $("p_badge").value || "",
+    flashSaleEnd: ($("p_badge").value === "Sale" && $("p_flash_end").value) ? Date.parse($("p_flash_end").value) : null,
+    sizingType: $("p_sizing_type").value,
+    sizes,
+    colors,
+    requiresMeasurements: $("p_requires_sizing").checked,
+    visible: $("p_visible").checked,
+    isBooking: $("p_is_booking").checked,
+    decorTag: $("p_decor_tag").value.trim(),
+    description: $("pd").value.trim(),
+    images,
+    image: images[0] || "",
+    approved: true
   };
 
   try {
-    if (edit === -1) {
-      productDetails.images = galleryUrls;
-      productDetails.image = galleryUrls[0] || "";
-      await addDoc(collection(db, "products"), productDetails);
-      showToast("📦 Product catalogued successfully!");
+    if (editingId) {
+      await updateDoc(doc(db, "products", editingId), payload);
+      toast("📝 Product updated");
+      logAction(`Updated: ${name}`);
     } else {
-      const old = products.find(x => x.id === edit);
-      productDetails.images = galleryUrls.length ? galleryUrls : (old.images || []);
-      productDetails.image = productDetails.images[0] || old.image || "";
-      await updateDoc(doc(db, "products", edit), productDetails);
-      showToast("📝 Product details updated.");
+      payload.timestamp = Date.now();
+      await addDoc(collection(db, "products"), payload);
+      toast("📦 Product added");
+      logAction(`Created: ${name}`);
     }
-
-    edit = -1;
-    pn.value = ""; pp.value = ""; p_original.value = ""; ps.value = ""; pd.value = ""; pi.value = ""; p_decor_tag.value = "";
-    p_requires_sizing.checked = false; p_visible.checked = true; p_is_booking.checked = false;
-    p_badge.value = ""; p_flash_end.value = "";
-    document.getElementById("p_sizing_type").value = "none";
-    document.getElementById("flash-sale-scheduler").style.display = "none";
-    pc.selectedIndex = 0;
-    psc.innerHTML = '<option value="">Select Subcategory</option>';
-    pssc.innerHTML = '<option value="">Select Sub-subcategory</option>';
-    showPage('products');
+    closeProductModal();
   } catch (err) {
     console.error(err);
-    showToast("⚠️ Database sync failed.");
+    alert("Save failed: " + err.message);
   } finally {
-    btn.innerText = "Save Product"; btn.disabled = false;
+    btn.disabled = false;
+    btn.textContent = "💾 Save Product";
   }
 };
 
-window.editP = (id) => {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  edit = id;
-  pn.value = p.name;
-  pp.value = p.price;
-  p_original.value = p.originalPrice || "";
-  ps.value = p.stock;
-  pd.value = p.description || "";
-  pc.value = p.category;
-  updateSubcategories();
-  psc.value = p.subcategory || "";
-  updateProductSubSubcategories();
-  pssc.value = p.subsubcategory || "";
-  p_badge.value = p.badge || "";
-  p_requires_sizing.checked = !!p.requiresMeasurements;
-  p_visible.checked = p.visible !== false;
-  p_is_booking.checked = !!p.isBooking;
-  p_decor_tag.value = p.decorTag || "";
-  document.getElementById("p_sizing_type").value = p.sizingType || "none";
-  
-  if (p.badge === "Sale" && p.flashSaleEnd) {
-    p_flash_end.value = new Date(p.flashSaleEnd).toISOString().substring(0,16);
-    document.getElementById("flash-sale-scheduler").style.display = "block";
-  } else {
-    p_flash_end.value = "";
-    document.getElementById("flash-sale-scheduler").style.display = "none";
-  }
-  
-  showPage("products");
-};
-
-window.delP = async (id) => {
-  if (confirm("Delete Product?")) {
-    await deleteDoc(doc(db, "products", id));
-    showToast("🗑️ Product deleted.");
-  }
-};
-
-// Customer manual points adjustment & reset
-window.adjustCustomerPoints = async (id, pointsInputId) => {
-  const pointsVal = document.getElementById(pointsInputId).value;
-  if (pointsVal === "") return showToast("⚠️ Enter point count.");
+window.generateAIDescription = async () => {
+  const pName = $("pn").value.trim();
+  if (!pName) return alert("Enter the product name first");
+  const key = prompt("Paste your Gemini API Key:");
+  if (!key) return;
+  toast("✨ Generating…");
   try {
-    await updateDoc(doc(db, "users", id), { points: Number(pointsVal) });
-    showToast("💎 Points balance adjusted!");
-  } catch (err) {
-    console.error(err);
-    showToast("⚠️ Update failed.");
-  }
-};
-
-window.triggerAdminPasswordReset = async (email) => {
-  if (!email || email === "N/A") return showToast("⚠️ No email address found for this user.");
-  try {
-    await sendPasswordResetEmail(auth, email);
-    showToast(`📧 Password reset link successfully sent to ${email}!`);
-  } catch (err) {
-    showToast("⚠️ Failed to trigger email dispatch.");
-  }
-};
-
-// Low-stock alerts renderer with inline restock
-function renderLowStockWarnings() {
-  const container = document.getElementById("critical-stock-list");
-  if (!container) return;
-
-  const thresholdItems = products.filter(p => p.stock <= 5);
-  container.innerHTML = thresholdItems.length 
-    ? thresholdItems.map(p => `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:#ff174415; border:1px solid #ff1744; padding:12px; margin-bottom:10px; border-radius:6px;">
-        <div>
-          <b>${p.name}</b><br>
-          <small>Current Stock: <span style="color:#ff1744; font-weight:bold;">${p.stock} units</span></small>
-        </div>
-        <button onclick="window.instantRestock('${p.id}')">⚡ Restock (+20)</button>
-      </div>
-    `).join('')
-    : `<p style="color:#0f8; font-weight:bold;">✅ All inventory fully stocked!</p>`;
-}
-
-window.instantRestock = async (id) => {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  try {
-    await updateDoc(doc(db, "products", id), { stock: p.stock + 20 });
-    showToast(`⚡ Stock increased to ${p.stock + 20}!`);
+    const mod = await import("https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm");
+    const genAI = new mod.GoogleGenerativeAI(key);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = `Write an engaging e-commerce description, 3 SEO keywords, and 3 short highlights for "${pName}" (category: ${$("pc").value}). Return strictly JSON: {"description":"…","keywords":[…],"highlights":[…]}`;
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().replace(/```json/g,"").replace(/```/g,"").trim();
+    const data = JSON.parse(text);
+    $("pd").value = data.description || "";
+    $("p_decor_tag").value = (data.keywords || []).join(", ");
+    toast("✨ Description generated");
   } catch (e) {
-    showToast("⚠️ Restock failed.");
+    console.error(e);
+    alert("AI failed — check your API key");
   }
 };
-
-// Order management
-window.updateOrderStatus = async (id, status) => {
-  await updateDoc(doc(db, "orders", id), { status });
-  showToast(`🔄 Status: ${status}`);
-};
-window.updatePaymentStatus = async (id, status) => {
-  try {
-    const orderRef = doc(db, "orders", id);
-    await updateDoc(orderRef, {
-      "payment.status": status
-    });
-    showToast(`🔄 Payment Status: ${status}`);
-  } catch (e) {
-    console.error("Payment status update failed: ", e);
-    showToast("⚠️ Failed to update payment status.");
-  }
-};
-
-window.toggleOrderTab = (tab) => {
-  currentOrderTab = tab;
-  const activeBtn = document.getElementById("tab-active-btn");
-  const historyBtn = document.getElementById("tab-history-btn");
-  const archivedBtn = document.getElementById("tab-archived-btn");
-  const title = document.getElementById("current-tab-title");
-
-  activeBtn.style.background = "#222"; activeBtn.style.color = "var(--primary)";
-  historyBtn.style.background = "#222"; historyBtn.style.color = "var(--primary)";
-  archivedBtn.style.background = "#222"; archivedBtn.style.color = "var(--primary)";
-
-  if (tab === "active") {
-    activeBtn.style.background = "var(--primary)"; activeBtn.style.color = "#000";
-    title.innerText = "Active Queue";
-  } else if (tab === "history") {
-    historyBtn.style.background = "var(--primary)"; historyBtn.style.color = "#000";
-    title.innerText = "Completed & Cancelled Queue";
-  } else {
-    archivedBtn.style.background = "var(--primary)"; archivedBtn.style.color = "#000";
-    title.innerText = "Archived Transactions Queue";
-  }
-  refresh();
-};
-
-window.archiveOrder = async (id) => { await updateDoc(doc(db, "orders", id), { archived: true }); showToast("📦 Archived."); };
-window.unarchiveOrder = async (id) => { await updateDoc(doc(db, "orders", id), { archived: false }); showToast("📂 Unarchived."); };
-window.deleteOrder = async (id) => { if (confirm("Delete permanently?")) { await deleteDoc(doc(db, "orders", id)); showToast("🗑️ Erased."); } };
-
-// UI Refresher
-function refresh() {
-  pc.innerHTML = cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-  parentCat.innerHTML = cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-  parentCategorySS.innerHTML = cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-
-  updateSSSubcategories();
-  updateSubcategories();
-
-  document.getElementById("cats").innerHTML = cats.map(c => `<div class="card"><b>${c.name}</b><br><br><button onclick="deleteCategory('${c.id}')">Delete</button></div>`).join("");
-  document.getElementById("subcats").innerHTML = subcats.map(s => `<div class="card"><b>${s.category}</b><br>${s.name}<br><br><button onclick="deleteSubCategory('${s.id}')">Delete</button></div>`).join("");
-  document.getElementById("subsubcats").innerHTML = subsubcats.map(s => `<div class="card"><b>${s.category}</b><br>${s.subcategory}<br>${s.name}<br><br><button onclick="deleteSubSubCategory('${s.id}')">Delete</button></div>`).join("");
-
-  plist.innerHTML = products.map(p => {
-    const visibilityText = p.visible !== false ? "👁️ Visible" : "❌ Hidden";
-    return `
-      <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          ${p.image ? `<img src="${p.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px; margin-bottom:5px;">` : ""}
-          <b style="display:block;">${p.name}</b>
-          <small>R${p.price} (Orig: R${p.originalPrice || p.price}) • Stock: ${p.stock} • <span style="color:var(--primary); font-weight:bold;">${visibilityText}</span></small>
-        </div>
-        <div>
-          <button onclick="editP('${p.id}')">Edit</button>
-          <button onclick="delP('${p.id}')">Delete</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Notifications Badges
-  const pendingOrders = orders.filter(o => o.status === "Pending").length;
-  const badge = document.getElementById("orders-badge");
-  if (badge) {
-    if (pendingOrders > 0) {
-      badge.innerText = pendingOrders;
-      badge.style.display = "inline-block";
-    } else {
-      badge.style.display = "none";
-    }
-  }
-
-  // Segment Orders
-  const activeStatuses = ["Pending", "Processing", "Shipped"];
-  const historyStatuses = ["Delivered", "Cancelled"];
-
-  const filteredOrders = orders.filter(o => {
-    if (currentOrderTab === 'archived') return o.archived === true;
-    if (o.archived === true) return false;
-    return currentOrderTab === 'active' ? activeStatuses.includes(o.status) : historyStatuses.includes(o.status);
-  });
-
-  olist.innerHTML = filteredOrders.map(o => {
-    const payStatus = o.payment?.status || "Pending Verification";
-    const payColor = payStatus === "Paid" ? "#00ff66" : (payStatus === "Pending Online Payment" ? "#ffaa00" : "#ff1744");
-    const reorderBtn = o.items ? `<button data-items="${btoa(JSON.stringify(o.items))}" onclick="window.sendReorderToStorefront(this)" style="background:#222; color:var(--primary); border:1px solid var(--primary); margin-top:10px; width:100%;">🔁 Reorder Order Items</button>` : "";
-
-    
-    let actionBtn = "";
-    if (currentOrderTab === 'history') actionBtn = `<button onclick="archiveOrder('${o.id}')" style="background:var(--primary); color:#000; width:100%; margin-top:10px;">📦 Archive Order</button>`;
-    if (currentOrderTab === 'archived') actionBtn = `<button onclick="unarchiveOrder('${o.id}')" style="background:#29b6f6; color:#000; width:100%; margin-top:10px;">📂 Restore Order</button>`;
-
-    let popHtml = "";
-    if (o.payment?.proofOfPaymentUrl) {
-      popHtml = `
-        <div style="margin-top: 12px; padding: 12px; border: 1px dashed var(--primary); border-radius: 6px; background: rgba(0, 255, 136, 0.02);">
-          <span style="color: var(--primary); font-weight: bold; font-size: 13px;">📄 PROOF OF PAYMENT ATTACHED</span><br>
-          <a href="${o.payment.proofOfPaymentUrl}" target="_blank" style="color: #fff; text-decoration: underline; font-size: 13px; font-weight: bold; display: inline-block; margin-top: 6px;">
-            🔍 View/Download Proof of Payment File
-          </a>
-          ${o.payment.proofOfPaymentUrl.match(/\.(jpeg|jpg|gif|png)$/i) ? `
-            <div style="margin-top: 8px;">
-              <img src="${o.payment.proofOfPaymentUrl}" style="max-width: 100%; max-height: 120px; object-fit: contain; border-radius: 4px; border: 1px solid #333; cursor: zoom-in;" onclick="window.open('${o.payment.proofOfPaymentUrl}', '_blank')">
-            </div>
-          ` : ''}
-        </div>
-      `;
-    }
-
-    return `
-      <div class="card">
-        <b>Order ID:</b> ${o.id}<br>
-        <b>Customer:</b> ${o.customer?.name || "Unknown"}<br>
-        <b>Phone:</b> ${o.customer?.phone || "-"}<br>
-        <b>Address:</b> ${o.customer?.address || "-"}<br>
-        <b>Payment:</b> ${o.payment?.method || "N/A"} (<span style="color:${payColor}; font-weight:bold;">${payStatus}</span>)<br>
-        <b>Total Value:</b> R${o.total} (Applied Points Discount: R${o.discountApplied || 0})<br>
-        <b>Cargo items:</b><br>
-        
-        ${popHtml}
-
-        <div style="margin-top: 12px; margin-bottom: 8px;">
-          <label style="font-size: 12px; display: block; margin-bottom: 4px; color: #aaa;">Payment Status:</label>
-          <select onchange="updatePaymentStatus('${o.id}', this.value)" style="width: 100%; padding: 8px; font-size: 13px; background: #1a1a1a; color: #fff; border: 1px solid var(--primary); border-radius: 4px;">
-            <option value="Pending Verification" ${payStatus === "Pending Verification" ? "selected" : ""}>Pending Verification</option>
-            <option value="PoP Uploaded, Pending Verification" ${payStatus === "PoP Uploaded, Pending Verification" ? "selected" : ""}>PoP Uploaded, Pending Verification</option>
-            <option value="PoP Pending via WhatsApp" ${payStatus === "PoP Pending via WhatsApp" ? "selected" : ""}>PoP Pending via WhatsApp</option>
-            <option value="Paid" ${payStatus === "Paid" ? "selected" : ""}>Paid / Verified</option>
-            <option value="Unverified / Rejected" ${payStatus === "Unverified / Rejected" ? "selected" : ""}>Unverified / Rejected</option>
-          </select>
-        </div>
-
-        ${o.items ? o.items.map(i => `• ${i.name} (x${i.quantity}) - R${i.price}`).join("<br>") : "Cargo null"}<br><br>
-        <label>Status Lifecycle:</label>
-      
-        <select onchange="updateOrderStatus('${o.id}',this.value)">
-          <option ${o.status=="Pending"?"selected":""}>Pending</option>
-          <option ${o.status=="Processing"?"selected":""}>Processing</option>
-          <option ${o.status=="Shipped"?"selected":""}>Shipped</option>
-          <option ${o.status=="Delivered"?"selected":""}>Delivered</option>
-          <option ${o.status=="Cancelled"?"selected":""}>Cancelled</option>
-        </select>
-        ${actionBtn}
-        ${reorderBtn}
-        <button onclick="deleteOrder('${o.id}')" style="background:#ff1744; color:#fff; width:100%; margin-top:10px;">🗑 Lekker Delete permanently</button>
-      </div>
-    `;
-  }).join("");
-
-  // Customers Directory with Google Profiles Integration
-  ulist.innerHTML = customers.map(u => {
-    const pointsInputId = `pts-${u.id}`;
-    const avatar = u.photoURL 
-      ? `<img src="${u.photoURL}" style="width:40px; height:40px; border-radius:50%; margin-right:10px; border:1px solid var(--primary);">`
-      : `<span style="font-size:24px; margin-right:10px;">👤</span>`;
-
-    return `
-      <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <div style="display:flex; align-items:center;">
-          ${avatar}
-          <div>
-            <b style="font-size:16px; color:#fff;">${u.name || "Anonymous User"}</b><br>
-            <small>ID: ${u.id.substring(0,8)}... | Email: ${u.email || "N/A"}</small><br>
-            <small>Points: <span style="color:var(--primary); font-weight:bold;">${u.points || 0}</span> | Address: ${u.address || "None"} | Phone: ${u.savedPhone || "N/A"}</small>
-            <button onclick="window.triggerAdminPasswordReset('${u.email}')" style="background:#222; color:var(--primary); border:1px solid var(--primary); font-size:11px; padding:6px; margin-top:5px; width:100%;">
-              📧 Send Password Reset Email
-            </button>
-          </div>
-        </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input type="number" id="${pointsInputId}" placeholder="Points Balance" style="width:120px; margin:0;" value="${u.points || 0}">
-          <button onclick="adjustCustomerPoints('${u.id}', '${pointsInputId}')">Apply</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Dashboard Stats Updates
-  const revenue = orders.filter(o => o.status === "Delivered").reduce((sum, o) => sum + (Number(o.total) || 0), 0);
-  const pendingCount = orders.filter(o => o.status === "Pending").length;
-  stats.innerHTML = `
-    <h2>Real-time Analytics Overview</h2>
-    <div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:10px; text-align:center;">
-      <div class="card" style="flex:1; min-width:140px; margin:0;"><b>Products</b><br><span style="font-size:24px; font-weight:bold;">${products.length}</span></div>
-      <div class="card" style="flex:1; min-width:140px; margin:0;"><b>Total Completed Revenue</b><br><span style="font-size:24px; font-weight:bold; color:var(--primary);">R${revenue}</span></div>
-      <div class="card" style="flex:1; min-width:140px; margin:0;"><b>Active Pending Orders</b><br><span style="font-size:24px; font-weight:bold; color:#ff1744;">${pendingCount}</span></div>
-      <div class="card" style="flex:1; min-width:140px; margin:0;"><b>Customers</b><br><span style="font-size:24px; font-weight:bold;">${customers.length}</span></div>
-    </div>
-  `;
-
-  // Dynamically update the streamlined Decor subcategory selection on refreshes
-  const decSubSelect = document.getElementById("dec_subcategory");
-  if (decSubSelect) {
-    decSubSelect.innerHTML = '<option value="">Select Decor Subcategory</option>' +
-      subcats.filter(s => s.category === "Decoration").map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-  }
-
-  renderSalesCharts();
-  renderLowStockWarnings();
-}
-
-window.sendReorderToStorefront = (btn) => {
-  try {
-    const items = JSON.parse(atob(btn.getAttribute('data-items')));
-    localStorage.setItem("cart", JSON.stringify(items.map(i => ({ ...i, id: i.id || "" }))));
-    showToast("📋 Loaded order items to active browser cart cookie!");
-  } catch (err) {
-    console.error("Failed to decode order items: ", err);
-    showToast("⚠️ Failed to parse reorder items.");
-  }
-};
-
-// Sales & Stock Level Chart renders (Canvas)
-function renderSalesCharts() {
-  const revCtx = document.getElementById("revenueChart")?.getContext("2d");
-  const stockCtx = document.getElementById("stockChart")?.getContext("2d");
-  if (!revCtx || !stockCtx) return;
-
-  const salesByDay = {};
-  orders.filter(o => o.status === "Delivered").forEach(o => {
-    if (o.timestamp) {
-      const date = new Date(o.timestamp).toLocaleDateString();
-      salesByDay[date] = (salesByDay[date] || 0) + Number(o.total);
-    }
-  });
-
-  const dates = Object.keys(salesByDay).slice(-7);
-  const dailyRevenues = dates.map(d => salesByDay[d]);
-
-  if (revChartInstance) revChartInstance.destroy();
-  revChartInstance = new Chart(revCtx, {
-    type: 'line',
-    data: {
-      labels: dates,
-      datasets: [{
-        label: 'Revenue (ZAR)',
-        data: dailyRevenues,
-        borderColor: '#0f8',
-        backgroundColor: '#0f825',
-        borderWidth: 2,
-        tension: 0.3
-      }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-  });
-
-  const inStock = products.filter(p => p.stock > 5).length;
-  const lowStock = products.filter(p => p.stock > 0 && p.stock <= 5).length;
-  const outOfStock = products.filter(p => p.stock <= 0).length;
-
-  if (stockChartInstance) stockChartInstance.destroy();
-  stockChartInstance = new Chart(stockCtx, {
-    type: 'doughnut',
-    data: {
-      labels: ['In Stock (>5)', 'Low Stock (1-5)', 'Out of Stock (0)'],
-      datasets: [{
-        data: [inStock, lowStock, outOfStock],
-        backgroundColor: ['#00e676', '#ffd600', '#ff1744'],
-        borderWidth: 1,
-        borderColor: '#000'
-      }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f8' } } } }
-  });
-}
-
-// =========================================================================
-// Streamlined Decoration Upload Controller & Injections
-// =========================================================================
-function injectStreamlinedDecorUI() {
-  const nav = document.getElementById("admin-nav");
-  const wrapper = document.getElementById("admin-wrapper");
-
-  if (nav && !document.getElementById("nav-decor-btn")) {
-    const btn = document.createElement("button");
-    btn.id = "nav-decor-btn";
-    btn.innerText = "🏺 Upload Decor";
-    btn.onclick = (e) => {
-      window.showPage("decor-upload");
-      document.querySelectorAll('#admin-nav button').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-    };
-    nav.appendChild(btn);
-  }
-
-  if (wrapper && !document.getElementById("decor-upload")) {
-    const sec = document.createElement("section");
-    sec.id = "decor-upload";
-    sec.className = "page";
-    sec.innerHTML = `
-      <div class="card">
-        <h3>Streamlined Decoration Upload</h3>
-        <p style="color:#888;">This dashboard is configured strictly for uploading Home Decor products.</p>
-        
-        <input id="dec_name" placeholder="Decoration Name">
-        <div class="grid-2">
-          <input id="dec_price" type="number" placeholder="Sale Price (ZAR)">
-          <input id="dec_orig" type="number" placeholder="Original Price (ZAR)">
-        </div>
-        
-        <label style="display:block; font-size:12px; margin-top:10px;">Select Decor Images:</label>
-        <input id="dec_images_file" type="file" accept="image/*" multiple style="margin-bottom:10px;">
-        
-        <select id="dec_subcategory">
-          <option value="">Select Decor Subcategory</option>
-        </select>
-        
-        <div class="grid-2" style="margin-top:10px;">
-          <input id="dec_stock" type="number" placeholder="Stock Quantity">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <input type="checkbox" id="dec_is_booking" style="width:auto; margin:0;">
-            <label for="dec_is_booking">📅 Enable 'Book Now!' button</label>
-          </div>
-        </div>
-        
-        <input id="dec_room_tag" placeholder="Inspiration Room Tag (e.g. Minimalist Living Room, Rustic Cozy)">
-        <textarea id="dec_description" placeholder="Description of Decor Item" style="height:100px;"></textarea>
-        
-        <button id="save-decor-btn" onclick="window.saveDecorProduct()" style="width:100%; margin-top:20px;">🏺 Save Decor Item</button>
-      </div>
-    `;
-    wrapper.appendChild(sec);
-  }
-}
 
 window.saveDecorProduct = async () => {
-  const btn = document.getElementById("save-decor-btn");
-  btn.innerText = "Uploading Decor Images...";
-  btn.disabled = true;
+  const btn = $("save-decor-btn");
+  const name = $("dec_name").value.trim();
+  const price = Number($("dec_price").value);
+  const stock = Number($("dec_stock").value);
+  if (!name || !price || Number.isNaN(stock)) return alert("Name, price, and stock required");
 
-  const name = document.getElementById("dec_name").value.trim();
-  const price = document.getElementById("dec_price").value;
-  const originalPrice = document.getElementById("dec_orig").value;
-  const files = [...document.getElementById("dec_images_file").files];
-  const subcategory = document.getElementById("dec_subcategory").value;
-  const stock = document.getElementById("dec_stock").value;
-  const isBooking = document.getElementById("dec_is_booking").checked;
-  const roomTag = document.getElementById("dec_room_tag").value.trim();
-  const description = document.getElementById("dec_description").value.trim();
+  btn.disabled = true; btn.textContent = "Uploading…";
+  const files = [...$("dec_images_file").files];
+  const images = files.length ? await uploadImages(files) : [];
 
-  if (!name || !price || !stock) {
-    showToast("⚠️ Decoration Name, Price, and Stock are required configurations.");
-    btn.innerText = "🏺 Save Decor Item"; btn.disabled = false;
-    return;
-  }
-
-  let galleryUrls = [];
-  for (const f of files) {
-    const form = new FormData();
-    form.append("file", f);
-    form.append("upload_preset", "SbheneCart");
-    try {
-      const resp = await fetch("https://api.cloudinary.com/v1_1/qocn8gjn/image/upload", { method: "POST", body: form });
-      const data = await resp.json();
-      if (resp.ok && data.secure_url) galleryUrls.push(data.secure_url);
-    } catch {
-      showToast("⚠️ Image upload failed.");
-      btn.innerText = "🏺 Save Decor Item"; btn.disabled = false;
-      return;
-    }
-  }
-
-  const decorPayload = {
-    name,
-    price: Number(price),
-    originalPrice: originalPrice ? Number(originalPrice) : null,
+  const payload = {
+    name, price,
+    originalPrice: $("dec_orig").value ? Number($("dec_orig").value) : null,
     category: "Decoration",
-    subcategory,
+    subcategory: $("dec_subcategory").value || "",
     subsubcategory: "",
-    stock: Number(stock),
-    badge: isBooking ? "Sale" : "", 
-    isBooking,
+    stock,
+    badge: "",
+    sizingType: "none",
+    sizes: [],
+    colors: [],
     requiresMeasurements: false,
     visible: true,
-    decorTag: roomTag,
-    description,
-    images: galleryUrls,
-    image: galleryUrls[0] || "",
+    isBooking: $("dec_is_booking").checked,
+    decorTag: $("dec_room_tag").value.trim(),
+    description: $("dec_description").value.trim(),
+    images,
+    image: images[0] || "",
+    approved: true,
     timestamp: Date.now()
   };
 
   try {
-    await addDoc(collection(db, "products"), decorPayload);
-    showToast("🏺 Decoration item saved and storefront synced!");
-    
-    document.getElementById("dec_name").value = "";
-    document.getElementById("dec_price").value = "";
-    document.getElementById("dec_orig").value = "";
-    document.getElementById("dec_images_file").value = "";
-    document.getElementById("dec_subcategory").selectedIndex = 0;
-    document.getElementById("dec_stock").value = "";
-    document.getElementById("dec_is_booking").checked = false;
-    document.getElementById("dec_room_tag").value = "";
-    document.getElementById("dec_description").value = "";
-    
+    await addDoc(collection(db, "products"), payload);
+    toast("🏺 Decor saved!");
+    logAction(`Decor added: ${name}`);
+    ["dec_name","dec_price","dec_orig","dec_images_file","dec_stock","dec_room_tag","dec_description"].forEach(id => $(id).value = "");
+    $("dec_is_booking").checked = false;
+    $("dec_img_preview").innerHTML = "";
     showPage("dash");
   } catch (err) {
-    console.error(err);
-    showToast("⚠️ Database sync failed.");
+    alert("Save failed: " + err.message);
   } finally {
-    btn.innerText = "🏺 Save Decor Item"; btn.disabled = false;
+    btn.disabled = false; btn.textContent = "🏺 Save Decor Item";
   }
 };
 
-// =========================================================================
-// AI Product Description Generator (Gemini Integration)
-// =========================================================================
-window.generateAIDescription = async () => {
-  const pName = document.getElementById("pn").value.trim();
-  const pCat = document.getElementById("pc").value;
-  const pKey = prompt("Please enter your Gemini API Key (get your key at zero cost from Google AI Studio):");
+window.addCat = async () => {
+  const name = $("newCat").value.trim();
+  if (!name) return;
+  if (dbCats.some(c => c.name.toLowerCase() === name.toLowerCase())) return toast("⚠️ Already exists");
+  await addDoc(collection(db, "categories"), { name });
+  $("newCat").value = "";
+  toast("📁 Category added");
+};
+window.addSubCat = async () => {
+  const cat = $("parentCat").value;
+  const name = $("newSubCat").value.trim();
+  if (!cat || !name) return toast("⚠️ Fill both");
+  await addDoc(collection(db, "subcategories"), { category: cat, name });
+  $("newSubCat").value = "";
+  toast("📂 Subcategory added");
+};
+window.addSubSubCat = async () => {
+  const cat = $("parentCategorySS").value;
+  const sub = $("parentSubcategorySS").value;
+  const name = $("newSubSubCat").value.trim();
+  if (!cat || !sub || !name) return toast("⚠️ Complete all");
+  await addDoc(collection(db, "subsubcategories"), { category: cat, subcategory: sub, name });
+  $("newSubSubCat").value = "";
+  toast("🏷️ Sub-subcategory added");
+};
+window.deleteCategory = async id => { if (confirm("Delete?")) { await deleteDoc(doc(db, "categories", id)); toast("🗑️ Deleted"); } };
+window.deleteSubCategory = async id => { if (confirm("Delete?")) { await deleteDoc(doc(db, "subcategories", id)); toast("🗑️ Deleted"); } };
+window.deleteSubSubCategory = async id => { if (confirm("Delete?")) { await deleteDoc(doc(db, "subsubcategories", id)); toast("🗑️ Deleted"); } };
 
-  if (!pName) return alert("Please enter the Product Name first so the AI has context.");
-  if (!pKey) return alert("Gemini API Key is required to run description generation.");
+window.editProduct = id => openProductModal(id);
+window.deleteProduct = async id => {
+  if (!confirm("Delete this product permanently?")) return;
+  const p = dbProducts.find(x => x.id === id);
+  await deleteDoc(doc(db, "products", id));
+  toast("🗑️ Deleted");
+  logAction(`Deleted: ${p?.name || id}`);
+};
+window.toggleProductVisibility = async id => {
+  const p = dbProducts.find(x => x.id === id);
+  if (!p) return;
+  await updateDoc(doc(db, "products", id), { visible: p.visible === false });
+  toast(p.visible === false ? "👁️ Visible" : "🚫 Hidden");
+};
+window.restock = async id => {
+  const p = dbProducts.find(x => x.id === id);
+  if (!p) return;
+  await updateDoc(doc(db, "products", id), { stock: (p.stock || 0) + 20 });
+  toast("⚡ +20 stock");
+};
 
-  showToast("✨ AI is generating description, highlights & keywords...");
+window.setOrderTab = tab => {
+  orderTab = tab;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  $("tab-" + tab).classList.add("active");
+  renderOrders();
+};
+window.updateOrderStatus = async (id, status) => {
+  await updateDoc(doc(db, "orders", id), { status });
+  toast(`🔄 ${status}`);
+  logAction(`Order ${id.substring(0,8)} → ${status}`);
+};
+window.updatePaymentStatus = async (id, status) => {
+  await updateDoc(doc(db, "orders", id), { "payment.status": status });
+  toast(`💳 ${status}`);
+};
+window.archiveOrder = async id => { await updateDoc(doc(db, "orders", id), { archived: true }); toast("📦 Archived"); };
+window.unarchiveOrder = async id => { await updateDoc(doc(db, "orders", id), { archived: false }); toast("📂 Restored"); };
+window.deleteOrder = async id => { if (confirm("Delete permanently?")) { await deleteDoc(doc(db, "orders", id)); toast("🗑️ Deleted"); } };
 
+function renderOrders(){
+  const el = $("orders-list");
+  const activeStatuses = ["Pending","Processing","Shipped"];
+  const historyStatuses = ["Delivered","Cancelled"];
+
+  const filtered = dbOrders.filter(o => {
+    if (orderTab === "archived") return o.archived === true;
+    if (o.archived === true) return false;
+    return orderTab === "active" ? activeStatuses.includes(o.status) : historyStatuses.includes(o.status);
+  });
+
+  if (!filtered.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><h3>No orders here</h3><p>Orders will appear as customers check out.</p></div>`;
+    return;
+  }
+
+  el.innerHTML = filtered.map(o => {
+    const pay = o.payment?.status || "Pending Verification";
+    const payColor = pay === "Paid" ? "var(--green)" : (pay.includes("Pending") ? "var(--orange)" : "var(--red)");
+    const popHtml = o.payment?.proofOfPaymentUrl
+      ? `<div style="margin:10px 0;padding:10px;border:1px dashed var(--blue);border-radius:8px"><a href="${o.payment.proofOfPaymentUrl}" target="_blank" style="color:#fff;font-size:12px;font-weight:600">📄 View Proof of Payment</a></div>` : "";
+    const itemsHtml = o.items?.map(i => {
+      const variant = [i.selectedColor, i.selectedSize].filter(Boolean).join(" / ");
+      return `<div style="font-size:12px;color:var(--muted)">• ${escapeHtml(i.name)} ${variant ? `(${escapeHtml(variant)}) ` : ""}(×${i.quantity}) — ${money(i.price)}</div>`;
+    }).join('') || "";
+    const archiveBtn = orderTab === "history"
+      ? `<button class="btn-secondary btn-block" style="margin-top:8px" onclick="archiveOrder('${o.id}')">📦 Archive</button>`
+      : orderTab === "archived"
+        ? `<button class="btn-secondary btn-block" style="margin-top:8px" onclick="unarchiveOrder('${o.id}')">📂 Restore</button>`
+        : "";
+
+    return `
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <b style="color:#fff;font-size:13px">Order #${o.id.substring(0,8)}</b><br>
+            <span style="font-size:12px;color:var(--muted)">${escapeHtml(o.customer?.name || "Unknown")} • ${escapeHtml(o.customer?.phone || "-")}</span>
+          </div>
+          <span style="font-size:15px;font-weight:800;color:var(--blue)">${money(o.total)}</span>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6">
+          <b style="color:#fff">Address:</b> ${escapeHtml(o.customer?.address || "-")}<br>
+          <b style="color:#fff">Payment:</b> ${escapeHtml(o.payment?.method || "-")} <span style="color:${payColor};font-weight:700">(${escapeHtml(pay)})</span><br>
+          ${o.discountApplied ? `<b style="color:#fff">Discount:</b> ${money(o.discountApplied)}<br>` : ""}
+        </div>
+        ${popHtml}
+        <div style="margin-top:12px;font-size:12px">${itemsHtml}</div>
+        <label class="form-label">Status</label>
+        <select class="form-select" onchange="updateOrderStatus('${o.id}', this.value)">
+          ${["Pending","Processing","Shipped","Delivered","Cancelled"].map(s => `<option ${o.status===s?"selected":""}>${s}</option>`).join('')}
+        </select>
+        <label class="form-label">Payment Status</label>
+        <select class="form-select" onchange="updatePaymentStatus('${o.id}', this.value)">
+          ${["Pending Verification","PoP Uploaded, Pending Verification","PoP Pending via WhatsApp","Paid","Unverified / Rejected"].map(s => `<option ${pay===s?"selected":""}>${s}</option>`).join('')}
+        </select>
+        ${archiveBtn}
+        <button class="btn btn-danger btn-block" style="margin-top:8px" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>
+      </div>
+    `;
+  }).join('');
+}
+
+window.adjustCustomerPoints = async (uid, inputId) => {
+  const v = $(inputId).value;
+  if (v === "") return toast("⚠️ Enter points");
+  await updateDoc(doc(db, "users", uid), { points: Number(v) });
+  toast("💎 Points updated");
+};
+window.sendResetEmail = async (email) => {
+  if (!email || email === "N/A") return toast("⚠️ No email on record");
+  try { await sendPasswordResetEmail(auth, email); toast("📧 Reset link sent"); }
+  catch (e) { toast("⚠️ Failed to send"); }
+};
+
+function renderCustomers(){
+  const el = $("customers-list");
+  if (!dbCustomers.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">👤</div><h3>No customers yet</h3></div>`;
+    return;
+  }
+  el.innerHTML = dbCustomers.map(u => {
+    const avatar = u.photoURL
+      ? `<img src="${u.photoURL}" style="width:44px;height:44px;border-radius:50%;border:1px solid var(--blue)">`
+      : `<div style="width:44px;height:44px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:20px">👤</div>`;
+    return `
+      <div class="list-item" style="flex-wrap:wrap;align-items:flex-start">
+        ${avatar}
+        <div class="list-body">
+          <p class="list-title">${escapeHtml(u.name || "Anonymous")}</p>
+          <p class="list-meta">${escapeHtml(u.email || "No email")}</p>
+          <p class="list-meta">Points: <b style="color:var(--blue)">${u.points || 0}</b> ${u.savedPhone ? `• ${escapeHtml(u.savedPhone)}` : ""}</p>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <input type="number" id="pts-${u.id}" class="form-input" style="width:90px;padding:8px" value="${u.points || 0}">
+          <button class="btn" onclick="adjustCustomerPoints('${u.id}','pts-${u.id}')">Apply</button>
+          <button class="btn-secondary" onclick="sendResetEmail('${escapeHtml(u.email || "")}')">📧</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderLowStock(){
+  const el = $("lowstock-list");
+  const low = dbProducts.filter(p => Number(p.stock) <= 5);
+  if (!low.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><h3>All stocked</h3><p>No items below 5 units</p></div>`;
+    return;
+  }
+  el.innerHTML = low.map(p => `
+    <div class="list-item" style="border-color:var(--red)">
+      <img class="list-thumb" src="${p.image || ""}" alt="">
+      <div class="list-body">
+        <p class="list-title">${escapeHtml(p.name)}</p>
+        <p class="list-meta"><b style="color:var(--red)">${p.stock} units left</b></p>
+      </div>
+      <button class="btn" onclick="restock('${p.id}')">+20</button>
+    </div>
+  `).join('');
+}
+
+function renderRequests(){
+  const el = $("requests-list");
+  if (!dbRequests.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">🎙️</div><h3>No requests yet</h3></div>`;
+    return;
+  }
+  el.innerHTML = dbRequests.map(r => {
+    const date = r.timestamp ? new Date(r.timestamp).toLocaleString() : "—";
+    const body = r.type === "voice"
+      ? `<audio controls src="${r.voiceUrl}" style="width:100%;margin-top:8px"></audio>`
+      : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${escapeHtml(r.textMessage || "")}</p>`;
+    return `
+      <div class="card" style="border-left:3px solid var(--blue)">
+        <b>${escapeHtml(r.clientName || "Anonymous")}</b><br>
+        <span style="font-size:12px;color:var(--muted)">${escapeHtml(r.clientPhone || "")} • ${date}</span>
+        ${body}
+        <button class="btn btn-block" style="margin-top:12px;background:#25D366" onclick="contactRequest('${escapeHtml(r.clientPhone || "")}','${escapeHtml(r.clientName || "")}')">💬 WhatsApp</button>
+      </div>
+    `;
+  }).join('');
+}
+window.contactRequest = (phone, name) => {
+  const msg = encodeURIComponent(`Hi ${name}, I received your custom sewing request on SbheneCart!`);
+  window.open(`https://wa.me/${phone.replace(/\D/g,'')}?text=${msg}`, "_blank");
+};
+
+window.saveCoupon = async () => {
+  const code = $("cp_code").value.trim().toUpperCase();
+  const discount = Number($("cp_discount").value);
+  if (!code || !discount) return alert("Code and discount required");
+  await addDoc(collection(db, "coupons"), {
+    code, discount,
+    min: Number($("cp_min").value) || 0,
+    expiry: $("cp_expiry").value ? Date.parse($("cp_expiry").value) : null,
+    timestamp: Date.now()
+  });
+  ["cp_code","cp_discount","cp_min","cp_expiry"].forEach(id => $(id).value = "");
+  toast("🎟️ Coupon created");
+};
+
+function renderCoupons(){
+  const el = $("coupons-list");
+  if (!dbCoupons.length) { el.innerHTML = `<p style="color:#666;font-size:12px">No coupons yet</p>`; return; }
+  el.innerHTML = dbCoupons.map(c => `
+    <div class="list-item">
+      <div class="list-body">
+        <p class="list-title">${escapeHtml(c.code)}</p>
+        <p class="list-meta">R${c.discount} off • Min R${c.min||0} • ${c.expiry ? new Date(c.expiry).toLocaleDateString() : "Never"}</p>
+      </div>
+      <button class="icon-act danger" onclick="deleteDocById('coupons','${c.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('');
+}
+
+window.saveBanner = async () => {
+  const btn = $("save-banner-btn");
+  const title = $("bn_title").value.trim();
+  const file = $("bn_file").files[0];
+  if (!title || !file) return alert("Title and image required");
+  btn.disabled = true; btn.textContent = "Uploading…";
   try {
-    const geminiModule = await import("https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm");
-    const { GoogleGenerativeAI } = geminiModule;
+    const [url] = await uploadImages([file]);
+    await addDoc(collection(db, "banners"), { title, imageUrl: url, timestamp: Date.now() });
+    $("bn_title").value = ""; $("bn_file").value = "";
+    toast("🖼️ Banner published");
+  } catch (e) { alert("Upload failed"); }
+  finally { btn.disabled = false; btn.textContent = "Upload & Publish"; }
+};
 
-            const genAI = new GoogleGenerativeAI(pKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+function renderBanners(){
+  const el = $("banners-list");
+  if (!dbBanners.length) { el.innerHTML = `<p style="color:#666;font-size:12px">No banners yet</p>`; return; }
+  el.innerHTML = dbBanners.map(b => `
+    <div class="list-item">
+      <img class="list-thumb" style="width:90px;border-radius:8px" src="${b.imageUrl}" alt="">
+      <div class="list-body"><p class="list-title">${escapeHtml(b.title)}</p></div>
+      <button class="icon-act danger" onclick="deleteDocById('banners','${b.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('');
+}
 
-        const promptText = `
-          Write an engaging e-commerce description, three SEO keywords, and three short highlights for a product named "${pName}" in the category of "${pCat}".
-          Format the response strictly as a JSON object with keys "description", "keywords" (array), and "highlights" (array).
-        `;
+window.sendBroadcast = async () => {
+  const msg = $("push_msg").value.trim();
+  if (!msg) return alert("Message required");
+  await addDoc(collection(db, "broadcasts"), { message: msg, timestamp: Date.now() });
+  $("push_msg").value = "";
+  toast("📢 Broadcast sent");
+  logAction(`Broadcast: ${msg.substring(0,40)}`);
+};
 
-        const result = await model.generateContent(promptText);
-        const textResponse = result.response.text();
+function renderBroadcasts(){
+  const el = $("broadcasts-list");
+  if (!dbBroadcasts.length) { el.innerHTML = `<p style="color:#666;font-size:12px">No broadcasts yet</p>`; return; }
+  el.innerHTML = dbBroadcasts.slice(0,8).map(b => `
+    <div class="list-item">
+      <div class="list-body">
+        <p class="list-title" style="font-weight:500;font-size:13px">"${escapeHtml(b.message)}"</p>
+        <p class="list-meta">${b.timestamp ? new Date(b.timestamp).toLocaleString() : ""}</p>
+      </div>
+      <button class="icon-act danger" onclick="deleteDocById('broadcasts','${b.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('');
+}
 
-        const cleanedJson = textResponse.replace(/```json/g, "").replace(/```/g, "").trim();
-        const data = JSON.parse(cleanedJson);
+window.deleteDocById = async (colName, id) => {
+  if (!confirm("Delete?")) return;
+  await deleteDoc(doc(db, colName, id));
+  toast("🗑️ Deleted");
+};
 
-        document.getElementById("pd").value = data.description || "";
-        document.getElementById("p_decor_tag").value = (data.keywords || []).join(", ");
-        showToast("✨ AI Generation completed successfully!");
+window.approveProduct = async (id, state) => {
+  await updateDoc(doc(db, "products", id), { approved: state });
+  toast(state ? "✅ Approved" : "❌ Rejected");
+};
 
-      } catch (err) {
-        console.error("AI Generation error: ", err);
-        alert("AI Generator failed. Verify your API Key and try again.");
-      }
-    };
+function renderApprovals(){
+  const el = $("approvals-list");
+  const pending = dbProducts.filter(p => !p.approved);
+  if (!pending.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><h3>All products approved</h3></div>`;
+    return;
+  }
+  el.innerHTML = pending.map(p => `
+    <div class="list-item">
+      <img class="list-thumb" src="${p.image || ""}" alt="">
+      <div class="list-body">
+        <p class="list-title">${escapeHtml(p.name)}</p>
+        <p class="list-meta">R${p.price}</p>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-success" onclick="approveProduct('${p.id}',true)">✓</button>
+        <button class="btn btn-danger" onclick="approveProduct('${p.id}',false)">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
 
-    // =========================================================================
-    // Dynamic Firestore Coupon, Banner & Broadcast Managers
-    // =========================================================================
-    function injectExtendedAdminManagers() {
-      const nav = document.getElementById("admin-nav");
-      const wrapper = document.getElementById("admin-wrapper");
+window.generateSellerAccount = async () => {
+  const email = $("sel_email").value.trim();
+  const password = $("sel_password").value.trim();
+  const name = $("sel_name").value.trim();
+  if (!email || !password || !name) return alert("Fill all fields");
+  if (password.length < 6) return alert("Password too short");
 
-      if (nav && !document.getElementById("nav-coupons-btn")) {
-        const btn = document.createElement("button");
-        btn.id = "nav-coupons-btn";
-        btn.innerText = "🎟️ Coupons";
-        btn.onclick = (e) => {
-          window.showPage("coupons-mgr");
-          document.querySelectorAll('#admin-nav button').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-        };
-        nav.appendChild(btn);
-      }
+  const btn = $("create-sel-btn");
+  btn.disabled = true; btn.textContent = "Creating…";
+  try {
+    const cred = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+    const uid = cred.user.uid;
+    await setDoc(doc(db, "sellers", uid), { name, email, active: true, createdAt: Date.now() }, { merge: true });
+    await signOut(secondaryAuth);
+    alert(`✅ Seller created!\n\nEmail: ${email}\nPassword: ${password}\nUID: ${uid}`);
+    ["sel_email","sel_password","sel_name"].forEach(id => $(id).value = "");
+    logAction(`Seller created: ${name}`);
+  } catch (e) {
+    alert("Failed: " + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = "Generate & Whitelist";
+  }
+};
+window.deleteSeller = async id => {
+  if (!confirm("Revoke seller?")) return;
+  await deleteDoc(doc(db, "sellers", id));
+  toast("🗑️ Revoked");
+};
 
-      if (nav && !document.getElementById("nav-banners-btn")) {
-        const btn = document.createElement("button");
-        btn.id = "nav-banners-btn";
-        btn.innerText = "🖼️ Banners";
-        btn.onclick = (e) => {
-          window.showPage("banners-mgr");
-          document.querySelectorAll('#admin-nav button').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-        };
-        nav.appendChild(btn);
-      }
+function renderSellers(){
+  const el = $("sellers-list");
+  if (!dbSellers.length) { el.innerHTML = `<p style="color:#666;font-size:12px">No sellers yet</p>`; return; }
+  el.innerHTML = dbSellers.map(s => `
+    <div class="list-item">
+      <div class="list-body">
+        <p class="list-title">${escapeHtml(s.name || "Unnamed")}</p>
+        <p class="list-meta">UID: ${s.id.substring(0,12)}… ${s.email ? `• ${escapeHtml(s.email)}` : ""}</p>
+      </div>
+      <button class="icon-act danger" onclick="deleteSeller('${s.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('');
+}
 
-      if (nav && !document.getElementById("nav-push-btn")) {
-        const btn = document.createElement("button");
-        btn.id = "nav-push-btn";
-        btn.innerText = "📢 Broadcasts";
-        btn.onclick = (e) => {
-          window.showPage("push-mgr");
-          document.querySelectorAll('#admin-nav button').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-        };
-        nav.appendChild(btn);
-      }
+function renderCharts(){
+  const revCtx = $("revenueChart")?.getContext("2d");
+  const stockCtx = $("stockChart")?.getContext("2d");
+  if (!revCtx || !stockCtx) return;
 
-      if (wrapper && !document.getElementById("coupons-mgr")) {
-        const sec = document.createElement("section");
-        sec.id = "coupons-mgr";
-        sec.className = "page";
-        sec.innerHTML = `
-          <div class="card">
-            <h3>🎟️ Coupons & Promotions Manager</h3>
-            <input id="cp_code" placeholder="Coupon Code (e.g. WELCOME50)">
-            <div class="grid-2">
-              <input id="cp_discount" type="number" placeholder="Discount Amount (ZAR)">
-              <input id="cp_min" type="number" placeholder="Minimum Purchase Requirement (ZAR)">
-            </div>
-            <input id="cp_expiry" type="date" placeholder="Expiration Date">
-            <button id="save-coupon-btn" onclick="window.saveCoupon()" style="width:100%; margin-top:15px;">💾 Create Promo Coupon</button>
-            <div id="coupons-list" style="margin-top:20px;"></div>
-          </div>
-        `;
-        wrapper.appendChild(sec);
-      }
+  const byDay = {};
+  dbOrders.filter(o => o.status === "Delivered" && o.timestamp).forEach(o => {
+    const d = new Date(o.timestamp).toLocaleDateString();
+    byDay[d] = (byDay[d] || 0) + Number(o.total || 0);
+  });
+  const dates = Object.keys(byDay).slice(-7);
+  const revenues = dates.map(d => byDay[d]);
 
-      if (wrapper && !document.getElementById("banners-mgr")) {
-        const sec = document.createElement("section");
-        sec.id = "banners-mgr";
-        sec.className = "page";
-        sec.innerHTML = `
-          <div class="card">
-            <h3>🖼️ Homepage Promo Banner Manager</h3>
-            <input id="bn_title" placeholder="Banner Heading (e.g. Winter Sale)">
-            <input id="bn_file" type="file" accept="image/*">
-            <button id="save-banner-btn" onclick="window.saveBanner()" style="width:100%; margin-top:15px;">💾 Upload and Publish Banner</button>
-            <div id="banners-list" style="margin-top:20px;"></div>
-          </div>
-        `;
-        wrapper.appendChild(sec);
-      }
+  if (revChart) revChart.destroy();
+  revChart = new Chart(revCtx, {
+    type: "line",
+    data: { labels: dates.length ? dates : ["No data"], datasets: [{ label: "Revenue", data: revenues.length ? revenues : [0], borderColor: "#0878D1", backgroundColor: "rgba(8,120,209,0.15)", borderWidth: 2, tension: 0.35, fill: true }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks: { color: "#B8B8B8" } }, x: { ticks: { color: "#B8B8B8" } } } }
+  });
 
-      // 6. Inject Push Notifications / Broadcast Section
-      if (wrapper && !document.getElementById("push-mgr")) {
-        const sec = document.createElement("section");
-        sec.id = "push-mgr";
-        sec.className = "page";
-        sec.innerHTML = `
-          <div class="card">
-            <h3>📢 Push Broadcast Notifications</h3>
-            <p style="color:#888;">Broadcasting pushes a live, glowing ticker alert onto all connected customer screens instantly.</p>
-            <textarea id="push_msg" placeholder="Enter broadcast message (e.g. 🎉 Weekend Sale is Live! 20% off all sewn items!)" style="height:100px;"></textarea>
-            <button id="send-push-btn" onclick="window.sendBroadcast()" style="width:100%; margin-top:15px;">📢 Dispatch Broadcast Ticker</button>
-            <div id="broadcasts-list" style="margin-top:20px;"></div>
-          </div>
-        `;
-        wrapper.appendChild(sec);
-      }
+  const inStock = dbProducts.filter(p => p.stock > 5).length;
+  const low = dbProducts.filter(p => p.stock > 0 && p.stock <= 5).length;
+  const out = dbProducts.filter(p => p.stock <= 0).length;
+
+  if (stockChart) stockChart.destroy();
+  stockChart = new Chart(stockCtx, {
+    type: "doughnut",
+    data: { labels: ["In Stock", "Low", "Out"], datasets: [{ data: [inStock, low, out], backgroundColor: ["#00A650","#FFB300","#FF3B30"], borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom", labels: { color: "#B8B8B8", padding: 12 } } } }
+  });
+}
+
+window.handleAdminSearch = () => {
+  const q = $("admin-search").value.trim().toLowerCase();
+  if (!q) { renderProducts(); renderOrders(); renderCustomers(); return; }
+  if (currentPage === "products") {
+    const filtered = dbProducts.filter(p => `${p.name} ${p.category}`.toLowerCase().includes(q));
+    renderProducts(filtered);
+  } else if (currentPage === "customers") {
+    const filtered = dbCustomers.filter(u => `${u.name} ${u.email}`.toLowerCase().includes(q));
+    renderCustomers(filtered);
+  }
+};
+
+/* ============ SOUND + VOICE ALERT ENGINE ============ */
+let voiceAlertsOn = true;
+let browserVoices = [];
+
+function loadVoices(){
+  if (typeof speechSynthesis === "undefined") return;
+  browserVoices = speechSynthesis.getVoices() || [];
+}
+if (typeof speechSynthesis !== "undefined") {
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function pickVoice(){
+  return browserVoices.find(v => v.lang === "en-ZA")
+      || browserVoices.find(v => v.lang === "en-GB")
+      || browserVoices.find(v => v.lang === "en-US")
+      || browserVoices.find(v => v.lang && v.lang.startsWith("en"))
+      || browserVoices[0] || null;
+}
+
+window.speak = (text) => {
+  if (!voiceAlertsOn || typeof speechSynthesis === "undefined") return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const v = pickVoice();
+    if (v) u.voice = v;
+    u.rate = 1.0;
+    u.pitch = 1.05;
+    u.volume = 1.0;
+    speechSynthesis.speak(u);
+  } catch (e) { console.warn("Speech failed:", e); }
+};
+
+window.toggleAudioAlerts = () => {
+  audioAlertsOn = !audioAlertsOn;
+  const btn = $("audio-toggle-btn");
+  if (btn) btn.style.opacity = audioAlertsOn ? "1" : "0.4";
+  toast(audioAlertsOn ? "🔊 Sound alerts ON" : "🔇 Sound alerts OFF");
+  if (audioAlertsOn) playChime();
+};
+
+window.toggleVoiceAlerts = () => {
+  voiceAlertsOn = !voiceAlertsOn;
+  const btn = $("voice-toggle-btn");
+  if (btn) btn.style.opacity = voiceAlertsOn ? "1" : "0.4";
+  toast(voiceAlertsOn ? "🗣️ Voice alerts ON" : "🤐 Voice alerts OFF");
+  if (voiceAlertsOn) speak("Voice alerts enabled");
+};
+
+// 3-tone ascending "ka-ching" — louder than the old one
+function playChime(){
+  if (!audioAlertsOn) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [
+      { freq: 523.25, delay: 0    }, // C5
+      { freq: 659.25, delay: 160  }, // E5
+      { freq: 783.99, delay: 320  }  // G5
+    ];
+    notes.forEach(({ freq, delay }) => {
+      setTimeout(() => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.35, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.6);
+      }, delay);
+    });
+  } catch (e) { console.warn("Chime failed:", e); }
+}
+
+// New order alert — plays chime THEN speaks after a small pause
+window.alertNewOrder = (customerName, total) => {
+  playChime();
+  setTimeout(() => {
+    speak(`New order on SbheneCart from ${customerName || "a customer"}. Total ${total || ""} rand.`);
+  }, 800);
+};
+
+let adminMap = null, adminMarkers = [];
+window.initAdminMap = () => {
+  const div = $("orders-map");
+  if (!div || !window.google || adminMap) return;
+  div.style.display = "block";
+  adminMap = new google.maps.Map(div, {
+    center: { lat: -29.8587, lng: 31.0218 },
+    zoom: 8,
+    styles: [
+      { elementType: "geometry", stylers: [{ color: "#212121" }] },
+      { elementType: "labels.text.fill", stylers: [{ color: "#B8B8B8" }] },
+      { featureType: "water", elementType: "geometry", stylers: [{ color: "#000" }] }
+    ]
+  });
+  window._adminMapInit = true;
+  refreshAdminMapPins();
+};
+function refreshAdminMapPins(){
+  if (!adminMap) return;
+  adminMarkers.forEach(m => m.setMap(null));
+  adminMarkers = [];
+  const bounds = new google.maps.LatLngBounds();
+  let has = false;
+  dbOrders.forEach(o => {
+    const c = o.customer?.coordinates;
+    if (!c?.lat || !c?.lng) return;
+    const pos = { lat: Number(c.lat), lng: Number(c.lng) };
+    const color = o.status === "Cancelled" ? "#FF3B30" : o.status === "Delivered" ? "#00A650" : o.status === "Shipped" ? "#29B6F6" : o.status === "Processing" ? "#FFB300" : "#0878D1";
+    const marker = new google.maps.Marker({
+      position: pos, map: adminMap,
+      icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: color, fillOpacity: 1, strokeColor: "#fff", strokeWeight: 1.5 }
+    });
+    const info = new google.maps.InfoWindow({ content: `<div style="color:#111;font-family:Arial;font-size:12px;line-height:1.4;padding:4px"><b>#${o.id.substring(0,8)}</b><br>${o.customer?.name}<br><b>${o.status}</b> — R${o.total}</div>` });
+    marker.addListener("click", () => info.open(adminMap, marker));
+    adminMarkers.push(marker);
+    bounds.extend(pos);
+    has = true;
+  });
+  if (has) adminMap.fitBounds(bounds);
+}
+
+onSnapshot(collection(db, "categories"), snap => {
+  dbCats = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>a.name.localeCompare(b.name));
+  renderCategories();
+});
+onSnapshot(collection(db, "subcategories"), snap => {
+  dbSubs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderSubcategories();
+});
+onSnapshot(collection(db, "subsubcategories"), snap => {
+  dbSubSubs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderSubSubcategories();
+});
+onSnapshot(collection(db, "products"), snap => {
+  dbProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderProducts();
+  renderApprovals();
+  renderLowStock();
+  renderStats();
+  renderCharts();
+});
+onSnapshot(collection(db, "orders"), snap => {
+  const isInitial = knownOrderIds.size === 0;
+  let newOrder = null;
+  snap.docChanges().forEach(ch => {
+    if (ch.type === "added" && !knownOrderIds.has(ch.doc.id)) {
+      knownOrderIds.add(ch.doc.id);
+      const data = ch.doc.data();
+      if (!isInitial && data.status === "Pending") newOrder = data;
     }
+  });
+  dbOrders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+  renderOrders();
+  renderStats();
+  renderCharts();
+  refreshAdminMapPins();
 
-    // Coupon Database Controllers - Fully addable and deletable
-    window.saveCoupon = async () => {
-      const code = document.getElementById("cp_code").value.trim().toUpperCase();
-      const discount = Number(document.getElementById("cp_discount").value);
-      const min = Number(document.getElementById("cp_min").value);
-      const expiry = document.getElementById("cp_expiry").value;
+  const pending = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
+  const badge = $("orders-badge");
+  if (badge) {
+    badge.textContent = pending;
+    badge.dataset.empty = pending === 0 ? "true" : "false";
+  }
 
-      if (!code || !discount) return alert("Coupon Code and Discount amount are required fields.");
+  if (newOrder) {
+    alertNewOrder(newOrder.customer?.name, newOrder.total);
+    toast(`🛒 New order from ${newOrder.customer?.name || "customer"}!`, 5000);
+    logAction(`New order: ${money(newOrder.total)}`);
+    if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+      new Notification("🛒 New SbheneCart Order", {
+        body: `${newOrder.customer?.name || "Customer"} — R${newOrder.total}`,
+        tag: newOrder.id
+      });
+    }
+  }
+});
+onSnapshot(collection(db, "users"), snap => {
+  dbCustomers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderCustomers();
+  renderStats();
+});
+onSnapshot(collection(db, "sellers"), snap => {
+  dbSellers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderSellers();
+});
+onSnapshot(collection(db, "custom_requests"), snap => {
+  dbRequests = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+  renderRequests();
+});
+onSnapshot(collection(db, "coupons"), snap => {
+  dbCoupons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderCoupons();
+});
+onSnapshot(collection(db, "banners"), snap => {
+  dbBanners = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderBanners();
+});
+onSnapshot(collection(db, "broadcasts"), snap => {
+  dbBroadcasts = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+  renderBroadcasts();
+});
 
-      try {
-        await addDoc(collection(db, "coupons"), {
-          code, discount, min, expiry: expiry ? Date.parse(expiry) : null, timestamp: Date.now()
-        });
-        showToast("🎟️ Promotion coupon successfully registered!");
-        document.getElementById("cp_code").value = "";
-        document.getElementById("cp_discount").value = "";
-        document.getElementById("cp_min").value = "";
-        document.getElementById("cp_expiry").value = "";
-      } catch (err) {
-        showToast("⚠️ Coupon registry failed.");
-      }
+function renderStats(){
+  $("stat-products").textContent = dbProducts.length;
+  const rev = dbOrders.filter(o => o.status === "Delivered").reduce((s,o) => s + Number(o.total||0), 0);
+  $("stat-revenue").textContent = money(rev);
+  $("stat-pending").textContent = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
+  $("stat-customers").textContent = dbCustomers.length;
+}
+
+function isLight(hex){
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16);
+  const g = parseInt(h.substring(2,4),16);
+  const b = parseInt(h.substring(4,6),16);
+  return (r*299 + g*587 + b*114)/1000 > 155;
+}
+
+function renderProducts(list){
+  const el = $("product-list");
+  const items = list || dbProducts;
+  $("products-count").textContent = dbProducts.length;
+
+  if (!items.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div><h3>No products yet</h3><p>Click "Add Product" to get started.</p></div>`;
+    return;
+  }
+
+  el.innerHTML = items.map(p => {
+    const colorPills = (p.colors||[]).slice(0,8).map(c => {
+      const name = typeof c === "object" ? c.name : c;
+      const hex = typeof c === "object" ? c.hex : "#888888";
+      const oos = typeof c === "object" && c.outOfStock;
+      return `<span class="variant-pill color ${oos?'oos':''}" style="background:${hex};color:${isLight(hex)?'#000':'#fff'}">${escapeHtml(name)}</span>`;
+    }).join('');
+    const sizePills = (p.sizes||[]).slice(0,8).map(s => {
+      const name = typeof s === "object" ? s.name : s;
+      const oos = typeof s === "object" && s.outOfStock;
+      return `<span class="variant-pill ${oos?'oos':''}">${escapeHtml(String(name))}</span>`;
+    }).join('');
+    const vis = p.visible === false ? `<span class="badge-pill out">Hidden</span>` : "";
+    const badge = p.badge ? `<span class="badge-pill">${escapeHtml(p.badge)}</span>` : "";
+
+    return `
+      <div class="list-item" style="align-items:flex-start;flex-wrap:wrap">
+        <img class="list-thumb" src="${p.image || ""}" alt="">
+        <div class="list-body">
+          <p class="list-title">${escapeHtml(p.name)}</p>
+          <p class="list-meta">${money(p.price)} ${p.originalPrice ? `<s style="color:#666">${money(p.originalPrice)}</s>` : ""} • ${p.stock||0} in stock</p>
+          <p class="list-meta">${escapeHtml(p.category || "")} ${p.subcategory ? `› ${escapeHtml(p.subcategory)}` : ""}</p>
+          ${badge} ${vis}
+          ${(colorPills || sizePills) ? `<div class="variant-pills" style="margin-top:8px">${colorPills}${sizePills}</div>` : ""}
+        </div>
+        <div class="list-actions" style="flex-direction:column;gap:6px">
+          <button class="icon-act" onclick="editProduct('${p.id}')" title="Edit">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="icon-act" onclick="toggleProductVisibility('${p.id}')" title="Toggle visibility">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <button class="icon-act danger" onclick="deleteProduct('${p.id}')" title="Delete">
+            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCategories(){
+  const el = $("cats");
+  if (!el) return;
+  el.innerHTML = dbCats.length ? dbCats.map(c => `
+    <div class="list-item">
+      <div class="list-body"><p class="list-title">${escapeHtml(c.name)}</p></div>
+      <button class="icon-act danger" onclick="deleteCategory('${c.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('') : `<p style="color:#666;font-size:12px">No categories yet</p>`;
+
+  const pCat = $("parentCat"), ssCat = $("parentCategorySS");
+  if (pCat) pCat.innerHTML = dbCats.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+  if (ssCat) ssCat.innerHTML = dbCats.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+  const decSel = $("dec_subcategory");
+  if (decSel) decSel.innerHTML = '<option value="">Select Subcategory</option>' + dbSubs.filter(s => s.category === "Decoration").map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+}
+
+function renderSubcategories(){
+  const el = $("subcats");
+  if (el) el.innerHTML = dbSubs.length ? dbSubs.map(s => `
+    <div class="list-item">
+      <div class="list-body">
+        <p class="list-title">${escapeHtml(s.name)}</p>
+        <p class="list-meta">${escapeHtml(s.category)}</p>
+      </div>
+      <button class="icon-act danger" onclick="deleteSubCategory('${s.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('') : `<p style="color:#666;font-size:12px">No subcategories yet</p>`;
+
+  const ssCat = $("parentCategorySS");
+  const ssSub = $("parentSubcategorySS");
+  if (ssCat && ssSub) {
+    ssCat.onchange = () => {
+      ssSub.innerHTML = '<option value="">Select Subcategory</option>' + dbSubs.filter(s => s.category === ssCat.value).map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('');
     };
+  }
+}
 
-    onSnapshot(collection(db, "coupons"), (snap) => {
-      const container = document.getElementById("coupons-list");
-      if (!container) return;
-      const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      container.innerHTML = list.length
-        ? list.map(c => `
-            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <b>Code:</b> ${c.code}<br>
-                <small>Discount: R${c.discount} | Min Spend: R${c.min || 0} | Expiry: ${c.expiry ? new Date(c.expiry).toLocaleDateString() : "Never"}</small>
-              </div>
-              <button onclick="window.deleteDocRef('coupons', '${c.id}')" style="background:#ff1744; color:#fff; cursor:pointer;">Delete</button>
-            </div>
-          `).join('')
-        : `<p style="color:#666;">No promotional coupons registered.</p>`;
-    });
+function renderSubSubcategories(){
+  const el = $("subsubcats");
+  if (el) el.innerHTML = dbSubSubs.length ? dbSubSubs.map(s => `
+    <div class="list-item">
+      <div class="list-body">
+        <p class="list-title">${escapeHtml(s.name)}</p>
+        <p class="list-meta">${escapeHtml(s.category)} › ${escapeHtml(s.subcategory)}</p>
+      </div>
+      <button class="icon-act danger" onclick="deleteSubSubCategory('${s.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+    </div>
+  `).join('') : `<p style="color:#666;font-size:12px">No sub-subcategories yet</p>`;
+}
 
-    // Banner Upload Controllers
-    window.saveBanner = async () => {
-      const btn = document.getElementById("save-banner-btn");
-      const title = document.getElementById("bn_title").value.trim();
-      const file = document.getElementById("bn_file").files[0];
+renderActivityLog();
+</script>
 
-      if (!title || !file) return alert("Heading title and Banner file are required.");
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY&callback=() => {}"></script>
 
-      btn.innerText = "Processing Banner...";
-      btn.disabled = true;
-
-      const form = new FormData();
-      form.append("file", file);
-      form.append("upload_preset", "SbheneCart");
-
-      try {
-        const resp = await fetch("https://api.cloudinary.com/v1_1/qocn8gjn/image/upload", { method: "POST", body: form });
-        const data = await resp.json();
-
-        if (resp.ok && data.secure_url) {
-          await addDoc(collection(db, "banners"), { title, imageUrl: data.secure_url, timestamp: Date.now() });
-          showToast("🖼️ Homepage banner published!");
-          document.getElementById("bn_title").value = "";
-          document.getElementById("bn_file").value = "";
-        }
-      } catch {
-        showToast("⚠️ Banner upload failed.");
-      } finally {
-        btn.innerText = "Upload and Publish Banner";
-        btn.disabled = false;
-      }
-    };
-
-    onSnapshot(collection(db, "banners"), (snap) => {
-      const container = document.getElementById("banners-list");
-      if (!container) return;
-      const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      container.innerHTML = list.length
-        ? list.map(b => `
-            <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-              <div style="display:flex; align-items:center;">
-                <img src="${b.imageUrl}" style="width:120px; height:60px; object-fit:cover; border-radius:6px; margin-right:15px; border:1px solid #333;">
-                <b>${b.title}</b>
-              </div>
-              <button onclick="window.deleteDocRef('banners', '${b.id}')" style="background:#ff1744; color:#fff;">Remove</button>
-            </div>
-          `).join('')
-        : `<p style="color:#666;">No promotional sliders active.</p>`;
-    });
-
-    // Real-Time Push / Live Ticker Broadcasts Controllers
-    window.sendBroadcast = async () => {
-      const msg = document.getElementById("push_msg").value.trim();
-      if (!msg) return alert("Broadcast message text cannot be empty.");
-
-      try {
-        await addDoc(collection(db, "broadcasts"), { message: msg, timestamp: Date.now() });
-        showToast("📢 Broadcast dispatched dynamically!");
-        document.getElementById("push_msg").value = "";
-      } catch {
-        showToast("⚠️ Dispatch failed.");
-      }
-    };
-
-    onSnapshot(collection(db, "broadcasts"), (snap) => {
-      const container = document.getElementById("broadcasts-list");
-      if (!container) return;
-      const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      list.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
-      container.innerHTML = list.length
-        ? list.slice(0, 5).map(b => `
-            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-              <div style="flex:1;">
-                <b>Broadcasted alert:</b><br>
-                <small style="color:#aaa;">"${b.message}"</small>
-              </div>
-              <button onclick="window.deleteDocRef('broadcasts', '${b.id}')" style="background:#ff1744; color:#fff; font-size:12px; padding:6px 12px;">Wipe</button>
-            </div>
-          `).join('')
-        : `<p style="color:#666;">No recent ticker transmissions.</p>`;
-    });
-
-    window.deleteDocRef = async (colName, id) => {
-      if (confirm("Permanently delete this entry?")) {
-        await deleteDoc(doc(db, colName, id));
-        showToast("🗑️ Resource deleted successfully.");
-      }
-    };
-
-    // =========================================================================
-    // Two-Step Security Integration & Roles check
-    // =========================================================================
- 
-
-    window.handleAdminLogin = async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("admin-email-input").value.trim();
-      const password = document.getElementById("admin-password-input").value;
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        alert("❌ Login Failed: " + err.message);
-      }
-    };
-
-    window.logoutAdmin = async () => {
-      await signOut(auth);
-      showToast("🔒 Locked out.");
-    };
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userEmail = user.email ? user.email.toLowerCase() : "";
-        
-        if (AUTHORIZED_ADMINS.includes(userEmail)) {
-          document.getElementById("admin-security-modal").style.display = "none";
-          document.getElementById("admin-wrapper").style.display = "block";
-          
-          injectStreamlinedDecorUI();
-          injectExtendedAdminManagers();
-          
-          refresh();
-          if (typeof google === 'object' && typeof google.maps === 'object') {
-            initAdminMap();
-          }
-        } else {
-          signOut(auth).then(() => {
-            alert("⚠️ Access Denied! This account is not an authorized Admin.");
-            window.location.reload();
-          });
-        }
-      } else {
-        document.getElementById("admin-security-modal").style.display = "flex";
-        document.getElementById("admin-wrapper").style.display = "none";
-      }
-    });
-    
-    </script>
-    </body>
-    </html>
-
+</body>
+</html>
