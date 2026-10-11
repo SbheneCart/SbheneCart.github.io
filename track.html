@@ -1,404 +1,418 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SbheneCart - Quantum Order Tracker v10</title>
-  
-<script>(function(s){s.dataset.zone='11339550',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-  <style>
-/* Universal Box-Sizing & Futuristic Variable Palette */
-* {
-  box-sizing: border-box;
-}
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0878D1">
+<title>Track Your Order — SbheneCart</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#000;color:#fff;line-height:1.4;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:40px}
+img{max-width:100%;display:block}
+button,input,select,textarea{font-family:inherit;font-size:16px}
+button{cursor:pointer;border:0;background:none;color:inherit;padding:0}
+input,select,textarea{-webkit-appearance:none;appearance:none}
+a{color:#0878D1;text-decoration:none}
+:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a}
+.hidden{display:none!important}
 
-body { 
-  font-family: 'Courier New', Courier, monospace, Arial, sans-serif; 
-  background: #020202; 
-  color: #0f8; 
-  margin: 0; 
-  overflow-x: hidden;
-  background-image: radial-gradient(circle at 50% 50%, #0c2016 0%, #000000 80%);
-}
+/* HEADER */
+.site-header{padding:12px 12px 4px;background:#000;position:sticky;top:0;z-index:100}
+.header-panel{background:var(--blue);border-radius:20px;padding:14px;box-shadow:0 6px 24px rgba(8,120,209,.28)}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.header-brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.header-brand h1{margin:0;font-size:19px;font-weight:800;color:#fff;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-brand small{color:#fff;opacity:.85;font-size:11px;display:block;margin-top:1px}
+.icon-btn{background:rgba(255,255,255,.14);color:#fff;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.icon-btn:active{background:rgba(255,255,255,.3)}
+.icon-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* Sci-fi Scanline Overlay */
-body::before {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 9999;
-  background-size: 100% 4px, 6px 100%;
-  pointer-events: none;
-}
+/* CONTAINER */
+.container{max-width:640px;margin:0 auto;padding:16px 12px}
 
-header {
-  padding: 20px;
-  border-bottom: 2px solid #0f8;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 5px 25px rgba(0, 255, 136, 0.15);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-header h2 { 
-  margin: 0; 
-  text-shadow: 0 0 10px #0f8, 0 0 20px rgba(0,255,136,0.3);
-  letter-spacing: 2px;
-}
-.container { max-width: 650px; margin: auto; padding: 20px; position: relative; }
+/* HERO / INTRO CARD */
+.hero{background:linear-gradient(135deg,#0e0e0e 0%,#161616 100%);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
+.hero h2{margin:0 0 6px;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.hero p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5}
 
-/* Futuristic Input & Cyberpunk Controls */
-.search-wrapper {
-  display: flex;
-  gap: 10px;
-  margin: 15px 0;
-}
-input { 
-  flex-grow: 1;
-  padding: 14px; 
-  background: #080808; 
-  color: #0f8; 
-  border: 1px solid #0a6; 
-  border-radius: 6px; 
-  font-size: 16px; 
-  outline: none;
-  font-family: inherit;
-  transition: all 0.3s ease;
-  box-shadow: inset 0 0 8px rgba(0, 255, 136, 0.1);
-}
-input:focus {
-  border-color: #0f8;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4), inset 0 0 8px rgba(0, 255, 136, 0.2);
-}
-button { 
-  background: #0f8; 
-  color: #000; 
-  border: 0; 
-  padding: 14px 20px;
-  border-radius: 6px;
-  font-weight: bold; 
-  font-family: inherit;
-  cursor: pointer; 
-  font-size: 15px;
-  letter-spacing: 1px;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
-}
-button:hover { 
-  background: #000; 
-  color: #0f8; 
-  box-shadow: 0 0 20px #0f8;
-  border: 1px solid #0f8;
-  transform: translateY(-2px);
-}
-.clear-btn {
-  background: #222;
-  color: #888;
-  border: 1px solid #333;
-}
-.clear-btn:hover {
-  background: #ff4a4a;
-  color: #000;
-  border-color: #ff4a4a;
-  box-shadow: 0 0 15px #ff4a4a;
-}
+/* SEARCH */
+.search-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
+.search-label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.search-input{width:100%;padding:14px 16px;background:#0a0a0a;border:1px solid #262626;border-radius:10px;color:#fff;font-size:15px;outline:none;font-family:inherit;transition:border-color .15s;letter-spacing:1px}
+.search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(8,120,209,.15)}
+.search-input::placeholder{color:#666;letter-spacing:0;font-size:14px}
+.search-actions{display:flex;gap:8px;margin-top:10px}
+.btn{background:var(--blue);color:#fff;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s;flex:1;letter-spacing:.3px}
+.btn:active{background:var(--blue-dark)}
+.btn:disabled{background:#333;color:#888;cursor:not-allowed}
+.btn-secondary{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto}
+.btn-secondary:hover{background:#242424}
+.btn svg,.btn-secondary svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Glassmorphic Cyber Panels */
-.card { 
-  border: 1px solid #0f8; 
-  background: rgba(10, 10, 10, 0.85); 
-  padding: 25px; 
-  margin-top: 20px; 
-  border-radius: 12px; 
-  backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.05), inset 0 0 15px rgba(0, 255, 136, 0.05);
-  transition: 0.3s;
-}
-.error-msg { 
-  color: #ff4a4a; 
-  border-color: #ff4a4a; 
-  background: rgba(255, 74, 74, 0.05); 
-  box-shadow: 0 0 20px rgba(255, 74, 74, 0.15);
-}
+/* RECENT ORDERS */
+.recent-orders{margin-top:14px;padding-top:14px;border-top:1px dashed #262626}
+.recent-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.recent-chips{display:flex;flex-wrap:wrap;gap:8px}
+.recent-chip{background:#1a1a1a;border:1px solid #262626;border-radius:999px;padding:7px 14px;font-size:12.5px;color:#fff;font-weight:600;transition:background .15s;font-family:ui-monospace,SFMono-Regular,monospace}
+.recent-chip:hover{background:#262626;border-color:var(--blue)}
+.recent-chip.active{background:var(--blue);border-color:var(--blue)}
 
-/* Interactive Cyber Stepper Timeline */
-.stepper {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  margin: 35px 0 40px 0;
-  padding: 0;
-}
-.stepper::before {
-  content: "";
-  position: absolute;
-  top: 18px;
-  left: 15px;
-  right: 15px;
-  height: 4px;
-  background: #151515;
-  border-radius: 2px;
-  z-index: 1;
-}
-/* Progress filling visual bar */
-.stepper-progress-bar {
-  position: absolute;
-  top: 18px;
-  left: 15px;
-  height: 4px;
-  width: 0%;
-  background: linear-gradient(90deg, #0a6, #0f8);
-  box-shadow: 0 0 12px #0f8;
-  z-index: 2;
-  transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  z-index: 3;
-}
-.circle {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #111;
-  border: 2px solid #333;
-  color: #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 15px;
-  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.step-label {
-  font-size: 11px;
-  color: #555;
-  margin-top: 10px;
-  text-align: center;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all 0.4s;
-}
+/* ALERTS */
+.alert-card{border-radius:14px;padding:16px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;animation:slideDown .35s ease-out}
+.alert-error{background:rgba(255,59,48,.08);border:1px solid var(--red)}
+.alert-success{background:rgba(0,166,80,.08);border:1px solid var(--green)}
+.alert-info{background:rgba(8,120,209,.08);border:1px solid var(--blue)}
+.alert-icon{font-size:24px;line-height:1;flex-shrink:0}
+.alert-body{flex:1;min-width:0}
+.alert-title{margin:0 0 3px;font-size:14px;font-weight:800;letter-spacing:.2px}
+.alert-error .alert-title{color:var(--red)}
+.alert-success .alert-title{color:var(--green)}
+.alert-info .alert-title{color:var(--blue)}
+.alert-text{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
-/* Stepper State Updates */
-.step.active .circle {
-  background: #000;
-  border-color: #0f8;
-  color: #0f8;
-  text-shadow: 0 0 5px #0f8;
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.6), inset 0 0 8px rgba(0, 255, 136, 0.4);
-  transform: scale(1.15);
-}
-.step.active .step-label { 
-  color: #0f8; 
-  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
-}
-.step.completed .circle {
-  background: #0f8;
-  border-color: #0f8;
-  color: #000;
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-}
-.step.completed .step-label { color: #0a6; }
+/* ORDER RESULT */
+.result-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;animation:slideDown .35s ease-out}
 
-/* Status Cyber-Badges */
-.cancelled-badge {
-  background: rgba(255, 74, 74, 0.15);
-  color: #ff4a4a;
-  border: 1px solid #ff4a4a;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: inline-block;
-  margin-bottom: 20px;
-  box-shadow: 0 0 15px rgba(255, 74, 74, 0.1);
-  animation: cyber-blink 2s infinite;
-}
-.payment-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-.payment-paid {
-  background: rgba(0, 255, 136, 0.1);
-  color: #0f8;
-  border: 1px solid #0f8;
-}
-.payment-pending {
-  background: rgba(255, 170, 0, 0.1);
-  color: #ffaa00;
-  border: 1px solid #ffaa00;
-  animation: cyber-pulse 1.5s infinite alternate;
-}
+/* Order header */
+.order-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:16px;border-bottom:1px solid #1a1a1a;margin-bottom:18px;flex-wrap:wrap}
+.order-id-wrap{min-width:0;flex:1}
+.order-id-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
+.order-id{font-family:ui-monospace,SFMono-Regular,monospace;font-size:15px;font-weight:700;color:var(--blue);word-break:break-all}
+.order-copy{background:transparent;border:1px solid #262626;color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px;margin-top:6px;transition:background .15s}
+.order-copy:hover{background:#1a1a1a}
+.order-copy svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* PayFast Neon Alert Banner */
-.payfast-toast {
-  background: rgba(0, 255, 136, 0.15);
-  border: 1px solid #0f8;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 0 25px rgba(0, 255, 136, 0.2);
-  animation: slide-in-top 0.5s ease-out;
-}
+/* Status badge (top-right) */
+.status-badge{padding:7px 14px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;flex-shrink:0}
+.status-pending{background:rgba(255,159,10,.15);color:#ff9f0a;border:1px solid #ff9f0a}
+.status-processing{background:rgba(8,120,209,.15);color:var(--blue-light);border:1px solid var(--blue-light)}
+.status-shipped{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid #a78bfa}
+.status-delivered{background:rgba(0,166,80,.15);color:#22c55e;border:1px solid #22c55e}
+.status-cancelled{background:rgba(255,59,48,.15);color:var(--red);border:1px solid var(--red)}
 
-#items p {
-  border-bottom: 1px solid #1a1a1a;
-  padding: 12px 0;
-  margin: 0;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-}
+/* STEPPER */
+.stepper-wrap{position:relative;margin:24px 0 32px;padding:0 4px}
+.stepper-line{position:absolute;top:19px;left:26px;right:26px;height:3px;background:#1e1e1e;border-radius:2px;z-index:1}
+.stepper-fill{position:absolute;top:19px;left:26px;height:3px;width:0%;background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));box-shadow:0 0 12px rgba(8,120,209,.6);z-index:2;transition:width .7s cubic-bezier(.19,1,.22,1);border-radius:2px}
+.stepper{display:flex;justify-content:space-between;position:relative;z-index:3}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:0}
+.step-circle{width:42px;height:42px;border-radius:50%;background:#0a0a0a;border:2px solid #262626;color:#666;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;transition:all .4s cubic-bezier(.19,1,.22,1);position:relative}
+.step-circle svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:3}
+.step-label{font-size:10.5px;color:#555;margin-top:10px;text-align:center;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:color .4s;line-height:1.2;padding:0 2px}
+.step.completed .step-circle{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 12px rgba(8,120,209,.4)}
+.step.completed .step-label{color:var(--blue-light)}
+.step.active .step-circle{background:#000;border-color:var(--blue);color:var(--blue);box-shadow:0 0 24px rgba(8,120,209,.7),inset 0 0 8px rgba(8,120,209,.3);transform:scale(1.12)}
+.step.active .step-label{color:#fff;text-shadow:0 0 8px rgba(8,120,209,.6)}
+.step.active .step-circle::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(8,120,209,.3);animation:ping 1.8s infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.5);opacity:0}}
 
-/* Keyframe Animations */
-@keyframes cyber-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-@keyframes cyber-pulse {
-  from { box-shadow: 0 0 5px rgba(255, 170, 0, 0.2); }
-  to { box-shadow: 0 0 15px rgba(255, 170, 0, 0.4); }
-}
-@keyframes slide-in-top {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px}
+@media(min-width:520px){.info-grid{grid-template-columns:1fr 1fr}}
+.info-item{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:12px 14px}
+.info-label{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
+.info-value{font-size:14px;font-weight:600;color:#fff;word-break:break-word;line-height:1.35}
 
-/* Futuristic Heartbeat Pumping Animation for Payment Call-to-Action */
-@keyframes heartbeat {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-  }
-  14% {
-    transform: scale(1.04);
-    box-shadow: 0 0 25px rgba(0, 255, 136, 0.8);
-  }
-  28% {
-    transform: scale(1);
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-  }
-  42% {
-    transform: scale(1.04);
-    box-shadow: 0 0 25px rgba(0, 255, 136, 0.8);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-  }
-}
-.pump-heartbeat {
-  animation: heartbeat 1.8s infinite ease-in-out;
-}
+/* PAYMENT */
+.payment-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+.payment-paid{background:rgba(0,166,80,.15);color:#22c55e;border:1px solid #22c55e}
+.payment-pending{background:rgba(255,159,10,.15);color:#ff9f0a;border:1px solid #ff9f0a}
+.payment-rejected{background:rgba(255,59,48,.15);color:var(--red);border:1px solid var(--red)}
+
+/* PAY NOW button (heartbeat) */
+.pay-now-btn{background:var(--green);color:#fff;font-weight:800;font-size:14.5px;width:100%;padding:15px;border-radius:12px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.4px;animation:heartbeat 1.8s infinite ease-in-out;border:0}
+.pay-now-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.pay-now-btn:disabled{animation:none;opacity:.7;cursor:not-allowed}
+@keyframes heartbeat{0%{transform:scale(1);box-shadow:0 0 15px rgba(0,166,80,.5)}14%{transform:scale(1.03);box-shadow:0 0 25px rgba(0,166,80,.8)}28%{transform:scale(1);box-shadow:0 0 15px rgba(0,166,80,.5)}42%{transform:scale(1.03);box-shadow:0 0 25px rgba(0,166,80,.8)}70%{transform:scale(1);box-shadow:0 0 15px rgba(0,166,80,.5)}}
+
+/* CANCELLED STATE */
+.cancelled-banner{background:rgba(255,59,48,.08);border:1px solid var(--red);border-radius:14px;padding:18px;margin-bottom:16px;text-align:center;animation:slideDown .35s ease-out}
+.cancelled-icon{font-size:42px;margin-bottom:8px}
+.cancelled-banner h3{margin:0 0 4px;font-size:16px;color:var(--red);font-weight:800}
+.cancelled-banner p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* ITEMS LIST */
+.items-section{margin-top:18px;padding-top:18px;border-top:1px solid #1a1a1a}
+.items-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.items-heading h3{margin:0;font-size:14px;font-weight:800;color:#fff;letter-spacing:.3px;text-transform:uppercase}
+.items-heading span{font-size:11.5px;color:var(--muted);font-weight:600}
+.item-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #141414}
+.item-row:last-child{border-bottom:0}
+.item-thumb{width:48px;height:48px;border-radius:8px;background:#fff;flex-shrink:0;object-fit:contain;padding:3px}
+.item-body{flex:1;min-width:0}
+.item-name{font-size:13.5px;font-weight:600;color:#fff;margin:0 0 3px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.item-meta{font-size:11.5px;color:var(--muted);margin:0}
+.item-price{font-size:14px;font-weight:800;color:#fff;flex-shrink:0;text-align:right}
+
+/* TOTALS */
+.totals{margin-top:14px;padding:14px;background:#0a0a0a;border-radius:10px;border:1px solid #1a1a1a}
+.total-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--muted)}
+.total-row.grand{margin-top:8px;padding-top:10px;border-top:1px solid #1f1f1f;color:#fff;font-weight:800;font-size:16px}
+.total-row.grand span:last-child{color:var(--blue)}
+.total-row .discount{color:var(--green);font-weight:700}
+
+/* ACTION BUTTONS */
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+@media(min-width:520px){.actions-grid{grid-template-columns:repeat(3,1fr)}}
+.action-btn{background:#1a1a1a;border:1px solid #262626;border-radius:10px;padding:13px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:12px;font-weight:700;color:#fff;transition:background .15s,border-color .15s;letter-spacing:.2px}
+.action-btn:hover{background:#242424;border-color:var(--blue)}
+.action-btn svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.action-btn.wa svg{stroke:#25D366}
+
+/* HELP / SUPPORT */
+.support-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+.support-card h3{margin:0 0 6px;font-size:15px;font-weight:800;color:#fff}
+.support-card p{margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.5}
+.support-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.support-btn{flex:1;min-width:130px;background:#1a1a1a;border:1px solid #262626;border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:700;color:#fff;transition:background .15s}
+.support-btn:hover{background:#242424}
+.support-btn.wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.3);color:#25D366}
+.support-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* LOADING SKELETON */
+.skel{background:linear-gradient(90deg,#141414 0%,#1c1c1c 50%,#141414 100%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
+.skel-line{height:14px;margin-bottom:10px}
+.skel-line.short{width:60%}
+.skel-circle{width:42px;height:42px;border-radius:50%;margin:20px auto;display:block}
+
+/* FOOTER */
+.footer{text-align:center;padding:20px 12px;color:var(--muted);font-size:11.5px;letter-spacing:.3px}
+.footer a{color:var(--blue);font-weight:600}
+.footer-brand{color:var(--blue);font-weight:800;font-size:13px;letter-spacing:.4px;display:block;margin-bottom:4px}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;z-index:99999;font-weight:600;font-size:13.5px;box-shadow:0 8px 24px rgba(8,120,209,.4);max-width:90vw;text-align:center;animation:toastIn .25s ease-out}
+.toast.error{background:var(--red);box-shadow:0 8px 24px rgba(255,59,48,.4)}
+.toast.success{background:var(--green);box-shadow:0 8px 24px rgba(0,166,80,.4)}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
 </style>
 </head>
 <body>
 
-<header>
-  <h2>SbheneCart / Tracker_v10</h2>
-  <button onclick="location.href='index.html'" style="width:auto; margin:0; padding: 10px 20px;">Return_Home</button>
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="header-panel">
+    <div class="header-top">
+      <div class="header-brand">
+        <div>
+          <h1>SbheneCart</h1>
+          <small>Order Tracking</small>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="location.href='index.html'" aria-label="Home" title="Back to store">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </button>
+    </div>
+  </div>
 </header>
 
 <div class="container">
-  
-  <!-- Dyn Confirmation Toast (from PayFast redirection payload) -->
-  <div id="payfast-success" class="payfast-toast" style="display:none;">
-    <span>⚡</span>
-    <div>
-      <strong style="color:#fff;">PAYMENT VERIFIED</strong><br>
-      <span style="font-size:12px; color:#888;">Transaction securely updated with PayFast.</span>
+
+  <!-- ============ INTRO HERO ============ -->
+  <div class="hero">
+    <h2>📦 Track Your Order</h2>
+    <p>Enter your Order ID below to see live status, payment info, and delivery progress.</p>
+  </div>
+
+  <!-- ============ PAYMENT SUCCESS BANNER ============ -->
+  <div id="payfast-success" class="alert-card alert-success hidden">
+    <div class="alert-icon">✅</div>
+    <div class="alert-body">
+      <p class="alert-title">Payment Verified</p>
+      <p class="alert-text">Your payment was securely confirmed with PayFast. Your order is now being prepared.</p>
     </div>
   </div>
 
-  <div class="search-wrapper">
-    <input id="orderId" placeholder="Input Quantum Order Reference ID">
-    <button onclick="trackOrder()">Track_Sys</button>
-    <button onclick="clearSearch()" class="clear-btn" title="Track Different Order">Clear</button>
-  </div>
-
-  <!-- Dynamic Status / Result Area -->
-  <div id="error-card" class="card error-msg" style="display:none">
-    <h3>⚠️ SEARCH EXCEPTION: ORDER NULL</h3>
-    <p>Reference key unrecognized. Please double-check your Order ID token and verify characters before initiating retry procedure.</p>
-  </div>
-
-  <div id="result" class="card" style="display:none">
-    <div id="cancelled-container" style="display:none">
-      <span class="cancelled-badge">❌ Order Cancelled</span>
+  <!-- ============ SEARCH CARD ============ -->
+  <div class="search-card">
+    <label class="search-label">Order Reference</label>
+    <input id="orderId" class="search-input" placeholder="e.g. aBc123XyZ..." autocomplete="off" spellcheck="false">
+    <div class="search-actions">
+      <button class="btn" onclick="trackOrder()">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Track Order
+      </button>
+      <button class="btn-secondary" onclick="clearSearch()" title="Clear">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
 
-    <!-- Futuristic Stepper Tracker -->
-    <div id="stepper-wrapper" style="position:relative;">
-      <div class="stepper-progress-bar" id="stepper-glow"></div>
-      <div id="stepper-container" class="stepper">
+    <!-- Recent order chips -->
+    <div id="recent-orders" class="recent-orders hidden">
+      <div class="recent-label">Recent searches</div>
+      <div id="recent-chips" class="recent-chips"></div>
+    </div>
+  </div>
+
+  <!-- ============ ERROR STATE ============ -->
+  <div id="error-card" class="alert-card alert-error hidden">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-body">
+      <p class="alert-title">Order Not Found</p>
+      <p class="alert-text" id="error-text">We couldn't find an order with that ID. Please double-check the characters and try again.</p>
+      <button class="btn-secondary" style="margin-top:12px" onclick="contactSupport()">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+        Contact Support
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ LOADING SKELETON ============ -->
+  <div id="loading-card" class="skel-card hidden">
+    <div class="skel skel-line short" style="height:20px"></div>
+    <div class="skel skel-circle"></div>
+    <div class="skel skel-line"></div>
+    <div class="skel skel-line short"></div>
+    <div style="margin-top:20px">
+      <div class="skel skel-line" style="height:60px"></div>
+      <div class="skel skel-line" style="height:60px"></div>
+    </div>
+  </div>
+
+  <!-- ============ RESULT ============ -->
+  <div id="result" class="result-card hidden">
+    <!-- Order header -->
+    <div class="order-head">
+      <div class="order-id-wrap">
+        <span class="order-id-label">Order ID</span>
+        <div class="order-id" id="order-id-display">—</div>
+        <button class="order-copy" onclick="copyOrderId()">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy ID
+        </button>
+      </div>
+      <span class="status-badge" id="status-badge">Pending</span>
+    </div>
+
+    <!-- Cancelled -->
+    <div id="cancelled-banner" class="cancelled-banner hidden">
+      <div class="cancelled-icon">❌</div>
+      <h3>Order Cancelled</h3>
+      <p>This order has been cancelled. If this is unexpected, please contact support.</p>
+    </div>
+
+    <!-- Stepper -->
+    <div id="stepper-wrapper" class="stepper-wrap">
+      <div class="stepper-line"></div>
+      <div class="stepper-fill" id="stepper-glow"></div>
+      <div class="stepper">
         <div class="step" id="step-pending">
-          <div class="circle">1</div>
+          <div class="step-circle">1</div>
           <div class="step-label">Pending</div>
         </div>
         <div class="step" id="step-processing">
-          <div class="circle">2</div>
+          <div class="step-circle">2</div>
           <div class="step-label">Processing</div>
         </div>
         <div class="step" id="step-shipped">
-          <div class="circle">3</div>
+          <div class="step-circle">3</div>
           <div class="step-label">Shipped</div>
         </div>
         <div class="step" id="step-delivered">
-          <div class="circle">4</div>
+          <div class="step-circle">4</div>
           <div class="step-label">Delivered</div>
         </div>
       </div>
     </div>
 
-    <h3 style="border-bottom:1px solid #222; padding-bottom:10px; margin-top:25px;">Manifest Details</h3>
-    <p><b>Recipient:</b> <span id="name" style="color:#fff;"></span></p>
-    <p><b>Comms Channel:</b> <span id="phone" style="color:#fff;"></span></p>
-    <p><b>Drop Point:</b> <span id="address" style="color:#fff;"></span></p>
-    <p><b>Pay Status:</b> <span id="payment-status-badge"></span></p>
-    
-    <div id="items"></div>
-    <h3 style="margin-top:25px; border-top:2px solid #0f8; padding-top:20px;">Total Checkout Value: R<span id="total" style="color:#fff;"></span></h3>
+    <!-- Info grid -->
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">Recipient</span>
+        <div class="info-value" id="name">—</div>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Phone</span>
+        <div class="info-value" id="phone">—</div>
+      </div>
+      <div class="info-item" style="grid-column:1/-1">
+        <span class="info-label">Delivery Address</span>
+        <div class="info-value" id="address">—</div>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Payment Status</span>
+        <div class="info-value"><span id="payment-status-badge" class="payment-badge payment-pending">Pending</span></div>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Order Date</span>
+        <div class="info-value" id="order-date">—</div>
+      </div>
+    </div>
+
+    <!-- Pay Now button (injected dynamically) -->
+    <div id="pay-now-wrap"></div>
+
+    <!-- Items -->
+    <div class="items-section">
+      <div class="items-heading">
+        <h3>Items</h3>
+        <span id="items-count">0 items</span>
+      </div>
+      <div id="items"></div>
+    </div>
+
+    <!-- Totals -->
+    <div class="totals" id="totals">
+      <div class="total-row"><span>Subtotal</span><span id="subtotal">R0</span></div>
+      <div class="total-row hidden" id="discount-row"><span>Discount</span><span class="discount" id="discount">−R0</span></div>
+      <div class="total-row hidden" id="delivery-row"><span>Delivery</span><span id="delivery">R0</span></div>
+      <div class="total-row grand"><span>Total</span><span id="total">R0</span></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-grid">
+      <button class="action-btn" onclick="reorder()">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        Reorder
+      </button>
+      <button class="action-btn" onclick="shareOrder()">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Share
+      </button>
+      <button class="action-btn wa" onclick="contactSupport()">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+        Support
+      </button>
+    </div>
   </div>
 
-  <!-- AdSense Container -->
-  <div class="card" style="padding:10px;">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-7447247941010903"
-         data-ad-slot="1454624417"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+  <!-- ============ SUPPORT CARD (always shown) ============ -->
+  <div class="support-card">
+    <h3>💬 Need Help?</h3>
+    <p>Our team is happy to assist with any questions about your order, delivery, or payment.</p>
+    <div class="support-buttons">
+      <button class="support-btn wa" onclick="contactSupport()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us
+      </button>
+      <button class="support-btn" onclick="emailSupport()">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email Us
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="footer">
+    <span class="footer-brand">SbheneCart</span>
+    <div>Real-time order tracking • Updated live</div>
+    <div style="margin-top:6px">
+      <a href="index.html">Continue Shopping</a> •
+      <a href="support.html">Help Center</a>
+    </div>
   </div>
 </div>
 
+<div id="toast-holder"></div>
+
+<!-- ============ FIREBASE + TRACKER LOGIC ============ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
@@ -412,164 +426,333 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Keep track of any active unsubscriber to prevent memory leaks or overlapping listeners
+const PAYFAST_MERCHANT_ID = "29675445";
+const PAYFAST_MERCHANT_KEY = "c1jn6gzhvg31l";
+const PAYFAST_PASSPHRASE = "";
+const IS_SANDBOX = true;
+
 let activeUnsubscribe = null;
+let currentOrder = null; // latest snapshot data
 
-// =========================================================================
-// PayFast Integration Config (Must match your index.html credentials)
-// =========================================================================
-const PAYFAST_MERCHANT_ID = "29675445"; // Replace with your real Merchant ID
-const PAYFAST_MERCHANT_KEY = "c1jn6gzhvg31l"; // Replace with your real Merchant Key
-const PAYFAST_PASSPHRASE = ""; // Optional: Add your passphrase salt if enabled in settings
-const IS_SANDBOX = true; // Set to false to accept live payments!
+/* ============ HELPERS ============ */
+const $ = id => document.getElementById(id);
+const money = n => `R${Number(n||0).toLocaleString('en-ZA')}`;
+const escapeHtml = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-window.trackOrder = function() {
-  const id = document.getElementById("orderId").value.trim();
-  if (!id) return alert("System requires a valid Order ID parameter");
-  
-  localStorage.setItem("trackOrderId", id);
+function toast(msg, type="", ms=2800){
+  const holder = $("toast-holder");
+  const t = document.createElement("div");
+  t.className = "toast " + type;
+  t.textContent = msg;
+  holder.appendChild(t);
+  setTimeout(() => t.remove(), ms);
+}
 
-  // Unsubscribe from previous real-time connections if searching a different order
-  if (activeUnsubscribe) {
-    activeUnsubscribe();
-    activeUnsubscribe = null;
-  }
-  
-  // Connect real-time order listener
-  activeUnsubscribe = onSnapshot(doc(db, "orders", id), snap => {
-    const errorCard = document.getElementById("error-card");
-    const resultCard = document.getElementById("result");
+/* ============ VOICE ENGINE ============ */
+let browserVoices = [];
+function loadVoices(){
+  if (typeof speechSynthesis === "undefined") return;
+  browserVoices = speechSynthesis.getVoices() || [];
+}
+if (typeof speechSynthesis !== "undefined") {
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+function pickVoice(){
+  return browserVoices.find(v => v.lang === "en-ZA")
+      || browserVoices.find(v => v.lang === "en-GB")
+      || browserVoices.find(v => v.lang === "en-US")
+      || browserVoices.find(v => v.lang && v.lang.startsWith("en"))
+      || browserVoices[0] || null;
+}
+function speak(text){
+  if (typeof speechSynthesis === "undefined") return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const v = pickVoice();
+    if (v) u.voice = v;
+    u.rate = 1.0;
+    u.pitch = 1.05;
+    u.volume = 1.0;
+    speechSynthesis.speak(u);
+  } catch (e) { console.warn("Speech failed:", e); }
+}
 
-    if (!snap.exists()) {
-      errorCard.style.display = "block";
-      resultCard.style.display = "none";
-      return;
-    }
-
-    errorCard.style.display = "none";
-    resultCard.style.display = "block";
-    
-    const o = snap.data();
-    const orderId = snap.id;
-    const name = o.customer?.name || "";
-    const phone = o.customer?.phone || "";
-    const total = o.total || 0;
-
-    document.getElementById("name").textContent = name;
-    document.getElementById("phone").textContent = phone;
-    document.getElementById("address").textContent = o.customer?.address || "";
-    document.getElementById("total").textContent = total;
-
-    // Render payment badge status
-    const payBadge = document.getElementById("payment-status-badge");
-    const payStatus = o.payment?.status || "Pending Verification";
-    payBadge.className = "payment-badge " + (payStatus === "Paid" ? "payment-paid" : "payment-pending");
-    
-    // Customize badge message for unpaid online checkouts
-    if (payStatus === "Pending Online Payment") {
-      payBadge.textContent = "Pending : Pending Online Payment";
-    } else {
-      payBadge.textContent = payStatus;
-    }
-
-    // Clean up any dynamic checkout button from previous order lookups
-    const existingPayBtn = document.getElementById("track-payfast-btn");
-    if (existingPayBtn) existingPayBtn.remove();
-
-    // Inject heart-pumping "Pay for my Order" button right under the Pay Status if unpaid
-    if (payStatus === "Pending Online Payment") {
-      const payBtn = document.createElement("button");
-      payBtn.id = "track-payfast-btn";
-      payBtn.className = "pump-heartbeat"; // Pumping keyframe class
-      payBtn.innerText = `💳 Pay for my Order (R${total})`;
-      payBtn.style.marginTop = "15px";
-      payBtn.style.background = "#0f8";
-      payBtn.style.color = "#000";
-      payBtn.style.fontWeight = "bold";
-      payBtn.style.width = "100%";
-      payBtn.style.padding = "14px";
-      payBtn.style.borderRadius = "6px";
-      payBtn.style.border = "none";
-      payBtn.style.cursor = "pointer";
-      payBtn.style.letterSpacing = "1px";
-      
-      payBtn.onclick = () => {
-        triggerPayFastRedirect(orderId, total, name, phone);
-      };
-      
-      // Insert button immediately after the Payment Status paragraph
-      const payStatusParagraph = payBadge.parentElement;
-      payStatusParagraph.after(payBtn);
-    }
-
-    document.getElementById("items").innerHTML =
-      "<h3 style='margin-top:25px; border-bottom:1px solid #222; padding-bottom:10px;'>Cargo Manifest</h3>" +
-      (o.items || []).map(i =>
-          `<p><span><b>${i.quantity} ×</b> ${i.name}</span> <span>R${i.price * i.quantity}</span></p>`
-      ).join("");
-
-    updateProgressUI(o.status || "Pending");
-  });
+/* ============ RECENT ORDERS (localStorage) ============ */
+const RECENT_KEY = "sbhene_recent_orders";
+function getRecentOrders(){
+  try { const r = JSON.parse(localStorage.getItem(RECENT_KEY)); return Array.isArray(r) ? r : []; }
+  catch { return []; }
+}
+function addRecentOrder(id){
+  if (!id) return;
+  let list = getRecentOrders().filter(x => x !== id);
+  list.unshift(id);
+  list = list.slice(0, 5);
+  localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+  renderRecentOrders();
+}
+function renderRecentOrders(){
+  const list = getRecentOrders();
+  const wrap = $("recent-orders");
+  const chips = $("recent-chips");
+  if (!wrap || !chips) return;
+  if (!list.length) { wrap.classList.add("hidden"); return; }
+  wrap.classList.remove("hidden");
+  const active = $("orderId").value.trim();
+  chips.innerHTML = list.map(id => `
+    <button class="recent-chip ${id === active ? 'active' : ''}" onclick="quickTrack('${escapeHtml(id)}')">
+      ${escapeHtml(id.substring(0, 12))}${id.length > 12 ? '…' : ''}
+    </button>
+  `).join('');
+}
+window.quickTrack = (id) => {
+  $("orderId").value = id;
+  trackOrder();
 };
 
-window.clearSearch = function() {
-  if (activeUnsubscribe) {
-    activeUnsubscribe();
-    activeUnsubscribe = null;
-  }
-  localStorage.removeItem("trackOrderId");
-  document.getElementById("orderId").value = "";
-  document.getElementById("error-card").style.display = "none";
-  document.getElementById("result").style.display = "none";
-};
-
-// UI timeline progress bar mapping
-function updateProgressUI(status) {
-  const steps = ["Pending", "Processing", "Shipped", "Delivered"];
-  const currentIdx = steps.indexOf(status);
-
-  const cancelledContainer = document.getElementById("cancelled-container");
-  const stepperWrapper = document.getElementById("stepper-wrapper");
-  const glowLine = document.getElementById("stepper-glow");
-
-  if (status === "Cancelled") {
-    cancelledContainer.style.display = "block";
-    stepperWrapper.style.display = "none";
+/* ============ TRACK ORDER ============ */
+window.trackOrder = function(){
+  const id = $("orderId").value.trim();
+  if (!id) {
+    toast("Please enter an Order ID", "error");
+    speak("Please enter an order number");
     return;
   }
 
-  cancelledContainer.style.display = "none";
-  stepperWrapper.style.display = "block";
+  localStorage.setItem("trackOrderId", id);
+  addRecentOrder(id);
 
-  // Calculate neon progress line width mathematically
+  // Reset UI states
+  $("error-card").classList.add("hidden");
+  $("result").classList.add("hidden");
+  $("loading-card").classList.remove("hidden");
+
+  // Disconnect previous listener
+  if (activeUnsubscribe) { activeUnsubscribe(); activeUnsubscribe = null; }
+
+  let firstLoad = true;
+  let spokeResult = false;
+
+  activeUnsubscribe = onSnapshot(doc(db, "orders", id), snap => {
+    $("loading-card").classList.add("hidden");
+
+    if (!snap.exists()) {
+      $("result").classList.add("hidden");
+      $("error-card").classList.remove("hidden");
+      // 🔊 Voice: invalid order
+      if (!spokeResult) { speak("Invalid order number"); spokeResult = true; }
+      toast("Order not found", "error");
+      return;
+    }
+
+    // ✅ Order exists
+    $("error-card").classList.add("hidden");
+    $("result").classList.remove("hidden");
+
+    // 🔊 Voice: valid order (only once per search)
+    if (!spokeResult) {
+      speak("Order number confirmed");
+      toast("Order found", "success");
+      spokeResult = true;
+    }
+
+    const o = snap.data();
+    currentOrder = o;
+    const orderId = snap.id;
+
+    // Header
+    $("order-id-display").textContent = orderId;
+
+    // Status badge
+    const status = o.status || "Pending";
+    const badge = $("status-badge");
+    badge.textContent = status;
+    badge.className = "status-badge status-" + status.toLowerCase();
+
+    // Cancelled banner vs stepper
+    if (status === "Cancelled") {
+      $("cancelled-banner").classList.remove("hidden");
+      $("stepper-wrapper").classList.add("hidden");
+    } else {
+      $("cancelled-banner").classList.add("hidden");
+      $("stepper-wrapper").classList.remove("hidden");
+      updateProgressUI(status);
+    }
+
+    // Info
+    $("name").textContent = o.customer?.name || "—";
+    $("phone").textContent = o.customer?.phone || "—";
+    $("address").textContent = o.customer?.address || "—";
+    $("order-date").textContent = o.timestamp ? new Date(o.timestamp).toLocaleString('en-ZA', { dateStyle: 'medium', timeStyle: 'short' }) : "—";
+
+    // Payment badge
+    const payStatus = o.payment?.status || "Pending Verification";
+    const payBadge = $("payment-status-badge");
+    payBadge.textContent = payStatus;
+    payBadge.className = "payment-badge " + (
+      payStatus === "Paid" ? "payment-paid" :
+      payStatus.includes("Rejected") ? "payment-rejected" :
+      "payment-pending"
+    );
+
+    // Pay Now button for unpaid online orders
+    const payWrap = $("pay-now-wrap");
+    payWrap.innerHTML = "";
+    if (payStatus === "Pending Online Payment" || payStatus === "Pending") {
+      const payBtn = document.createElement("button");
+      payBtn.id = "track-payfast-btn";
+      payBtn.className = "pay-now-btn";
+      payBtn.innerHTML = `
+        <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Pay Now — ${money(o.total)}
+      `;
+      payBtn.onclick = () => triggerPayFastRedirect(orderId, o.total, o.customer?.name || "", o.customer?.phone || "");
+      payWrap.appendChild(payBtn);
+    }
+
+    // Items
+    const items = o.items || [];
+    $("items-count").textContent = `${items.reduce((s,i) => s + (i.quantity||0), 0)} item${items.length === 1 ? "" : "s"}`;
+    $("items").innerHTML = items.length ? items.map(i => {
+      const variant = [i.selectedColor, i.selectedSize].filter(Boolean).join(" / ");
+      const img = i.image || (i.images && i.images[0]) || "";
+      const imgHtml = img
+        ? `<img class="item-thumb" src="${img}" alt="">`
+        : `<div class="item-thumb" style="display:flex;align-items:center;justify-content:center;color:#888;font-size:18px">📦</div>`;
+      return `
+        <div class="item-row">
+          ${imgHtml}
+          <div class="item-body">
+            <p class="item-name">${escapeHtml(i.name || "Item")}</p>
+            <p class="item-meta">Qty: ${i.quantity}${variant ? ` • ${escapeHtml(variant)}` : ""} • ${money(i.price)} each</p>
+          </div>
+          <div class="item-price">${money((i.price||0) * (i.quantity||1))}</div>
+        </div>
+      `;
+    }).join('') : '<p style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0">No items in this order</p>';
+
+    // Totals
+    const subtotal = Number(o.subtotal || items.reduce((s,i) => s + (i.price||0)*(i.quantity||0), 0));
+    const discount = Number(o.discountApplied || 0);
+    const deliveryFee = Number(o.delivery?.fee || 0);
+    $("subtotal").textContent = money(subtotal);
+    if (discount > 0) { $("discount-row").classList.remove("hidden"); $("discount").textContent = "−" + money(discount); }
+    else { $("discount-row").classList.add("hidden"); }
+    if (deliveryFee > 0) { $("delivery-row").classList.remove("hidden"); $("delivery").textContent = money(deliveryFee); }
+    else { $("delivery-row").classList.add("hidden"); }
+    $("total").textContent = money(o.total || 0);
+
+    firstLoad = false;
+  }, err => {
+    console.error(err);
+    $("loading-card").classList.add("hidden");
+    $("error-card").classList.remove("hidden");
+    $("error-text").textContent = "Couldn't connect to the tracking service. Please check your internet and try again.";
+    if (!spokeResult) { speak("Invalid order number"); spokeResult = true; }
+  });
+};
+
+/* ============ STEPPER UI ============ */
+function updateProgressUI(status){
+  const steps = ["Pending", "Processing", "Shipped", "Delivered"];
+  const currentIdx = steps.indexOf(status);
+  const glow = $("stepper-glow");
+
   if (currentIdx === -1 || currentIdx === 0) {
-    glowLine.style.width = "0%";
+    glow.style.width = "0%";
   } else {
-    const percentage = (currentIdx / (steps.length - 1)) * 100;
-    glowLine.style.width = `calc(${percentage}% - 15px)`;
+    const pct = (currentIdx / (steps.length - 1)) * 100;
+    glow.style.width = `calc(${pct}% - 15px)`;
   }
 
-  steps.forEach((stepName, idx) => {
-    const el = document.getElementById(`step-${stepName.toLowerCase()}`);
+  steps.forEach((name, idx) => {
+    const el = $("step-" + name.toLowerCase());
     if (!el) return;
-
     el.classList.remove("active", "completed");
-
-    if (idx < currentIdx) {
-      el.classList.add("completed");
-    } else if (idx === currentIdx) {
-      el.classList.add("active");
-    }
+    if (idx < currentIdx) el.classList.add("completed");
+    else if (idx === currentIdx) el.classList.add("active");
   });
 }
 
-// Redirect client to PayFast Checkout
-window.triggerPayFastRedirect = async (orderId, finalTotal, name, phone) => {
-  const payBtn = document.getElementById("track-payfast-btn");
-  if (payBtn) {
-    payBtn.innerText = "Redirecting to PayFast Secure Gate...";
-    payBtn.style.animation = "none"; // Temporarily freeze heartbeat when submitting
-    payBtn.disabled = true;
+/* ============ CLEAR ============ */
+window.clearSearch = function(){
+  if (activeUnsubscribe) { activeUnsubscribe(); activeUnsubscribe = null; }
+  currentOrder = null;
+  localStorage.removeItem("trackOrderId");
+  $("orderId").value = "";
+  $("error-card").classList.add("hidden");
+  $("result").classList.add("hidden");
+  $("loading-card").classList.add("hidden");
+  renderRecentOrders();
+};
+
+/* ============ COPY / SHARE / SUPPORT ============ */
+window.copyOrderId = async () => {
+  const id = $("order-id-display").textContent;
+  if (!id || id === "—") return;
+  try {
+    await navigator.clipboard.writeText(id);
+    toast("Order ID copied", "success");
+  } catch {
+    prompt("Copy your Order ID:", id);
+  }
+};
+
+window.shareOrder = async () => {
+  const id = $("order-id-display").textContent;
+  if (!id || id === "—") return;
+  const url = `${location.origin}${location.pathname}?orderId=${encodeURIComponent(id)}`;
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: "Track my SbheneCart order", text: `Order ID: ${id}`, url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      toast("Tracking link copied", "success");
+    }
+  } catch {}
+};
+
+window.contactSupport = () => {
+  const id = $("order-id-display").textContent;
+  const msg = id && id !== "—"
+    ? `Hi SbheneCart, I need help with Order #${id}.`
+    : "Hi SbheneCart, I need help with my order.";
+  window.open(`https://wa.me/27653584906?text=${encodeURIComponent(msg)}`, "_blank");
+};
+window.emailSupport = () => {
+  const id = $("order-id-display").textContent;
+  const subj = id && id !== "—" ? `Order Query #${id}` : "Order Query";
+  window.location.href = `mailto:SbheneCart@gmail.com?subject=${encodeURIComponent(subj)}`;
+};
+
+/* ============ REORDER ============ */
+window.reorder = () => {
+  if (!currentOrder || !currentOrder.items) return toast("No items to reorder", "error");
+  const cartItems = currentOrder.items.map(i => ({
+    id: i.id,
+    name: i.name,
+    price: i.price,
+    quantity: i.quantity,
+    selectedSize: i.selectedSize || null,
+    selectedColor: i.selectedColor || null,
+    image: i.image || (i.images && i.images[0]) || "",
+    images: i.images || []
+  }));
+  localStorage.setItem("cart", JSON.stringify(cartItems));
+  toast("Items loaded into cart", "success");
+  speak("Items added to cart");
+  setTimeout(() => { window.location.href = "index.html"; }, 900);
+};
+
+/* ============ PAYFAST REDIRECT ============ */
+window.triggerPayFastRedirect = async (orderId, total, name, phone) => {
+  const btn = $("track-payfast-btn");
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = "Redirecting to secure checkout…";
+    btn.style.animation = "none";
   }
 
   try {
@@ -579,158 +762,99 @@ window.triggerPayFastRedirect = async (orderId, finalTotal, name, phone) => {
     const payload = {
       merchant_id: PAYFAST_MERCHANT_ID,
       merchant_key: PAYFAST_MERCHANT_KEY,
-      return_url: `${window.location.origin}/track.html?orderId=${orderId}&paid=true`,
-      cancel_url: window.location.href,
-      name_first: name.split(" ")[0],
-      cell_number: phone,
+      return_url: `${location.origin}/track.html?orderId=${orderId}&paid=true`,
+      cancel_url: location.href,
+      name_first: (name || "Customer").split(" ")[0],
+      cell_number: phone || "",
       m_payment_id: orderId,
-      amount: Number(finalTotal).toFixed(2),
+      amount: Number(total).toFixed(2),
       item_name: `SbheneCart Order ${orderId}`
     };
 
-    const pfEncode = (str) => {
-      return encodeURIComponent(str)
-        .replace(/%20/g, "+")
-        .replace(/[!'()*]/g, c => "%" + c.charCodeAt(0).toString(16).toUpperCase())
-        .replace(/%[0-9a-f]{2}/g, match => match.toUpperCase());
-    };
+    const pfEncode = (str) => encodeURIComponent(str)
+      .replace(/%20/g, "+")
+      .replace(/[!'()*]/g, c => "%" + c.charCodeAt(0).toString(16).toUpperCase())
+      .replace(/%[0-9a-f]{2}/g, m => m.toUpperCase());
 
-    const fieldsInOrder = [
-      "merchant_id", "merchant_key", "return_url", "cancel_url", "notify_url",
-      "name_first", "name_last", "email_address", "cell_number",
-      "m_payment_id", "amount", "item_name", "item_description"
-    ];
+    const fields = ["merchant_id","merchant_key","return_url","cancel_url","name_first","cell_number","m_payment_id","amount","item_name"];
+    const parts = fields.filter(k => payload[k] !== undefined && payload[k] !== "").map(k => `${k}=${pfEncode(payload[k])}`);
+    if (PAYFAST_PASSPHRASE) parts.push(`passphrase=${pfEncode(PAYFAST_PASSPHRASE)}`);
 
-    const signatureParts = [];
-    fieldsInOrder.forEach(key => {
-      if (payload[key] !== undefined && payload[key] !== "") {
-        signatureParts.push(`${key}=${pfEncode(payload[key])}`);
-      }
-    });
-
-    if (PAYFAST_PASSPHRASE) {
-      signatureParts.push(`passphrase=${pfEncode(PAYFAST_PASSPHRASE)}`);
-    }
-
-    const signature = md5(signatureParts.join("&"));
+    const signature = md5(parts.join("&"));
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = IS_SANDBOX 
-      ? "https://sandbox.payfast.co.za/eng/process" 
-      : "https://www.payfast.co.za/eng/process";
+    form.action = IS_SANDBOX ? "https://sandbox.payfast.co.za/eng/process" : "https://www.payfast.co.za/eng/process";
 
-    for (const [key, val] of Object.entries(payload)) {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = key;
-      input.value = val;
-      form.appendChild(input);
+    for (const [k, v] of Object.entries(payload)) {
+      const inp = document.createElement("input");
+      inp.type = "hidden"; inp.name = k; inp.value = v;
+      form.appendChild(inp);
     }
-
-    const sigInput = document.createElement("input");
-    sigInput.type = "hidden";
-    sigInput.name = "signature";
-    sigInput.value = signature;
-    form.appendChild(sigInput);
+    const sig = document.createElement("input");
+    sig.type = "hidden"; sig.name = "signature"; sig.value = signature;
+    form.appendChild(sig);
 
     document.body.appendChild(form);
     form.submit();
-
   } catch (err) {
-    console.error("PayFast initialization failed:", err);
-    alert("Could not load checkout engine. Please try again.");
-    if (payBtn) {
-      payBtn.className = "pump-heartbeat";
-      payBtn.innerText = `💳 Pay for my Order (R${finalTotal})`;
-      payBtn.disabled = false;
-    }
+    console.error(err);
+    toast("Payment gateway error. Try again.", "error");
+    if (btn) { btn.disabled = false; btn.innerHTML = `Pay Now — ${money(total)}`; btn.style.animation = "heartbeat 1.8s infinite ease-in-out"; }
   }
 };
 
-// =========================================================================
-// Automatic Init via URL Params (e.g. from Index/PayFast redirection)
-// =========================================================================
-async function initTracker() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const urlOrderId = urlParams.get("orderId");
-  const isPaid = urlParams.get("paid") === "true";
+/* ============ INIT ============ */
+async function initTracker(){
+  renderRecentOrders();
+
+  const params = new URLSearchParams(location.search);
+  const urlOrderId = params.get("orderId");
+  const isPaid = params.get("paid") === "true";
 
   if (urlOrderId) {
-    document.getElementById("orderId").value = urlOrderId;
-    localStorage.setItem("trackOrderId", urlOrderId);
+    $("orderId").value = urlOrderId;
 
     if (isPaid) {
       try {
-        const orderRef = doc(db, "orders", urlOrderId);
-        await updateDoc(orderRef, {
+        await updateDoc(doc(db, "orders", urlOrderId), {
           "payment.status": "Paid",
-          "payment.reference": "PAYFAST-TX-" + Math.random().toString(36).substr(2, 9).toUpperCase()
+          "payment.reference": "PAYFAST-TX-" + Math.random().toString(36).slice(2, 11).toUpperCase()
         });
-        document.getElementById("payfast-success").style.display = "flex";
-      } catch (err) {
-        console.error("Payment sync transaction failed:", err);
-      }
+        $("payfast-success").classList.remove("hidden");
+        setTimeout(() => $("payfast-success").classList.add("hidden"), 8000);
+      } catch (err) { console.error("Payment sync failed:", err); }
     }
-    
-    window.trackOrder();
+
+    trackOrder();
   } else {
     const saved = localStorage.getItem("trackOrderId");
     if (saved) {
-      document.getElementById("orderId").value = saved;
-      window.trackOrder();
+      $("orderId").value = saved;
+      trackOrder();
     }
   }
 }
 
-// Execute initial startup procedures
 initTracker();
 </script>
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
-    authDomain: "sbhenecart.firebaseapp.com",
-    projectId: "sbhenecart",
-    storageBucket: "sbhenecart.firebasestorage.app",
-    messagingSenderId: "1074011270711",
-    appId: "1:1074011270711:web:72dffe0237f7eea4edd9b2",
-    measurementId: "G-RWRGNK00BY"
-  };
+<!-- ============ GOOGLE ANALYTICS ============ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
+  authDomain: "sbhenecart.firebaseapp.com",
+  projectId: "sbhenecart",
+  storageBucket: "sbhenecart.firebasestorage.app",
+  messagingSenderId: "1074011270711",
+  appId: "1:1074011270711:web:72dffe0237f7eea4edd9b2",
+  measurementId: "G-RWRGNK00BY"
+};
+const app = initializeApp(firebaseConfig);
+try { getAnalytics(app); } catch {}
+</script>
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  </script>
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
-    authDomain: "sbhenecart.firebaseapp.com",
-    projectId: "sbhenecart",
-    storageBucket: "sbhenecart.firebasestorage.app",
-    messagingSenderId: "1074011270711",
-    appId: "1:1074011270711:web:72dffe0237f7eea4edd9b2",
-    measurementId: "G-RWRGNK00BY"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  </script>
 </body>
 </html>
