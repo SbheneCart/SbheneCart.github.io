@@ -2,251 +2,423 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EFT Payment Verification - SbheneCart</title>
-
-<!-- Requested Zone Vignette Script -->
-<script>(function(s){s.dataset.zone='11339849',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#0878D1">
+<title>Complete Payment — SbheneCart</title>
 <style>
-:root {
-  --bg: #000;
-  --text: #0f8;
-  --primary: #0f8;
-  --card: #111;
-}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#000;color:#fff;line-height:1.4;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:40px}
+img{max-width:100%;display:block}
+button,input,select,textarea{font-family:inherit;font-size:16px}
+button{cursor:pointer;border:0;background:none;color:inherit;padding:0}
+input,select,textarea{-webkit-appearance:none;appearance:none}
+a{color:#0878D1;text-decoration:none}
+:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a;--wa:#25D366}
+.hidden{display:none!important}
 
-* {
-  box-sizing: border-box;
-}
+.site-header{padding:12px 12px 4px;background:#000;position:sticky;top:0;z-index:100}
+.header-panel{background:var(--blue);border-radius:20px;padding:14px;box-shadow:0 6px 24px rgba(8,120,209,.28)}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.header-brand h1{margin:0;font-size:19px;font-weight:800;color:#fff;letter-spacing:-.4px}
+.header-brand small{color:#fff;opacity:.85;font-size:11px;display:block;margin-top:1px}
+.icon-btn{background:rgba(255,255,255,.14);color:#fff;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-btn:active{background:rgba(255,255,255,.3)}
+.icon-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-body {
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
-}
+.container{max-width:640px;margin:0 auto;padding:16px 12px}
 
-header {
-  padding: 15px;
-  border-bottom: 1px solid var(--primary);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--bg);
-}
-header h2 { margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
-header div { display: flex; gap: 8px; }
+.alert-card{border-radius:14px;padding:14px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;animation:slideDown .3s ease-out}
+.alert-error{background:rgba(255,59,48,.08);border:1px solid var(--red)}
+.alert-success{background:rgba(0,166,80,.08);border:1px solid var(--green)}
+.alert-info{background:rgba(8,120,209,.08);border:1px solid var(--blue)}
+.alert-warn{background:rgba(255,159,10,.08);border:1px solid var(--orange)}
+.alert-icon{font-size:22px;line-height:1;flex-shrink:0}
+.alert-body{flex:1;min-width:0}
+.alert-title{margin:0 0 3px;font-size:13.5px;font-weight:800}
+.alert-error .alert-title{color:var(--red)}
+.alert-success .alert-title{color:var(--green)}
+.alert-info .alert-title{color:var(--blue-light)}
+.alert-warn .alert-title{color:var(--orange)}
+.alert-text{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
-header button {
-  background: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: bold;
-}
-header button:hover {
-  background: var(--primary);
-  color: var(--bg);
-}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;animation:slideDown .35s ease-out}
+.card-title{margin:0 0 4px;font-size:17px;font-weight:800;color:#fff;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
+.card-sub{margin:0 0 16px;font-size:12.5px;color:var(--muted);line-height:1.5}
 
-.main-content {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
+.order-summary{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:14px;margin-bottom:16px}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px;color:var(--muted)}
+.summary-row b{color:#fff}
+.summary-row.grand{padding-top:10px;margin-top:6px;border-top:1px solid #1f1f1f;font-size:15px;font-weight:800;color:#fff}
+.summary-row.grand b{color:var(--blue);font-size:20px}
+.summary-items{margin-top:8px;padding-top:8px;border-top:1px dashed #1f1f1f}
+.summary-item{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);padding:4px 0}
+.summary-item span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:12px}
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--primary);
-  border-radius: 12px;
-  padding: 30px;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
-}
+.bank-box{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:14px;margin-bottom:16px}
+.bank-head{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.bank-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #141414;font-size:13px}
+.bank-row:last-child{border-bottom:0}
+.bank-row .label{color:var(--muted);font-weight:500}
+.bank-row .value{color:#fff;font-weight:700;font-family:ui-monospace,SFMono-Regular,monospace;word-break:break-all;text-align:right;padding-left:12px;flex:1}
+.copy-btn{background:transparent;border:1px solid #262626;color:var(--blue);padding:4px 8px;border-radius:6px;font-size:10.5px;font-weight:700;margin-left:8px;transition:background .15s;flex-shrink:0}
+.copy-btn:hover{background:#1a1a1a}
+.copy-btn.copied{background:var(--green);color:#fff;border-color:var(--green)}
 
-h3 {
-  margin-top: 0;
-  font-size: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 1px solid var(--primary);
-  padding-bottom: 10px;
-  text-align: center;
-}
+/* Inline reference helper */
+.banner-inline-ref{display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 10px;margin-top:10px}
+.banner-inline-ref .ref-label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:800}
+.banner-inline-ref .ref-val{font-family:ui-monospace,monospace;font-size:13px;font-weight:800;color:#fff;letter-spacing:.5px;word-break:break-all;flex:1;padding:0 8px}
+.banner-inline-ref button{background:var(--blue);color:#fff;border:0;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:800;flex-shrink:0;cursor:pointer}
+.banner-inline-ref button.copied{background:var(--green)}
 
-.highlight-box {
-  background: rgba(0, 255, 136, 0.05);
-  border: 1px dashed var(--primary);
-  border-radius: 8px;
-  padding: 15px;
-  margin: 15px 0;
-  font-size: 14px;
-}
+.banner-steps{list-style:none;padding:0;margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.55}
+.banner-steps li{padding:3px 0 3px 20px;position:relative}
+.banner-steps li::before{content:"→";position:absolute;left:0;color:var(--blue-light);font-weight:800}
 
-.bank-details {
-  background: #050505;
-  border: 1px solid #222;
-  border-radius: 6px;
-  padding: 15px;
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-top: 10px;
-}
+.tab-bar{display:flex;gap:6px;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:5px;margin-bottom:16px}
+.tab{flex:1;padding:11px 8px;background:transparent;border:0;color:var(--muted);border-radius:9px;font-size:13px;font-weight:700;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(8,120,209,.35)}
+.tab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
 
-input[type="file"] {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--primary);
-  background: #111;
-  color: var(--text);
-  border-radius: 6px;
-  margin-top: 10px;
-  cursor: pointer;
-}
+.dropzone{border:2px dashed #2a2a2a;border-radius:14px;padding:26px 16px;text-align:center;background:#0a0a0a;transition:all .2s;cursor:pointer;position:relative}
+.dropzone:hover,.dropzone.dragover{border-color:var(--blue);background:rgba(8,120,209,.04)}
+.dropzone-icon{width:48px;height:48px;margin:0 auto 10px;background:var(--bg-tile);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.dropzone-icon svg{width:24px;height:24px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dropzone-title{font-size:14px;font-weight:700;color:#fff;margin:0 0 4px}
+.dropzone-hint{font-size:12px;color:var(--muted);margin:0}
+.dropzone input[type="file"]{display:none}
 
-/* Method Selector Tabs */
-.method-selector {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
-.method-btn {
-  flex: 1;
-  background: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 13px;
-  transition: 0.2s;
-}
-.method-btn.active {
-  background: var(--primary);
-  color: var(--bg);
-}
+.file-preview{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:12px;margin-top:12px;display:flex;align-items:center;gap:12px;animation:slideDown .25s ease-out}
+.file-icon{width:44px;height:44px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8}
+.file-preview img.preview-thumb{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.file-body{flex:1;min-width:0}
+.file-name{font-size:13px;font-weight:600;color:#fff;margin:0 0 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-meta{font-size:11.5px;color:var(--muted);margin:0}
+.file-remove{background:transparent;border:1px solid #262626;color:var(--red);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-remove:hover{background:rgba(255,59,48,.1)}
+.file-remove svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-.submit-btn {
-  width: 100%;
-  background: var(--primary);
-  color: var(--bg);
-  font-weight: bold;
-  border: 0;
-  padding: 14px;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 16px;
-  margin-top: 20px;
-}
-.submit-btn:hover {
-  opacity: 0.85;
-}
-.submit-btn:disabled {
-  background: #333;
-  color: #666;
-  cursor: not-allowed;
-}
+.progress-track{height:6px;background:#1a1a1a;border-radius:999px;overflow:hidden;margin-top:14px;display:none}
+.progress-track.active{display:block}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));width:0%;transition:width .3s ease;border-radius:999px}
+.progress-text{font-size:12px;color:var(--muted);text-align:center;margin-top:8px;display:none}
+.progress-text.active{display:block}
 
-.success-alert {
-  display: none;
-  text-align: center;
-}
+.btn{background:var(--blue);color:#fff;border-radius:12px;padding:15px 18px;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;border:0;width:100%;letter-spacing:.3px}
+.btn:hover:not(:disabled){background:var(--blue-dark)}
+.btn:disabled{background:#333;color:#888;cursor:not-allowed}
+.btn-secondary{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a;border-radius:12px;padding:14px 18px;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:background .15s}
+.btn-secondary:hover{background:#242424}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:#1eb955}
+.btn svg,.btn-secondary svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+
+.wa-card{background:rgba(37,211,102,.05);border:1px solid rgba(37,211,102,.25);border-radius:14px;padding:18px;text-align:center}
+.wa-card p{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 14px}
+.wa-icon{width:56px;height:56px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.wa-icon svg{width:30px;height:30px;fill:#fff}
+
+/* Confirmation checkbox */
+.confirm-check{display:flex;gap:12px;align-items:flex-start;background:rgba(8,120,209,.06);border:1px solid rgba(8,120,209,.25);border-radius:12px;padding:14px;margin-top:16px;cursor:pointer;transition:all .15s}
+.confirm-check:hover{border-color:var(--blue)}
+.confirm-check input{width:20px;height:20px;margin:0;accent-color:var(--blue);cursor:pointer;flex-shrink:0;margin-top:2px}
+.confirm-check-text{font-size:13px;color:#fff;line-height:1.5;font-weight:500}
+.confirm-check-text b{color:var(--blue-light)}
+
+.success-state{text-align:center;padding:8px 0}
+.success-icon{font-size:56px;margin-bottom:8px}
+.success-state h2{margin:0 0 8px;font-size:22px;font-weight:800;color:var(--green)}
+.success-state p{margin:0 0 20px;font-size:13.5px;color:var(--muted);line-height:1.55}
+.steps-list{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;padding:16px;text-align:left;margin-bottom:20px}
+.step-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #141414}
+.step-item:last-child{border-bottom:0}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-item.done .step-num{background:var(--green)}
+.step-body{flex:1;min-width:0}
+.step-title{font-size:13px;font-weight:700;color:#fff;margin:0 0 2px}
+.step-text{font-size:11.5px;color:var(--muted);margin:0;line-height:1.4}
+
+.timer-box{background:rgba(8,120,209,.08);border:1px solid rgba(8,120,209,.25);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.timer-icon{font-size:22px;flex-shrink:0}
+.timer-body{flex:1;min-width:0}
+.timer-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin:0 0 2px}
+.timer-value{font-size:14px;font-weight:800;color:var(--blue-light);margin:0;font-family:ui-monospace,SFMono-Regular,monospace}
+
+.form-label{display:block;margin:14px 0 6px;font-size:13px;color:var(--muted);font-weight:500}
+.form-input{width:100%;padding:13px 14px;background:#0a0a0a;border:1px solid #262626;border-radius:10px;color:#fff;font-size:15px;outline:none;transition:border-color .15s}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(8,120,209,.15)}
+.form-input::placeholder{color:#666}
+.form-hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5}
+
+.help-box{margin-top:14px;text-align:center;font-size:12.5px;color:var(--muted)}
+.help-box a{font-weight:700;color:var(--blue)}
+
+.footer{text-align:center;padding:20px 12px;color:var(--muted);font-size:11.5px}
+.footer-brand{color:var(--blue);font-weight:800;font-size:13px;display:block;margin-bottom:4px}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;z-index:99999;font-weight:600;font-size:13.5px;box-shadow:0 8px 24px rgba(8,120,209,.4);max-width:90vw;text-align:center;animation:toastIn .25s ease-out}
+.toast.error{background:var(--red);box-shadow:0 8px 24px rgba(255,59,48,.4)}
+.toast.success{background:var(--green);box-shadow:0 8px 24px rgba(0,166,80,.4)}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.skel{background:linear-gradient(90deg,#141414 0%,#1c1c1c 50%,#141414 100%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-line{height:14px;margin-bottom:10px}
+.skel-line.short{width:60%}
 </style>
 </head>
 <body>
 
-<header>
-  <h2>SbheneCart Checkout</h2>
-  <div>
-    <button onclick="location.href='index.html'">🛒 Shop</button>
-    <button onclick="location.href='decorations.html'">✨ Decor</button>
-    <button onclick="location.href='sewings.html'">🪡 Sewings</button>
+<header class="site-header">
+  <div class="header-panel">
+    <div class="header-top">
+      <div class="header-brand">
+        <h1>SbheneCart</h1>
+        <small>Secure Payment</small>
+      </div>
+      <button class="icon-btn" onclick="location.href='index.html'" aria-label="Back to store">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
-<div class="main-content">
-  <!-- EFT Form Card -->
-  <div class="card" id="eft-card">
-    <h3>EFT Verification</h3>
-    
-    <div class="highlight-box">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-        <span>Order Reference ID:</span>
-        <strong id="display-order-id" style="color: #fff; word-break: break-all;">Loading...</strong>
+<div class="container">
+
+  <!-- No order ID -->
+  <div id="no-order-error" class="alert-card alert-error hidden">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-body">
+      <p class="alert-title">Missing Order Reference</p>
+      <p class="alert-text">No valid Order ID was provided. Please return to the store and place an order first.</p>
+      <button class="btn-secondary" style="margin-top:12px" onclick="location.href='index.html'">Return to Store</button>
+    </div>
+  </div>
+
+  <!-- Loading state (order still fetching) -->
+  <div id="loading-card" class="card hidden">
+    <div class="skel skel-line" style="height:20px;width:50%"></div>
+    <div class="skel skel-line"></div>
+    <div class="skel skel-line short"></div>
+    <div class="skel skel-line" style="height:80px;margin-top:16px"></div>
+    <div class="skel skel-line" style="height:48px;margin-top:14px"></div>
+  </div>
+
+  <!-- Paid already -->
+  <div id="paid-banner" class="alert-card alert-success hidden">
+    <div class="alert-icon">✅</div>
+    <div class="alert-body">
+      <p class="alert-title">Payment Already Verified</p>
+      <p class="alert-text">This order is marked as paid. You can track its progress below.</p>
+      <button class="btn-secondary" style="margin-top:12px" onclick="trackOrder()">📦 Track Order</button>
+    </div>
+  </div>
+
+  <!-- Order not found -->
+  <div id="order-missing-card" class="alert-card alert-error hidden">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-body">
+      <p class="alert-title">Order Not Found</p>
+      <p class="alert-text">We couldn't find this order. Please double-check your reference or contact support.</p>
+      <button class="btn-secondary" style="margin-top:12px" onclick="location.href='index.html'">Return to Store</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="main-card">
+    <h2 class="card-title">💳 Complete Your Payment</h2>
+    <p class="card-sub">Complete your payment, then confirm below.</p>
+
+    <div id="order-summary"></div>
+
+    <div class="bank-box">
+      <div class="bank-head"><span>🏦 Bank Account Details</span></div>
+      <div class="bank-row">
+        <span class="label">Bank</span>
+        <span class="value">Capitec Bank</span>
       </div>
-      <div style="display: flex; justify-content: space-between;">
-        <span>Grand Total:</span>
-        <strong id="display-total" style="color: var(--primary); font-size: 18px;">R0.00</strong>
+      <div class="bank-row">
+        <span class="label">Account Number</span>
+        <span class="value" id="acct-value">2438836438</span>
+        <button class="copy-btn" onclick="copyToClipboard('2438836438', this)">📋 Copy</button>
+      </div>
+      <div class="bank-row">
+        <span class="label">Branch Code</span>
+        <span class="value">470010</span>
+      </div>
+      <div class="bank-row">
+        <span class="label">Reference</span>
+        <span class="value" id="ref-value">—</span>
+        <button class="copy-btn" id="ref-copy-btn" onclick="copyReference(this)">📋 Copy</button>
       </div>
     </div>
 
-    <!-- Bank Details Container -->
-    <h4 style="margin: 15px 0 5px; font-size: 14px; text-transform: uppercase;">Bank Account Details</h4>
-    <div class="bank-details">
-      <strong>Bank:</strong> Capitec Bank<br>
-      <strong>Account:</strong> <span id="bank-acc">2438836438</span> 
-      <span id="copy-acc-btn" onclick="copyText('2438836438', 'copy-acc-btn')" style="color:var(--primary); cursor:pointer; margin-left:8px; font-size:11px; font-weight:bold; text-decoration:underline;">(📋 COPY)</span><br>
-      <strong>Branch:</strong> 470010<br>
-      <strong>Reference:</strong> <span id="display-ref-id" style="color: #fff; font-weight: bold;">Loading...</span>
-      <span id="copy-ref-btn" style="color:var(--primary); cursor:pointer; margin-left:8px; font-size:11px; font-weight:bold; text-decoration:underline; display:none;">(📋 COPY)</span>
+    <div class="timer-box" id="timer-box">
+      <span class="timer-icon">⏳</span>
+      <div class="timer-body">
+        <p class="timer-label">Complete payment within</p>
+        <p class="timer-value" id="timer-value">—</p>
+      </div>
     </div>
 
-    <!-- Step 2: Method Segment Picker -->
-    <h4 style="margin: 20px 0 5px; font-size: 14px; text-transform: uppercase; text-align: center;">Choose Verification Method</h4>
-    <div class="method-selector">
-      <button class="method-btn active" id="method-web-btn" onclick="selectMethod('web')">📂 Upload on Website</button>
-      <button class="method-btn" id="method-wa-btn" onclick="selectMethod('wa')">💬 Send via WhatsApp</button>
+    <div class="tab-bar">
+      <button class="tab active" id="tab-upload" onclick="selectMethod('upload')">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Proof
+      </button>
+      <button class="tab" id="tab-whatsapp" onclick="selectMethod('whatsapp')">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+        Via WhatsApp
+      </button>
     </div>
 
-    <!-- Method A: Website File Upload Form -->
-    <form id="pop-upload-form" onsubmit="uploadProofOfPayment(event)">
-      <label style="display: block; font-size: 13px; font-weight: bold;">📎 Attach Proof of Payment (Image / PDF)</label>
-      <input type="file" id="pop-file" accept="image/*,application/pdf" required>
-      <button type="submit" class="submit-btn" id="submit-btn">Submit Proof of Payment</button>
-    </form>
+    <!-- UPLOAD METHOD -->
+    <div id="method-upload">
 
-    <!-- Method B: Direct WhatsApp Option Container -->
-    <div id="pop-whatsapp-container" style="display: none; text-align: center;">
-      <p style="font-size: 13px; color: #888; line-height: 1.5; margin: 10px 0 15px 0;">
-        Prefer WhatsApp? No problem! Click the button below to update your order status and send your proof receipt directly to our business chat.
-      </p>
-      <button onclick="submitWhatsAppPoP()" class="submit-btn" id="wa-submit-btn" style="background:#25d366; color:#fff; display:flex; align-items:center; justify-content:center; gap:8px;">
-        💬 Send Receipt via WhatsApp
+      <div id="method-banner" class="alert-card alert-info" style="margin-bottom:14px">
+        <div class="alert-icon" id="method-icon">🏦</div>
+        <div class="alert-body">
+          <p class="alert-title" id="method-title">EFT Bank Transfer</p>
+          <p class="alert-text" id="method-desc">Upload your proof of payment below so we can verify your order.</p>
+          <div id="method-extra"></div>
+        </div>
+      </div>
+
+      <!-- EFT: Depositor name (optional) -->
+      <div id="eft-depositor-wrap" class="hidden">
+        <label class="form-label" style="margin-top:0">👤 Name on the bank account you paid from <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+        <input type="text" id="depositor-name" class="form-input" placeholder="e.g. T. Naidoo or N. Dlamini" autocomplete="off">
+        <p class="form-hint">If you paid from someone else's account, tell us the name that will appear on our statement. This speeds up verification.</p>
+      </div>
+
+      <!-- Cash Send PIN (required) -->
+      <div id="cash-pin-wrap" class="hidden">
+        <label class="form-label" style="margin-top:0">🔑 Cash Send PIN <span style="color:var(--red)">*</span></label>
+        <input type="text" id="cash-pin" class="form-input" placeholder="Enter the PIN you received" inputmode="numeric" autocomplete="off" maxlength="12" style="letter-spacing:3px;text-align:center;font-weight:700;font-size:18px;font-family:ui-monospace,monospace">
+        <p class="form-hint">Enter the Cash Send PIN from your SMS or receipt. We'll use it to collect the payment on our side.</p>
+      </div>
+
+      <div class="dropzone" id="dropzone" style="margin-top:14px">
+        <div class="dropzone-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <p class="dropzone-title" id="dropzone-title">Tap to select your receipt</p>
+        <p class="dropzone-hint">JPG, PNG, or PDF • Max 5 MB</p>
+
+        <button type="button" class="btn-secondary" id="pick-file-btn" onclick="document.getElementById('pop-file').click()" style="margin-top:12px;max-width:220px;margin-left:auto;margin-right:auto;">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Choose File
+        </button>
+
+        <input type="file" id="pop-file" accept="image/*,application/pdf" style="display:none">
+      </div>
+
+      <div id="file-preview" class="hidden"></div>
+
+      <div class="progress-track" id="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="progress-text" id="progress-text">Uploading…</p>
+
+      <!-- Confirmation checkbox (EFT / Cash Send) -->
+      <div id="confirm-wrap" class="hidden">
+        <label class="confirm-check" for="confirmed-transfer">
+          <input type="checkbox" id="confirmed-transfer">
+          <span class="confirm-check-text">✅ <b>I confirm I have completed the transfer</b> and the amount matches the total shown above.</span>
+        </label>
+      </div>
+
+      <button class="btn" id="submit-btn" onclick="uploadProofOfPayment()" style="margin-top:16px;padding:17px;font-size:16px;">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Proof of Payment
+      </button>
+    </div>
+
+    <!-- WHATSAPP METHOD -->
+    <div id="method-whatsapp" class="hidden">
+      <div class="wa-card">
+        <div class="wa-icon">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <p id="wa-desc">Prefer WhatsApp? We'll open a chat with your Order ID pre-filled. Just attach your receipt and send.</p>
+        <button class="btn btn-wa" id="wa-submit-btn" onclick="submitWhatsAppPoP()">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+          Open WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <div class="help-box">
+      Need help? <a href="https://wa.me/27653584906" target="_blank">Chat with us</a> or <a href="mailto:SbheneCart@gmail.com">email support</a>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="card hidden" id="success-card">
+    <div class="success-state">
+      <div class="success-icon">✅</div>
+      <h2 id="success-title">Proof Received!</h2>
+      <p id="success-message">Your proof of payment was uploaded successfully. Our team will verify your payment shortly.</p>
+
+      <div class="steps-list">
+        <div class="step-item done">
+          <span class="step-num">✓</span>
+          <div class="step-body">
+            <p class="step-title">Order placed</p>
+            <p class="step-text">We received your order</p>
+          </div>
+        </div>
+        <div class="step-item done">
+          <span class="step-num">✓</span>
+          <div class="step-body">
+            <p class="step-title" id="step2-title">Proof submitted</p>
+            <p class="step-text" id="step2-text">Awaiting verification</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <p class="step-title">Verification</p>
+            <p class="step-text">Usually within 1–2 business hours</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">4</span>
+          <div class="step-body">
+            <p class="step-title">Order processing</p>
+            <p class="step-text">We'll begin preparing your items</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-row" style="margin-bottom:14px">
+        <span style="color:var(--muted);font-size:12.5px">Order ID</span>
+        <b id="success-order-id" style="font-family:ui-monospace,monospace;font-size:12.5px;color:#fff;word-break:break-all;text-align:right">—</b>
+      </div>
+
+      <button class="btn" onclick="trackOrder()">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        Track Your Order
+      </button>
+      <button class="btn-secondary" style="margin-top:10px" onclick="location.href='index.html'">
+        Return to Storefront
       </button>
     </div>
   </div>
 
-  <!-- Success Notification Container -->
-  <div class="card success-alert" id="success-card">
-    <h3 style="border: none; color: #00ff87;" id="success-header">✅ Proof Received!</h3>
-    <p style="line-height: 1.6;" id="success-body">Your Proof of Payment has been uploaded and successfully attached to your order file.</p>
-    <div class="highlight-box" style="text-align: left; font-size: 14px;">
-      <strong>Order Status:</strong> <span id="success-status">PoP Uploaded (Pending Verification)</span><br>
-      <strong>Reference ID:</strong> <span id="success-order-id" style="word-break: break-all;"></span>
-    </div>
-    <p style="font-size: 13px; color: #aaa;">We will audit your transaction and begin tailoring or processing your items shortly.</p>
-    <button onclick="trackOrder()" class="submit-btn">📦 Track Your Order</button>
-    <button onclick="location.href='index.html'" class="submit-btn" style="background: transparent; color: var(--primary); border: 1px solid var(--primary); margin-top: 10px;">Return to Storefront</button>
+  <div class="footer">
+    <span class="footer-brand">SbheneCart</span>
+    <div>Secure checkout • EFT & Cash Send verification</div>
   </div>
 </div>
 
+<div id="toast-holder"></div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
@@ -261,168 +433,557 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 1. Dynamic Theme Synchronization
-const savedTheme = localStorage.getItem("selectedTheme") || "neon";
-const themes = {
-  neon: { bg: "#000", text: "#0f8", primary: "#0f8", card: "#111" },
-  dark: { bg: "#0a0a0a", text: "#aaa", primary: "#fff", card: "#151515" },
-  redgold: { bg: "#1a0305", text: "#ffebcd", primary: "#ffd700", card: "#2c070a" },
-  matrixblue: { bg: "#050b14", text: "#e0f7fc", primary: "#00f0ff", card: "#0b1528" },
-  synthwave: { bg: "#120024", text: "#ffd1dc", primary: "#ff007f", card: "#1e0036" },
-  emerald: { bg: "#04140c", text: "#d2f8e4", primary: "#00ff87", card: "#092419" },
-  amber: { bg: "#100c08", text: "#fdf6e2", primary: "#ff9900", card: "#1b1410" }
+const params = new URLSearchParams(location.search);
+const orderId = params.get("orderId");
+const urlTotal = params.get("total");
+let currentOrder = null;
+let selectedFile = null;
+let orderUnsub = null;
+let voiceAlerted = false;
+let requiresCashPin = false;
+let requiresDepositorName = false;
+let requiresConfirm = false;
+
+const $ = id => document.getElementById(id);
+const money = n => `R${Number(n||0).toLocaleString('en-ZA')}`;
+const escapeHtml = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type="", ms=2800){
+  const holder = $("toast-holder");
+  const t = document.createElement("div");
+  t.className = "toast " + type;
+  t.textContent = msg;
+  holder.appendChild(t);
+  setTimeout(() => t.remove(), ms);
+}
+
+/* ============ VOICE ============ */
+let browserVoices = [];
+function loadVoices(){ if (typeof speechSynthesis !== "undefined") browserVoices = speechSynthesis.getVoices() || []; }
+if (typeof speechSynthesis !== "undefined") { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function pickVoice(){
+  return browserVoices.find(v => v.lang === "en-ZA")
+      || browserVoices.find(v => v.lang === "en-GB")
+      || browserVoices.find(v => v.lang === "en-US")
+      || browserVoices.find(v => v.lang && v.lang.startsWith("en"))
+      || browserVoices[0] || null;
+}
+function speak(text){
+  if (typeof speechSynthesis === "undefined") return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const v = pickVoice();
+    if (v) u.voice = v;
+    u.rate = 1.0; u.pitch = 1.05; u.volume = 1.0;
+    speechSynthesis.speak(u);
+  } catch {}
+}
+
+/* ============ CLIPBOARD ============ */
+window.copyToClipboard = async (text, btn) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    const original = btn.textContent;
+    btn.classList.add("copied");
+    btn.textContent = "✓ Copied";
+    toast("Copied", "success", 1500);
+    setTimeout(() => { btn.classList.remove("copied"); btn.textContent = original; }, 1500);
+  } catch {
+    prompt("Copy this value:", text);
+  }
 };
-const theme = themes[savedTheme] || themes.neon;
-document.documentElement.style.setProperty('--bg', theme.bg);
-document.documentElement.style.setProperty('--text', theme.text);
-document.documentElement.style.setProperty('--primary', theme.primary);
-document.documentElement.style.setProperty('--card', theme.card);
-document.body.style.background = theme.bg;
-document.body.style.color = theme.text;
+window.copyReference = async (btn) => {
+  if (!orderId) return;
+  await copyToClipboard(orderId, btn);
+};
+window.copyReferenceInline = (btn) => copyToClipboard(orderId, btn);
 
-// 2. Parse Order Query Parameters
-const urlParams = new URLSearchParams(window.location.search);
-const orderId = urlParams.get("orderId");
-const total = urlParams.get("total");
+/* ============ INIT ============ */
+function init(){
+  if (!orderId) {
+    $("no-order-error").classList.remove("hidden");
+    return;
+  }
+  $("ref-value").textContent = orderId;
 
-if (orderId) {
-  document.getElementById("display-order-id").innerText = orderId;
-  document.getElementById("display-ref-id").innerText = orderId;
-  
-  // Show and bind copy reference button
-  const copyRefBtn = document.getElementById("copy-ref-btn");
-  copyRefBtn.style.display = "inline";
-  copyRefBtn.onclick = () => window.copyText(orderId, "copy-ref-btn");
-} else {
-  document.getElementById("display-order-id").innerText = "No Order ID found";
-  document.getElementById("display-ref-id").innerText = "No Order ID found";
-  document.getElementById("submit-btn").disabled = true;
-}
+  // Show loading while we fetch
+  $("loading-card").classList.remove("hidden");
 
-if (total) {
-  document.getElementById("display-total").innerText = "R" + total;
-}
+  // Safety timeout — if order doesn't load in 8 seconds, show missing state
+  const safetyTimeout = setTimeout(() => {
+    if (!currentOrder) {
+      $("loading-card").classList.add("hidden");
+      $("order-missing-card").classList.remove("hidden");
+    }
+  }, 8000);
 
-// 3. Simple Text Copy Utility
-window.copyText = (text, elementId) => {
-  navigator.clipboard.writeText(text).then(() => {
-    const el = document.getElementById(elementId);
-    const originalText = el.innerText;
-    el.innerText = "(📋 COPIED!)";
-    setTimeout(() => { el.innerText = originalText; }, 1500);
-  }).catch(err => {
-    console.warn("Clipboard access rejected: ", err);
+  orderUnsub = onSnapshot(doc(db, "orders", orderId), (snap) => {
+    clearTimeout(safetyTimeout);
+    $("loading-card").classList.add("hidden");
+
+    if (!snap.exists()) {
+      $("order-missing-card").classList.remove("hidden");
+      $("main-card").classList.add("hidden");
+      return;
+    }
+
+    currentOrder = { id: snap.id, ...snap.data() };
+    $("order-missing-card").classList.add("hidden");
+    $("main-card").classList.remove("hidden");
+
+    renderOrderSummary(currentOrder);
+    renderTimer(currentOrder);
+    detectPaymentMethod(currentOrder);
+    checkPaidState(currentOrder);
   });
-};
+}
 
-// 4. Verification Method Toggler
-window.selectMethod = (method) => {
-  const webForm = document.getElementById("pop-upload-form");
-  const waContainer = document.getElementById("pop-whatsapp-container");
-  const webBtn = document.getElementById("method-web-btn");
-  const waBtn = document.getElementById("method-wa-btn");
+/* ============ PAYMENT METHOD DETECTION ============ */
+function detectPaymentMethod(o){
+  const rawMethod = (o.payment?.method || "").trim();
+  const m = rawMethod.toLowerCase();
 
-  if (method === "web") {
-    webForm.style.display = "block";
-    waContainer.style.display = "none";
-    webBtn.classList.add("active");
-    waBtn.classList.remove("active");
+  const isCashSend = m.includes("cash") && (m.includes("send") || m.includes("deposit"));
+  const isCash = m === "cash" || m.includes("cash on delivery") || m.includes("cod") || isCashSend;
+  const isCard = m.includes("card") || m.includes("online") || m.includes("payfast");
+  const isEFT = !isCash && !isCard;
+
+  requiresCashPin = isCash;
+  requiresDepositorName = isEFT;
+  requiresConfirm = isCash || isEFT;
+
+  const banner = $("method-banner");
+  const icon = $("method-icon");
+  const title = $("method-title");
+  const desc = $("method-desc");
+  const extra = $("method-extra");
+  const pinWrap = $("cash-pin-wrap");
+  const depWrap = $("eft-depositor-wrap");
+  const confirmWrap = $("confirm-wrap");
+  const waDesc = $("wa-desc");
+  const confirmLabel = $("confirmed-transfer");
+
+  // Reset
+  banner.className = "alert-card alert-info";
+  title.style.color = "var(--blue-light)";
+  pinWrap.classList.add("hidden");
+  depWrap.classList.add("hidden");
+  confirmWrap.classList.add("hidden");
+  confirmLabel.checked = false;
+  extra.innerHTML = "";
+
+  if (isCash) {
+    banner.className = "alert-card alert-warn";
+    icon.textContent = "🔑";
+    title.textContent = "Cash Send / Cash Deposit";
+    title.style.color = "var(--orange)";
+    desc.textContent = "Upload your receipt AND enter the Cash Send PIN below so we can collect the payment.";
+    pinWrap.classList.remove("hidden");
+    confirmWrap.classList.remove("hidden");
+    waDesc.textContent = "We'll include your Order ID, total, AND Cash Send PIN in the WhatsApp message. Just attach your receipt and send.";
+
+    extra.innerHTML = `
+      <div class="banner-inline-ref">
+        <span class="ref-label">Reference</span>
+        <span class="ref-val">${escapeHtml(orderId)}</span>
+        <button onclick="copyReferenceInline(this)">📋 Copy</button>
+      </div>
+      <ul class="banner-steps">
+        <li>Open your banking app and choose <b>Cash Send</b></li>
+        <li>Send to phone <b>065 358 4906</b></li>
+        <li>Use the reference above</li>
+        <li>Come back here, enter the PIN, and upload your receipt</li>
+      </ul>`;
+
+  } else if (isCard) {
+    icon.textContent = "💳";
+    title.textContent = "Online Card Payment";
+    desc.textContent = "If you were redirected back before completing payment, you can retry or submit proof below.";
+    waDesc.textContent = "Prefer WhatsApp? We'll open a chat with your Order ID pre-filled. Attach your receipt and send.";
+
+    extra.innerHTML = `
+      <ul class="banner-steps">
+        <li>Return to <b>Track Order</b> and tap <b>Pay Now</b> to retry the card payment</li>
+        <li>Or, if you've already paid, upload the confirmation below</li>
+      </ul>`;
+
   } else {
-    webForm.style.display = "none";
-    waContainer.style.display = "block";
-    webBtn.classList.remove("active");
-    waBtn.classList.add("active");
+    // EFT — enhanced experience
+    icon.textContent = "🏦";
+    title.textContent = "EFT Bank Transfer";
+    desc.textContent = "Pay to the Capitec account below, then upload your receipt so we can verify your order.";
+    depWrap.classList.remove("hidden");
+    confirmWrap.classList.remove("hidden");
+    waDesc.textContent = "We'll include your Order ID, total, and bank reference in the WhatsApp message. Just attach your receipt and send.";
+
+    extra.innerHTML = `
+      <div class="banner-inline-ref">
+        <span class="ref-label">Payment Reference</span>
+        <span class="ref-val">${escapeHtml(orderId)}</span>
+        <button onclick="copyReferenceInline(this)">📋 Copy</button>
+      </div>
+      <ul class="banner-steps">
+        <li>Open your banking app and do an <b>EFT / Immediate Payment</b></li>
+        <li>Pay to Capitec <b>2438836438</b> (branch <b>470010</b>)</li>
+        <li>Use the reference above so we can match your payment</li>
+        <li>Come back here and upload the receipt (screenshot or PDF)</li>
+      </ul>`;
+  }
+}
+
+/* ============ ORDER SUMMARY ============ */
+function renderOrderSummary(o){
+  const items = o.items || [];
+  const subtotal = Number(o.subtotal || items.reduce((s,i) => s + (i.price||0)*(i.quantity||0), 0));
+  const discount = Number(o.discountApplied || 0);
+  const delivery = Number(o.delivery?.fee || 0);
+  const total = Number(o.total || urlTotal || 0);
+
+  const itemRows = items.slice(0, 5).map(i => {
+    const variant = [i.selectedColor, i.selectedSize].filter(Boolean).join(" / ");
+    return `<div class="summary-item">
+      <span>${escapeHtml(i.name)} ×${i.quantity}${variant ? ` (${escapeHtml(variant)})` : ""}</span>
+      <span>${money((i.price||0)*(i.quantity||1))}</span>
+    </div>`;
+  }).join('');
+  const moreCount = items.length > 5 ? `<div class="summary-item" style="color:var(--blue);font-weight:600"><span>+ ${items.length - 5} more items</span><span></span></div>` : '';
+
+  $("order-summary").innerHTML = `
+    <div class="order-summary">
+      <div class="summary-row"><span>Recipient</span><b>${escapeHtml(o.customer?.name || "—")}</b></div>
+      ${items.length ? `<div class="summary-items">${itemRows}${moreCount}</div>` : ''}
+      <div class="summary-row" style="margin-top:10px"><span>Subtotal</span><b>${money(subtotal)}</b></div>
+      ${discount > 0 ? `<div class="summary-row"><span>Discount</span><b style="color:var(--green)">−${money(discount)}</b></div>` : ''}
+      ${delivery > 0 ? `<div class="summary-row"><span>Delivery</span><b>${money(delivery)}</b></div>` : ''}
+      <div class="summary-row grand"><span>Amount to Pay</span><b>${money(total)}</b></div>
+    </div>
+  `;
+}
+
+/* ============ TIMER ============ */
+function renderTimer(o){
+  const start = Number(o.timestamp) || Date.now();
+  const deadline = start + (24 * 60 * 60 * 1000);
+  const val = $("timer-value");
+
+  function tick(){
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) {
+      val.textContent = "Expired — please contact support";
+      val.style.color = "var(--red)";
+      return;
+    }
+    const hrs = Math.floor(remaining / (1000 * 60 * 60));
+    const mins = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((remaining % (1000 * 60)) / 1000);
+    val.textContent = `${String(hrs).padStart(2,"0")}h ${String(mins).padStart(2,"0")}m ${String(secs).padStart(2,"0")}s`;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ============ PAID STATE ============ */
+function checkPaidState(o){
+  const status = o.payment?.status || "";
+  if (status === "Paid") {
+    $("main-card").classList.add("hidden");
+    $("paid-banner").classList.remove("hidden");
+    if (!voiceAlerted) { speak("This order is already paid"); voiceAlerted = true; }
+  }
+  if (status === "PoP Uploaded, Pending Verification" || status === "PoP Pending via WhatsApp") {
+    if (!document.querySelector(".upload-info")) {
+      const banner = document.createElement("div");
+      banner.className = "alert-card alert-info upload-info";
+      banner.innerHTML = `
+        <div class="alert-icon">ℹ️</div>
+        <div class="alert-body">
+          <p class="alert-title">Proof already submitted</p>
+          <p class="alert-text">You can re-upload if you made a mistake, or track your order below.</p>
+        </div>`;
+      $("main-card").insertBefore(banner, $("main-card").firstChild);
+    }
+  }
+}
+
+/* ============ METHOD TAB ============ */
+window.selectMethod = (method) => {
+  const upload = $("method-upload");
+  const wa = $("method-whatsapp");
+  const uploadTab = $("tab-upload");
+  const waTab = $("tab-whatsapp");
+
+  if (method === "upload") {
+    upload.classList.remove("hidden");
+    wa.classList.add("hidden");
+    uploadTab.classList.add("active");
+    waTab.classList.remove("active");
+  } else {
+    upload.classList.add("hidden");
+    wa.classList.remove("hidden");
+    uploadTab.classList.remove("active");
+    waTab.classList.add("active");
   }
 };
 
-// 5. Method A: Upload Directly on Web Page
-window.uploadProofOfPayment = async (e) => {
-  e.preventDefault();
-  const fileInput = document.getElementById("pop-file");
-  const submitBtn = document.getElementById("submit-btn");
+/* ============ FILE HANDLING ============ */
+const dropzone = $("dropzone");
+const fileInput = $("pop-file");
+const MAX_SIZE = 5 * 1024 * 1024;
 
-  if (!fileInput.files.length) return alert("Please select a verification file first.");
-  if (!orderId) return alert("Valid Order ID is required to bind your PoP file.");
+fileInput.addEventListener("change", (e) => {
+  const f = e.target.files[0];
+  if (f) handleFile(f);
+});
 
-  submitBtn.innerText = "Processing File Verification...";
-  submitBtn.disabled = true;
+dropzone.addEventListener("click", (e) => {
+  if (e.target.closest("#pick-file-btn")) return;
+  fileInput.click();
+});
 
-  const file = fileInput.files[0];
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "SbheneCart"); 
+["dragenter","dragover"].forEach(ev => {
+  dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add("dragover"); });
+});
+["dragleave","drop"].forEach(ev => {
+  dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.remove("dragover"); });
+});
+dropzone.addEventListener("drop", (e) => {
+  const f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+});
+
+function handleFile(f){
+  const validTypes = ["image/jpeg","image/png","image/webp","image/jpg","image/gif","application/pdf"];
+  if (!validTypes.includes(f.type)) { toast("Only images or PDFs are accepted", "error"); return; }
+  if (f.size > MAX_SIZE) { toast("File too large (max 5 MB)", "error"); return; }
+  selectedFile = f;
+  renderFilePreview(f);
+}
+
+function renderFilePreview(f){
+  const isImage = f.type.startsWith("image/");
+  const sizeText = f.size < 1024 * 1024 ? `${(f.size/1024).toFixed(1)} KB` : `${(f.size/(1024*1024)).toFixed(2)} MB`;
+  const preview = $("file-preview");
+
+  if (isImage) {
+    const url = URL.createObjectURL(f);
+    preview.innerHTML = `
+      <img class="preview-thumb" src="${url}" alt="">
+      <div class="file-body">
+        <p class="file-name">${escapeHtml(f.name)}</p>
+        <p class="file-meta">${sizeText} • Image</p>
+      </div>
+      <button class="file-remove" onclick="clearFile()" aria-label="Remove">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>`;
+  } else {
+    preview.innerHTML = `
+      <div class="file-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="file-body">
+        <p class="file-name">${escapeHtml(f.name)}</p>
+        <p class="file-meta">${sizeText} • PDF</p>
+      </div>
+      <button class="file-remove" onclick="clearFile()" aria-label="Remove">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>`;
+  }
+  preview.classList.remove("hidden");
+}
+
+window.clearFile = () => {
+  selectedFile = null;
+  fileInput.value = "";
+  $("file-preview").classList.add("hidden");
+  $("file-preview").innerHTML = "";
+};
+
+/* ============ UPLOAD ============ */
+window.uploadProofOfPayment = async () => {
+  if (!selectedFile) return toast("Please select a file first", "error");
+  if (!orderId) return toast("Order ID missing", "error");
+
+  // Validate Cash Send PIN
+  let cashPin = "";
+  if (requiresCashPin) {
+    cashPin = ($("cash-pin").value || "").trim();
+    if (!cashPin) return toast("Please enter your Cash Send PIN before uploading", "error", 4000);
+    if (cashPin.length < 4) return toast("Cash Send PIN looks too short — please check it", "error", 4000);
+  }
+
+  // Validate depositor name if provided (never required)
+  let depositorName = "";
+  if (requiresDepositorName) {
+    depositorName = ($("depositor-name").value || "").trim();
+    if (depositorName.length > 60) return toast("Depositor name too long", "error", 4000);
+  }
+
+  // Require confirmation checkbox
+  if (requiresConfirm && !$("confirmed-transfer").checked) {
+    return toast("Please tick the confirmation checkbox first", "error", 4000);
+  }
+
+  const btn = $("submit-btn");
+  const track = $("progress-track");
+  const fill = $("progress-fill");
+  const text = $("progress-text");
+
+  btn.disabled = true;
+  btn.innerHTML = "Uploading…";
+  track.classList.add("active");
+  text.classList.add("active");
+  fill.style.width = "10%";
+  text.textContent = "Preparing upload…";
 
   try {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("upload_preset", "SbheneCart");
+
+    setTimeout(() => { fill.style.width = "35%"; text.textContent = "Uploading to secure storage…"; }, 200);
+    setTimeout(() => { fill.style.width = "65%"; text.textContent = "Almost there…"; }, 800);
+
     const response = await fetch("https://api.cloudinary.com/v1_1/qocn8gjn/image/upload", {
       method: "POST",
       body: formData
     });
 
     const cloudData = await response.json();
-    
-    if (response.ok && cloudData.secure_url) {
-      // Connect uploaded document to Firestore
-      const orderRef = doc(db, "orders", orderId);
-      await updateDoc(orderRef, {
-        "payment.proofOfPaymentUrl": cloudData.secure_url,
-        "payment.status": "PoP Uploaded, Pending Verification"
-      });
-
-      document.getElementById("eft-card").style.display = "none";
-      document.getElementById("success-order-id").innerText = orderId;
-      document.getElementById("success-card").style.display = "block";
-    } else {
-      throw new Error("Proof upload rejected by CDN.");
+    if (!response.ok || !cloudData.secure_url) {
+      throw new Error(cloudData.error?.message || "Upload failed");
     }
+
+    fill.style.width = "85%";
+    text.textContent = "Saving to your order…";
+
+    const updatePayload = {
+      "payment.proofOfPaymentUrl": cloudData.secure_url,
+      "payment.status": "PoP Uploaded, Pending Verification",
+      "payment.proofUploadedAt": Date.now()
+    };
+
+    if (requiresCashPin) {
+      updatePayload["payment.cashSendPin"] = cashPin;
+      updatePayload["payment.cashSendPinSubmittedAt"] = Date.now();
+    }
+
+    if (depositorName) {
+      updatePayload["payment.depositorName"] = depositorName;
+      updatePayload["payment.depositorNameSubmittedAt"] = Date.now();
+    }
+
+    await updateDoc(doc(db, "orders", orderId), updatePayload);
+
+    fill.style.width = "100%";
+    text.textContent = "Done!";
+    setTimeout(() => showSuccess("upload"), 400);
+
   } catch (err) {
-    console.error("Payment Submission failed: ", err);
-    alert("Verification upload failed. Try again, or send your receipt directly to SbheneCart support.");
-    submitBtn.innerText = "Submit Proof of Payment";
-    submitBtn.disabled = false;
+    console.error(err);
+    const msg = err?.message || "Upload failed. Please try again or use WhatsApp.";
+    toast(msg, "error", 4500);
+    btn.disabled = false;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload Proof of Payment`;
+    track.classList.remove("active");
+    text.classList.remove("active");
   }
 };
 
-// 6. Method B: Dispatch via WhatsApp (Syncs with Firebase, then redirects)
+/* ============ WHATSAPP ============ */
 window.submitWhatsAppPoP = async () => {
-  const waBtn = document.getElementById("wa-submit-btn");
-  if (waBtn) {
-    waBtn.innerText = "Synchronizing Order Details...";
-    waBtn.disabled = true;
+  if (!orderId) return toast("Order ID missing", "error");
+
+  // Validate Cash Send PIN
+  let cashPin = "";
+  if (requiresCashPin) {
+    cashPin = ($("cash-pin").value || "").trim();
+    if (!cashPin) {
+      return toast("Please enter your Cash Send PIN before opening WhatsApp", "error", 4000);
+    }
+  }
+
+  // Validate depositor name (optional)
+  let depositorName = "";
+  if (requiresDepositorName) {
+    depositorName = ($("depositor-name").value || "").trim();
+  }
+
+  // Require confirmation
+  if (requiresConfirm && !$("confirmed-transfer").checked) {
+    return toast("Please tick the confirmation checkbox first", "error", 4000);
+  }
+
+  const btn = $("wa-submit-btn");
+  btn.disabled = true;
+  btn.innerHTML = "Opening WhatsApp…";
+
+  const updatePayload = {
+    "payment.status": "PoP Pending via WhatsApp",
+    "payment.whatsappRequestedAt": Date.now()
+  };
+  if (requiresCashPin) {
+    updatePayload["payment.cashSendPin"] = cashPin;
+    updatePayload["payment.cashSendPinSubmittedAt"] = Date.now();
+  }
+  if (depositorName) {
+    updatePayload["payment.depositorName"] = depositorName;
+    updatePayload["payment.depositorNameSubmittedAt"] = Date.now();
   }
 
   try {
-    // Dynamically update Firestore status so admin immediately sees it on dashboard at no-cost
-    const orderRef = doc(db, "orders", orderId);
-    await updateDoc(orderRef, {
-      "payment.status": "PoP Pending via WhatsApp"
-    });
-
-    // Generate dynamic customized WhatsApp click-to-chat URL
-    const message = encodeURIComponent(`Hi SbheneCart! Here is my Proof of Payment for Order ID: ${orderId} (Grand Total: R${total || 'N/A'}).`);
-    const waUrl = `https://wa.me/27653584906?text=${message}`;
-
-    // Open WhatsApp in a new tab
-    window.open(waUrl, "_blank");
-
-    // Display WhatsApp success card layout
-    document.getElementById("eft-card").style.display = "none";
-    document.getElementById("success-header").innerText = "💬 WhatsApp Redirected!";
-    document.getElementById("success-body").innerText = "We have prepared your WhatsApp message containing your Order ID and Grand Total. Please complete sending your receipt inside WhatsApp.";
-    document.getElementById("success-status").innerText = "PoP Pending via WhatsApp";
-    document.getElementById("success-order-id").innerText = orderId;
-    document.getElementById("success-card").style.display = "block";
-
+    await updateDoc(doc(db, "orders", orderId), updatePayload);
   } catch (err) {
-    console.error("WhatsApp sync failed: ", err);
-    // Fallback direct redirect if Firestore update fails
-    window.open(`https://wa.me/27653584906`, "_blank");
+    console.error("Firestore update failed:", err);
   }
+
+  const total = currentOrder?.total || urlTotal || "N/A";
+  const lines = [
+    `Hi SbheneCart! Here's my Proof of Payment for Order ID: ${orderId}.`,
+    `Total: R${total}.`
+  ];
+  if (depositorName) lines.push(`Paid from account name: ${depositorName}.`);
+  if (requiresCashPin) lines.push(`Cash Send PIN: ${cashPin}`);
+  const msg = encodeURIComponent(lines.join(" "));
+  window.open(`https://wa.me/27653584906?text=${msg}`, "_blank");
+
+  setTimeout(() => showSuccess("whatsapp"), 500);
 };
 
+/* ============ SUCCESS ============ */
+function showSuccess(type){
+  $("main-card").classList.add("hidden");
+  $("success-card").classList.remove("hidden");
+  $("success-order-id").textContent = orderId;
+
+  if (type === "upload") {
+    $("success-title").textContent = "Proof Received!";
+    $("success-message").textContent = requiresCashPin
+      ? "Your receipt and Cash Send PIN were submitted. Our team will verify and collect the payment shortly."
+      : "Your proof of payment was uploaded successfully. Our team will verify your payment shortly.";
+    $("step2-title").textContent = "Proof uploaded";
+    $("step2-text").textContent = "Awaiting verification";
+    speak("Payment proof received. Thank you.");
+  } else {
+    $("success-title").textContent = "WhatsApp Opened!";
+    $("success-message").textContent = requiresCashPin
+      ? "We've prepared a WhatsApp message with your order details and Cash Send PIN. Just attach your receipt and hit send."
+      : "We've prepared a WhatsApp message with your order details. Just attach your receipt and hit send.";
+    $("step2-title").textContent = "Receipt sent via WhatsApp";
+    $("step2-text").textContent = "Awaiting verification";
+    speak("WhatsApp opened. Please send your receipt.");
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ============ TRACK ============ */
 window.trackOrder = () => {
-  localStorage.setItem("trackOrderId", orderId);
-  window.location.href = "track.html";
+  if (orderId) localStorage.setItem("trackOrderId", orderId);
+  window.location.href = orderId ? `track.html?orderId=${encodeURIComponent(orderId)}` : "track.html";
 };
+
+/* ============ START ============ */
+init();
 </script>
+
 </body>
 </html>
