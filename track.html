@@ -14,43 +14,38 @@ button,input,select,textarea{font-family:inherit;font-size:16px}
 button{cursor:pointer;border:0;background:none;color:inherit;padding:0}
 input,select,textarea{-webkit-appearance:none;appearance:none}
 a{color:#0878D1;text-decoration:none}
-:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a}
+:root{--bg:#000;--bg-card:#0e0e0e;--bg-tile:#242424;--text:#fff;--muted:#B8B8B8;--border:#202020;--blue:#0878D1;--blue-dark:#0662a8;--blue-light:#2b91e3;--red:#FF3B30;--green:#00A650;--gold:#FFB300;--orange:#ff9f0a;--purple:#7B1FA2}
 .hidden{display:none!important}
 
-/* HEADER */
 .site-header{padding:12px 12px 4px;background:#000;position:sticky;top:0;z-index:100}
 .header-panel{background:var(--blue);border-radius:20px;padding:14px;box-shadow:0 6px 24px rgba(8,120,209,.28)}
 .header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .header-brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
 .header-brand h1{margin:0;font-size:19px;font-weight:800;color:#fff;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .header-brand small{color:#fff;opacity:.85;font-size:11px;display:block;margin-top:1px}
-.icon-btn{background:rgba(255,255,255,.14);color:#fff;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.icon-btn{background:rgba(255,255,255,.14);color:#fff;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .icon-btn:active{background:rgba(255,255,255,.3)}
 .icon-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* CONTAINER */
 .container{max-width:640px;margin:0 auto;padding:16px 12px}
 
-/* HERO */
 .hero{background:linear-gradient(135deg,#0e0e0e 0%,#161616 100%);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
 .hero h2{margin:0 0 6px;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.3px}
 .hero p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5}
 
-/* SEARCH */
 .search-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
 .search-label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
 .search-input{width:100%;padding:14px 16px;background:#0a0a0a;border:1px solid #262626;border-radius:10px;color:#fff;font-size:15px;outline:none;font-family:inherit;transition:border-color .15s;letter-spacing:1px}
 .search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(8,120,209,.15)}
 .search-input::placeholder{color:#666;letter-spacing:0;font-size:14px}
 .search-actions{display:flex;gap:8px;margin-top:10px}
-.btn{background:var(--blue);color:#fff;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s;flex:1;letter-spacing:.3px}
+.btn{background:var(--blue);color:#fff;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s;flex:1;letter-spacing:.3px;border:0}
 .btn:active{background:var(--blue-dark)}
 .btn:disabled{background:#333;color:#888;cursor:not-allowed}
 .btn-secondary{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto}
 .btn-secondary:hover{background:#242424}
 .btn svg,.btn-secondary svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* RECENT ORDERS */
 .recent-orders{margin-top:14px;padding-top:14px;border-top:1px dashed #262626}
 .recent-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
 .recent-chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -58,7 +53,6 @@ a{color:#0878D1;text-decoration:none}
 .recent-chip:hover{background:#262626;border-color:var(--blue)}
 .recent-chip.active{background:var(--blue);border-color:var(--blue)}
 
-/* ALERTS */
 .alert-card{border-radius:14px;padding:16px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;animation:slideDown .35s ease-out}
 .alert-error{background:rgba(255,59,48,.08);border:1px solid var(--red)}
 .alert-success{background:rgba(0,166,80,.08);border:1px solid var(--green)}
@@ -69,15 +63,30 @@ a{color:#0878D1;text-decoration:none}
 .alert-title{margin:0 0 3px;font-size:14px;font-weight:800;letter-spacing:.2px}
 .alert-error .alert-title{color:var(--red)}
 .alert-success .alert-title{color:var(--green)}
-.alert-info .alert-title{color:var(--blue)}
+.alert-info .alert-title{color:var(--blue-light)}
 .alert-warn .alert-title{color:var(--orange)}
 .alert-text{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ORDER RESULT */
+/* ============ PAYMENT WARNING BANNER ============ */
+.payment-warning{background:linear-gradient(135deg,rgba(255,159,10,.12) 0%,rgba(255,159,10,.05) 100%);border:1px solid var(--orange);border-radius:16px;padding:18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start;animation:slideDown .35s ease-out;position:relative;overflow:hidden}
+.payment-warning::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--orange),transparent);animation:warnPulse 2s ease-in-out infinite}
+@keyframes warnPulse{0%,100%{opacity:.4}50%{opacity:1}}
+.payment-warning-icon{font-size:28px;flex-shrink:0;line-height:1;animation:warnBounce 1.6s ease-in-out infinite}
+@keyframes warnBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.payment-warning-body{flex:1;min-width:0}
+.payment-warning-title{margin:0 0 5px;font-size:15px;font-weight:800;color:var(--orange);letter-spacing:.2px}
+.payment-warning-text{margin:0 0 12px;font-size:13px;color:#e0e0e0;line-height:1.55}
+.payment-warning-text b{color:#fff;font-weight:700}
+.payment-warning-timer{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,159,10,.4);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:14px}
+.payment-warning-timer b{color:var(--orange);font-family:ui-monospace,SFMono-Regular,monospace;letter-spacing:.5px;font-size:13px;font-weight:800}
+.payment-warning-btn{background:var(--orange);color:#111;border:0;border-radius:11px;padding:14px 18px;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;width:100%;letter-spacing:.3px;transition:background .15s,transform .15s;box-shadow:0 4px 12px rgba(255,159,10,.25)}
+.payment-warning-btn:hover{background:#ffb133}
+.payment-warning-btn:active{transform:scale(.98)}
+.payment-warning-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2}
+
 .result-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;animation:slideDown .35s ease-out}
 
-/* Order header */
 .order-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:16px;border-bottom:1px solid #1a1a1a;margin-bottom:18px;flex-wrap:wrap}
 .order-id-wrap{min-width:0;flex:1}
 .order-id-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
@@ -86,7 +95,6 @@ a{color:#0878D1;text-decoration:none}
 .order-copy:hover{background:#1a1a1a}
 .order-copy svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Status badge */
 .status-badge{padding:7px 14px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;flex-shrink:0}
 .status-pending{background:rgba(255,159,10,.15);color:#ff9f0a;border:1px solid #ff9f0a}
 .status-processing{background:rgba(8,120,209,.15);color:var(--blue-light);border:1px solid var(--blue-light)}
@@ -94,7 +102,6 @@ a{color:#0878D1;text-decoration:none}
 .status-delivered{background:rgba(0,166,80,.15);color:#22c55e;border:1px solid #22c55e}
 .status-cancelled{background:rgba(255,59,48,.15);color:var(--red);border:1px solid var(--red)}
 
-/* STEPPER */
 .stepper-wrap{position:relative;margin:24px 0 32px;padding:0 4px}
 .stepper-line{position:absolute;top:19px;left:26px;right:26px;height:3px;background:#1e1e1e;border-radius:2px;z-index:1}
 .stepper-fill{position:absolute;top:19px;left:26px;height:3px;width:0%;background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));box-shadow:0 0 12px rgba(8,120,209,.6);z-index:2;transition:width .7s cubic-bezier(.19,1,.22,1);border-radius:2px}
@@ -109,39 +116,33 @@ a{color:#0878D1;text-decoration:none}
 .step.active .step-circle::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(8,120,209,.3);animation:ping 1.8s infinite}
 @keyframes ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.5);opacity:0}}
 
-/* INFO GRID */
 .info-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px}
 @media(min-width:520px){.info-grid{grid-template-columns:1fr 1fr}}
 .info-item{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:12px 14px}
 .info-label{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
 .info-value{font-size:14px;font-weight:600;color:#fff;word-break:break-word;line-height:1.35}
 
-/* PAYMENT */
 .payment-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
 .payment-paid{background:rgba(0,166,80,.15);color:#22c55e;border:1px solid #22c55e}
 .payment-pending{background:rgba(255,159,10,.15);color:#ff9f0a;border:1px solid #ff9f0a}
 .payment-rejected{background:rgba(255,59,48,.15);color:var(--red);border:1px solid var(--red)}
 
-/* CASH SEND PIN DISPLAY */
 .cash-pin-display{background:rgba(255,159,10,.08);border:1px solid var(--orange);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;animation:slideDown .35s ease-out}
 .cash-pin-body{flex:1;min-width:0}
 .cash-pin-label{font-size:10.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:6px}
 .cash-pin-value{font-family:ui-monospace,SFMono-Regular,monospace;font-size:22px;font-weight:800;color:#fff;letter-spacing:4px;line-height:1;word-break:break-all}
 .cash-pin-hint{font-size:11px;color:var(--muted);margin:8px 0 0;line-height:1.4}
 
-/* PAY NOW button */
 .pay-now-btn{background:var(--green);color:#fff;font-weight:800;font-size:14.5px;width:100%;padding:15px;border-radius:12px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.4px;animation:heartbeat 1.8s infinite ease-in-out;border:0}
 .pay-now-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
 .pay-now-btn:disabled{animation:none;opacity:.7;cursor:not-allowed}
 @keyframes heartbeat{0%{transform:scale(1);box-shadow:0 0 15px rgba(0,166,80,.5)}14%{transform:scale(1.03);box-shadow:0 0 25px rgba(0,166,80,.8)}28%{transform:scale(1);box-shadow:0 0 15px rgba(0,166,80,.5)}42%{transform:scale(1.03);box-shadow:0 0 25px rgba(0,166,80,.8)}70%{transform:scale(1);box-shadow:0 0 15px rgba(0,166,80,.5)}}
 
-/* CANCELLED STATE */
 .cancelled-banner{background:rgba(255,59,48,.08);border:1px solid var(--red);border-radius:14px;padding:18px;margin-bottom:16px;text-align:center;animation:slideDown .35s ease-out}
 .cancelled-icon{font-size:42px;margin-bottom:8px}
 .cancelled-banner h3{margin:0 0 4px;font-size:16px;color:var(--red);font-weight:800}
 .cancelled-banner p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
 
-/* ITEMS LIST */
 .items-section{margin-top:18px;padding-top:18px;border-top:1px solid #1a1a1a}
 .items-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .items-heading h3{margin:0;font-size:14px;font-weight:800;color:#fff;letter-spacing:.3px;text-transform:uppercase}
@@ -154,14 +155,12 @@ a{color:#0878D1;text-decoration:none}
 .item-meta{font-size:11.5px;color:var(--muted);margin:0}
 .item-price{font-size:14px;font-weight:800;color:#fff;flex-shrink:0;text-align:right}
 
-/* TOTALS */
 .totals{margin-top:14px;padding:14px;background:#0a0a0a;border-radius:10px;border:1px solid #1a1a1a}
 .total-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--muted)}
 .total-row.grand{margin-top:8px;padding-top:10px;border-top:1px solid #1f1f1f;color:#fff;font-weight:800;font-size:16px}
 .total-row.grand span:last-child{color:var(--blue)}
 .total-row .discount{color:var(--green);font-weight:700}
 
-/* ACTION BUTTONS */
 .actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 @media(min-width:520px){.actions-grid{grid-template-columns:repeat(3,1fr)}}
 .action-btn{background:#1a1a1a;border:1px solid #262626;border-radius:10px;padding:13px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:12px;font-weight:700;color:#fff;transition:background .15s,border-color .15s;letter-spacing:.2px}
@@ -169,7 +168,6 @@ a{color:#0878D1;text-decoration:none}
 .action-btn svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .action-btn.wa svg{stroke:#25D366}
 
-/* HELP / SUPPORT */
 .support-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
 .support-card h3{margin:0 0 6px;font-size:15px;font-weight:800;color:#fff}
 .support-card p{margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.5}
@@ -179,7 +177,6 @@ a{color:#0878D1;text-decoration:none}
 .support-btn.wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.3);color:#25D366}
 .support-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* LOADING SKELETON */
 .skel{background:linear-gradient(90deg,#141414 0%,#1c1c1c 50%,#141414 100%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .skel-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
@@ -187,12 +184,10 @@ a{color:#0878D1;text-decoration:none}
 .skel-line.short{width:60%}
 .skel-circle{width:42px;height:42px;border-radius:50%;margin:20px auto;display:block}
 
-/* FOOTER */
 .footer{text-align:center;padding:20px 12px;color:var(--muted);font-size:11.5px;letter-spacing:.3px}
 .footer a{color:var(--blue);font-weight:600}
 .footer-brand{color:var(--blue);font-weight:800;font-size:13px;letter-spacing:.4px;display:block;margin-bottom:4px}
 
-/* TOAST */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;z-index:99999;font-weight:600;font-size:13.5px;box-shadow:0 8px 24px rgba(8,120,209,.4);max-width:90vw;text-align:center;animation:toastIn .25s ease-out}
 .toast.error{background:var(--red);box-shadow:0 8px 24px rgba(255,59,48,.4)}
 .toast.success{background:var(--green);box-shadow:0 8px 24px rgba(0,166,80,.4)}
@@ -201,7 +196,6 @@ a{color:#0878D1;text-decoration:none}
 </head>
 <body>
 
-<!-- ============ HEADER ============ -->
 <header class="site-header">
   <div class="header-panel">
     <div class="header-top">
@@ -230,6 +224,26 @@ a{color:#0878D1;text-decoration:none}
     <div class="alert-body">
       <p class="alert-title">Payment Verified</p>
       <p class="alert-text">Your payment was securely confirmed with PayFast. Your order is now being prepared.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAYMENT WARNING BANNER (shown when PoP not uploaded) ============ -->
+  <div id="payment-warning" class="payment-warning hidden">
+    <div class="payment-warning-icon">⚠️</div>
+    <div class="payment-warning-body">
+      <p class="payment-warning-title">Proof of payment not uploaded</p>
+      <p class="payment-warning-text">
+        Please upload a <b>screenshot</b> or any other <b>proof of payment</b> so that your order can be processed.
+        If we don't receive it within the time limit, your order will be cancelled automatically.
+      </p>
+      <div class="payment-warning-timer">
+        <span>⏳</span>
+        <span>Auto-cancels in <b id="cancel-timer">--</b></span>
+      </div>
+      <button class="payment-warning-btn" id="upload-proof-btn">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Proof of Payment
+      </button>
     </div>
   </div>
 
@@ -291,7 +305,7 @@ a{color:#0878D1;text-decoration:none}
     <div id="cancelled-banner" class="cancelled-banner hidden">
       <div class="cancelled-icon">❌</div>
       <h3>Order Cancelled</h3>
-      <p>This order has been cancelled. If this is unexpected, please contact support.</p>
+      <p id="cancelled-reason">This order has been cancelled. If this is unexpected, please contact support.</p>
     </div>
 
     <div id="stepper-wrapper" class="stepper-wrap">
@@ -340,7 +354,6 @@ a{color:#0878D1;text-decoration:none}
       </div>
     </div>
 
-    <!-- Cash Send PIN display (auto-shown when the order used cash send) -->
     <div id="cash-pin-display" class="cash-pin-display hidden">
       <div class="cash-pin-body">
         <span class="cash-pin-label">🔑 Cash Send PIN on File</span>
@@ -434,8 +447,11 @@ const PAYFAST_MERCHANT_KEY = "c1jn6gzhvg31l";
 const PAYFAST_PASSPHRASE = "";
 const IS_SANDBOX = true;
 
+const PAYMENT_DEADLINE_HOURS = 24;
+
 let activeUnsubscribe = null;
 let currentOrder = null;
+let currentOrderId = null;
 
 /* ============ HELPERS ============ */
 const $ = id => document.getElementById(id);
@@ -482,7 +498,7 @@ function speak(text){
   } catch (e) { console.warn("Speech failed:", e); }
 }
 
-/* ============ RECENT ORDERS (localStorage) ============ */
+/* ============ RECENT ORDERS ============ */
 const RECENT_KEY = "sbhene_recent_orders";
 function getRecentOrders(){
   try { const r = JSON.parse(localStorage.getItem(RECENT_KEY)); return Array.isArray(r) ? r : []; }
@@ -524,11 +540,13 @@ window.trackOrder = function(){
     return;
   }
 
+  currentOrderId = id;
   localStorage.setItem("trackOrderId", id);
   addRecentOrder(id);
 
   $("error-card").classList.add("hidden");
   $("result").classList.add("hidden");
+  $("payment-warning").classList.add("hidden");
   $("loading-card").classList.remove("hidden");
 
   if (activeUnsubscribe) { activeUnsubscribe(); activeUnsubscribe = null; }
@@ -541,6 +559,7 @@ window.trackOrder = function(){
     if (!snap.exists()) {
       $("result").classList.add("hidden");
       $("error-card").classList.remove("hidden");
+      $("payment-warning").classList.add("hidden");
       if (!spokeResult) { speak("Invalid order number"); spokeResult = true; }
       toast("Order not found", "error");
       return;
@@ -569,6 +588,13 @@ window.trackOrder = function(){
     if (status === "Cancelled") {
       $("cancelled-banner").classList.remove("hidden");
       $("stepper-wrapper").classList.add("hidden");
+      // Show custom cancellation reason if it's an auto-cancel
+      const reasonEl = $("cancelled-reason");
+      if (o.cancelReason) {
+        reasonEl.innerHTML = `❌ <b>${escapeHtml(o.cancelReason)}</b><br><span style="font-size:12px;color:var(--muted)">If you'd still like this order, please contact support or place a new order.</span>`;
+      } else {
+        reasonEl.textContent = "This order has been cancelled. If this is unexpected, please contact support.";
+      }
     } else {
       $("cancelled-banner").classList.add("hidden");
       $("stepper-wrapper").classList.remove("hidden");
@@ -589,7 +615,7 @@ window.trackOrder = function(){
       "payment-pending"
     );
 
-    /* ============ CASH SEND PIN DISPLAY ============ */
+    // Cash Send PIN display
     const cashPin = o.payment?.cashSendPin;
     const pinBox = $("cash-pin-display");
     if (cashPin && String(cashPin).trim()) {
@@ -643,6 +669,9 @@ window.trackOrder = function(){
     if (deliveryFee > 0) { $("delivery-row").classList.remove("hidden"); $("delivery").textContent = money(deliveryFee); }
     else { $("delivery-row").classList.add("hidden"); }
     $("total").textContent = money(o.total || 0);
+
+    // ============ PAYMENT WARNING + AUTO-CANCEL CHECK ============
+    checkPaymentWarning(o, orderId);
   }, err => {
     console.error(err);
     $("loading-card").classList.add("hidden");
@@ -652,7 +681,109 @@ window.trackOrder = function(){
   });
 };
 
-/* ============ STEPPER UI ============ */
+/* ============ PAYMENT WARNING BANNER ============ */
+function checkPaymentWarning(o, orderId){
+  const warn = $("payment-warning");
+  warn.classList.add("hidden");
+
+  // Only warn for Pending orders (not yet processed / cancelled / delivered)
+  if (o.status !== "Pending") return;
+
+  const pay = o.payment?.status || "";
+  // If customer has already paid OR submitted proof — no warning
+  if (pay === "Paid") return;
+  if (pay.includes("Uploaded")) return;
+  if (pay.includes("WhatsApp")) return;
+  if (pay.includes("Rejected")) return;
+
+  // Show the warning
+  warn.classList.remove("hidden");
+
+  // Wire up the Upload button
+  const btn = $("upload-proof-btn");
+  btn.onclick = () => {
+    const total = o.total || 0;
+    window.location.href = `checkout.html?orderId=${encodeURIComponent(orderId)}&total=${total}`;
+  };
+
+  // Start the countdown
+  const deadline = (Number(o.timestamp) || Date.now()) + PAYMENT_DEADLINE_HOURS * 60 * 60 * 1000;
+  renderCancelCountdown(deadline, orderId);
+
+  // Speak the warning once per session per order
+  const spokeKey = `warn-spoken-${orderId}`;
+  if (!sessionStorage.getItem(spokeKey)) {
+    speak("Proof of payment not uploaded. Please upload a screenshot or any other proof so that your order will be processed.");
+    sessionStorage.setItem(spokeKey, "1");
+  }
+
+  // Attempt to cancel right away if already past deadline
+  autoCancelIfExpired(o, orderId);
+}
+
+function renderCancelCountdown(deadline, orderId){
+  const el = $("cancel-timer");
+  if (!el) return;
+
+  function tick(){
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) {
+      el.textContent = "expired";
+      // Trigger the cancel now that time is up
+      autoCancelIfExpired(currentOrder, orderId);
+      if (window._cancelCountdownInterval) {
+        clearInterval(window._cancelCountdownInterval);
+        window._cancelCountdownInterval = null;
+      }
+      return;
+    }
+    const hrs = Math.floor(remaining / (1000 * 60 * 60));
+    const mins = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((remaining % (1000 * 60)) / 1000);
+    el.textContent = `${hrs}h ${mins}m ${secs}s`;
+  }
+
+  tick();
+  if (window._cancelCountdownInterval) clearInterval(window._cancelCountdownInterval);
+  window._cancelCountdownInterval = setInterval(tick, 1000);
+}
+
+async function autoCancelIfExpired(o, orderId){
+  if (!o || !orderId) return;
+
+  // Only Pending orders can be auto-cancelled
+  if (o.status !== "Pending") return;
+
+  // If customer has already done their part, don't cancel
+  const pay = o.payment?.status || "";
+  if (pay === "Paid") return;
+  if (pay.includes("Uploaded")) return;
+  if (pay.includes("WhatsApp")) return;
+
+  const deadline = (Number(o.timestamp) || Date.now()) + PAYMENT_DEADLINE_HOURS * 60 * 60 * 1000;
+  if (Date.now() < deadline) return;
+
+  // Prevent double-cancel
+  if (window._cancellingOrder === orderId) return;
+  window._cancellingOrder = orderId;
+
+  try {
+    await updateDoc(doc(db, "orders", orderId), {
+      status: "Cancelled",
+      cancelReason: "Payment not received within 24 hours",
+      cancelledAt: Date.now(),
+      cancelledBy: "system"
+    });
+    toast("Order cancelled — payment window expired", "error", 5000);
+    speak("Your order has been cancelled because payment was not received within 24 hours.");
+  } catch (err) {
+    console.error("Auto-cancel failed:", err);
+  } finally {
+    window._cancellingOrder = null;
+  }
+}
+
+/* ============ STEPPER ============ */
 function updateProgressUI(status){
   const steps = ["Pending", "Processing", "Shipped", "Delivered"];
   const currentIdx = steps.indexOf(status);
@@ -677,12 +808,18 @@ function updateProgressUI(status){
 /* ============ CLEAR ============ */
 window.clearSearch = function(){
   if (activeUnsubscribe) { activeUnsubscribe(); activeUnsubscribe = null; }
+  if (window._cancelCountdownInterval) {
+    clearInterval(window._cancelCountdownInterval);
+    window._cancelCountdownInterval = null;
+  }
   currentOrder = null;
+  currentOrderId = null;
   localStorage.removeItem("trackOrderId");
   $("orderId").value = "";
   $("error-card").classList.add("hidden");
   $("result").classList.add("hidden");
   $("loading-card").classList.add("hidden");
+  $("payment-warning").classList.add("hidden");
   renderRecentOrders();
 };
 
@@ -690,23 +827,15 @@ window.clearSearch = function(){
 window.copyOrderId = async () => {
   const id = $("order-id-display").textContent;
   if (!id || id === "—") return;
-  try {
-    await navigator.clipboard.writeText(id);
-    toast("Order ID copied", "success");
-  } catch {
-    prompt("Copy your Order ID:", id);
-  }
+  try { await navigator.clipboard.writeText(id); toast("Order ID copied", "success"); }
+  catch { prompt("Copy your Order ID:", id); }
 };
 
 window.copyCashPin = async () => {
   const pin = $("cash-pin-value").textContent;
   if (!pin || pin === "••••") return;
-  try {
-    await navigator.clipboard.writeText(pin);
-    toast("Cash Send PIN copied", "success");
-  } catch {
-    prompt("Copy your Cash Send PIN:", pin);
-  }
+  try { await navigator.clipboard.writeText(pin); toast("Cash Send PIN copied", "success"); }
+  catch { prompt("Copy your Cash Send PIN:", pin); }
 };
 
 window.shareOrder = async () => {
@@ -846,23 +975,6 @@ async function initTracker(){
 }
 
 initTracker();
-</script>
-
-<!-- ============ GOOGLE ANALYTICS ============ -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyC4BCz9GeNTgQYa8ydIJreTREVdPklganA",
-  authDomain: "sbhenecart.firebaseapp.com",
-  projectId: "sbhenecart",
-  storageBucket: "sbhenecart.firebasestorage.app",
-  messagingSenderId: "1074011270711",
-  appId: "1:1074011270711:web:72dffe0237f7eea4edd9b2",
-  measurementKind: "G-RWRGNK00BY"
-};
-const app = initializeApp(firebaseConfig);
-try { getAnalytics(app); } catch {}
 </script>
 
 </body>
