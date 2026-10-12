@@ -94,9 +94,6 @@ input, select, textarea { -webkit-appearance: none; appearance: none; }
 /* ============ CATEGORY GRID ============ */
 .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 @media (max-width: 340px) { .category-grid { grid-template-columns: repeat(3, 1fr); } }
-.category-grid-large { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-@media (max-width: 380px) { .category-grid-large { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 700px) { .category-grid-large { grid-template-columns: repeat(4, 1fr); } }
 
 .cat-tile {
   background: var(--bg-tile);
@@ -111,7 +108,6 @@ input, select, textarea { -webkit-appearance: none; appearance: none; }
 }
 .cat-tile:active { transform: scale(0.96); background: #2e2e2e; }
 .cat-tile.active { background: var(--blue); }
-.cat-tile.active svg { stroke: #fff; }
 .cat-tile svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .cat-tile-label { font-size: 12px; color: #fff; font-weight: 500; text-align: center; line-height: 1.15; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; padding: 0 2px; }
 
@@ -289,7 +285,7 @@ input, select, textarea { -webkit-appearance: none; appearance: none; }
 .modal-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; background: #1e1e1e; border-radius: 50%; color: #fff; font-size: 20px; display: flex; align-items: center; justify-content: center; padding: 0; z-index: 5; border: 0; }
 .modal h2 { margin: 0 0 12px; font-size: 20px; font-weight: 700; }
 
-/* ============ PRODUCT DETAIL (full sheet) ============ */
+/* ============ PRODUCT DETAIL ============ */
 .detail-gallery { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 14px; position: relative; }
 .detail-gallery img.main { width: 100%; aspect-ratio: 1/1; object-fit: contain; cursor: zoom-in; }
 .detail-thumbs { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; }
@@ -613,6 +609,7 @@ input, select, textarea { -webkit-appearance: none; appearance: none; }
       <select class="form-select" id="payment-method" onchange="handlePaymentChange()" required>
         <option value="" disabled selected>Select payment method</option>
         <option value="EFT Bank Transfer">EFT Bank Transfer</option>
+        <option value="Cash Send / Cash Deposit">Cash Send / Cash Deposit</option>
         <option value="Online Card / Instant EFT">Online Card / Instant EFT (PayFast)</option>
       </select>
       <div class="eft-details" id="eft-info" style="display:none;">
@@ -800,6 +797,15 @@ window.switchTab = (tab) => {
   document.querySelectorAll(".nav-item").forEach(n => n.classList.toggle("active", n.dataset.tab === tab));
 
   if (tab === "home") {
+    currentCategoryFilter = "";
+    currentSearchQuery = "";
+    const searchEl = $("search");
+    if (searchEl) searchEl.value = "";
+    const titleEl = $("catalog-title");
+    if (titleEl) titleEl.textContent = "All products";
+    renderFilterChips();
+    renderProducts();
+
     $("view-home").classList.add("active");
     window.scrollTo({ top: 0, behavior: "smooth" });
   } else if (tab === "categories") {
@@ -822,6 +828,15 @@ window.switchTab = (tab) => {
   }
 };
 
+function showHomeViewKeepFilters() {
+  activeTab = "home";
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  $("view-home").classList.add("active");
+  document.querySelectorAll(".nav-item").forEach(n =>
+    n.classList.toggle("active", n.dataset.tab === "home")
+  );
+}
+
 // ============ DRAWERS ============
 window.openMenu = () => { $("menu-drawer").classList.add("open"); $("backdrop").classList.add("open"); };
 window.closeMenu = () => { $("menu-drawer").classList.remove("open"); if (!$("cart-drawer").classList.contains("open")) $("backdrop").classList.remove("open"); };
@@ -837,7 +852,7 @@ window.addEventListener("scroll", () => {
   if (btn) btn.classList.toggle("show", window.scrollY > 400);
 });
 
-// ============ CATEGORY GRID (HOME PREVIEW) ============
+// ============ CATEGORY GRID ============
 function renderCategoryGrid() {
   const grid = $("category-grid");
   if (!grid) return;
@@ -888,7 +903,9 @@ window.filterByCategory = (catName) => {
   $("catalog-title").textContent = catName;
   renderFilterChips();
   renderProducts();
-  switchTab("home");
+
+  showHomeViewKeepFilters();
+
   setTimeout(() => $("products-section").scrollIntoView({ behavior: "smooth", block: "start" }), 100);
 };
 
@@ -943,18 +960,33 @@ function renderPromoCards() {
 }
 
 window.viewAllDeals = () => {
-  const deals = dbProducts.filter(p => p.badge === "Sale" || p.onSale || (p.originalPrice && Number(p.originalPrice) > Number(p.price)));
+  const deals = dbProducts.filter(p =>
+    p.badge === "Sale" ||
+    p.onSale ||
+    (p.originalPrice && Number(p.originalPrice) > Number(p.price))
+  );
+
   if (!deals.length) {
     showToast("No active deals — browse all products");
     currentCategoryFilter = "";
+    currentSearchQuery = "";
+    $("search").value = "";
     $("catalog-title").textContent = "All products";
     renderFilterChips();
     renderProducts();
+    showHomeViewKeepFilters();
     return;
   }
+
+  currentCategoryFilter = "";
+  currentSearchQuery = "";
+  $("search").value = "";
   $("catalog-title").textContent = "⚡ Today's Deals";
+  renderFilterChips();
   renderProducts(deals);
-  switchTab("home");
+
+  showHomeViewKeepFilters();
+
   setTimeout(() => $("products-section").scrollIntoView({ behavior: "smooth" }), 100);
 };
 
@@ -1155,14 +1187,12 @@ function renderWishlistView() {
     grid.innerHTML = items.map(productCardHtml).join("");
   }
 
-  // Recommendations — same categories as wishlist, excluding wishlist items
   const wishCats = new Set(items.map(p => p.category).filter(Boolean));
   let reco = [];
   if (wishCats.size) {
     reco = dbProducts.filter(p => !ids.includes(p.id) && wishCats.has(p.category)).slice(0, 6);
   }
   if (reco.length < 3) {
-    // Fallback: most recent products not already wishlisted
     reco = dbProducts.filter(p => !ids.includes(p.id)).slice(0, 6);
   }
 
@@ -1243,7 +1273,6 @@ function renderDetailContent() {
   const showOriginal = p.originalPrice && Number(p.originalPrice) > Number(p.price);
   const savings = showOriginal ? Number(p.originalPrice) - Number(p.price) : 0;
 
-  // Gallery
   const mainImg = images[imageIdx] || images[0] || "";
   const thumbs = images.length > 1 ? `
     <div class="detail-thumbs">
@@ -1254,7 +1283,6 @@ function renderDetailContent() {
       `).join("")}
     </div>` : "";
 
-  // Color selection
   const colorHtml = colors ? `
     <div class="detail-section">
       <div class="detail-section-label">
@@ -1272,7 +1300,6 @@ function renderDetailContent() {
       </div>
     </div>` : "";
 
-  // Size selection
   const sizeHtml = sizes ? `
     <div class="detail-section">
       <div class="detail-section-label">
@@ -1286,7 +1313,6 @@ function renderDetailContent() {
       </div>
     </div>` : "";
 
-  // Trust row
   const trustHtml = `
     <div class="trust-row">
       <div class="trust-item">
@@ -1497,7 +1523,6 @@ window.addToCart = (id, btnEl) => {
   const colors = getProductColors(p);
   const sizes = getProductSizes(p);
 
-  // If product has variants → open detail modal to choose
   if (colors || sizes) {
     openDetails(id);
     return;
@@ -1538,7 +1563,6 @@ function flyToCart(btn) {
   fly.addEventListener("transitionend", () => fly.remove());
 }
 
-// cartLineKey — variants need unique IDs
 function cartLineKey(item) {
   return `${item.id}::${item.selectedSize || ""}::${item.selectedColor || ""}`;
 }
@@ -1562,7 +1586,7 @@ function updateCartUI() {
   const totalEl = $("cart-total");
   if (totalEl) totalEl.textContent = money(subtotal);
 
-    const box = $("cart-items");
+  const box = $("cart-items");
   if (box) {
     if (!cart.length) {
       box.innerHTML = `<div class="cart-empty">Your cart is empty</div>`;
@@ -1593,7 +1617,6 @@ function updateCartUI() {
     }
   }
 
-  // Free shipping progress
   const FREE_LIMIT = 1500;
   const bar = $("ship-bar");
   const label = $("ship-label");
@@ -1628,9 +1651,35 @@ window.openCheckout = () => {
 };
 window.closeCheckout = () => $("checkout-modal").classList.remove("open");
 
+// CHANGED: dynamic info box based on payment method
 window.handlePaymentChange = () => {
   const m = $("payment-method").value;
-  $("eft-info").style.display = m === "EFT Bank Transfer" ? "block" : "none";
+  const eftInfo = $("eft-info");
+  if (!eftInfo) return;
+
+  if (m === "Cash Send / Cash Deposit") {
+    eftInfo.style.display = "block";
+    eftInfo.innerHTML = `
+      <strong>Cash Send / Cash Deposit Instructions</strong>
+      Send the money using <b>Capitec Cash Send</b> or any bank's cash-send service to:<br>
+      <b>Phone:</b> 065 358 4906<br>
+      <b>Reference:</b> Your Order ID (shown after checkout)<br>
+      <small style="color:#aaa;">After sending, you'll be asked to upload your receipt <b>and</b> the Cash Send PIN.</small>
+    `;
+  } else if (m === "EFT Bank Transfer") {
+    eftInfo.style.display = "block";
+    eftInfo.innerHTML = `
+      <strong>Bank Details</strong>
+      Bank: Capitec Bank<br>
+      Account: 2438836438<br>
+      Branch Code: 470010<br>
+      Reference: Your Order ID<br>
+      <small>Email proof of payment to SbheneCart@gmail.com or WhatsApp 065 358 4906</small>
+    `;
+  } else {
+    eftInfo.style.display = "none";
+    eftInfo.innerHTML = "";
+  }
 };
 
 window.calculateDelivery = () => {
@@ -1741,7 +1790,6 @@ window.processCheckout = async (e) => {
       } catch {}
     }
 
-    // Reset
     $("checkout-form").reset();
     delete $("checkout-form").dataset.discountPoints;
     cart = [];
@@ -1749,15 +1797,17 @@ window.processCheckout = async (e) => {
     updateCartUI();
     closeCheckout();
 
-    // Show success
+    // CHANGED: Cash Send also redirects to checkout.html for receipt + PIN
     if (method === "Online Card / Instant EFT") {
       pendingPayFast = { orderId, total, name, phone };
       showOrderPopup(orderId, "Online Card / Instant EFT", total);
+    } else if (method === "Cash Send / Cash Deposit") {
+      window.location.href = `checkout.html?orderId=${orderId}&total=${total}`;
     } else {
-      showOrderPopup(orderId, "EFT Bank Transfer", total);
+      // EFT
+      window.location.href = `checkout.html?orderId=${orderId}&total=${total}`;
     }
 
-    // Save last order for tracking
     localStorage.setItem("trackOrderId", orderId);
 
   } catch (err) {
@@ -1986,12 +2036,10 @@ onSnapshot(collection(db, "subsubcategories"), (snap) => {
   dbSubsubcategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 });
 
-// Optional banners — kept for future use but not displayed
 onSnapshot(collection(db, "banners"), (snap) => {
   // Reserved for future hero slider
 });
 
-// Broadcast ticker
 onSnapshot(collection(db, "broadcasts"), (snap) => {
   const list = snap.docs.map(d => ({ id: d.id, ...d.data() }))
     .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
@@ -2049,13 +2097,11 @@ window.initGoogleMaps = () => {
 // ============ URL RECOVERY ============
 const params = new URLSearchParams(location.search);
 
-// Auto-open a product if ?product=ID
 const productParam = params.get("product");
 if (productParam) {
   setTimeout(() => openDetails(productParam), 600);
 }
 
-// Auto-open checkout if ?checkout=true
 if (params.get("checkout") === "true") {
   setTimeout(() => { if (cart.length) openCheckout(); }, 400);
 }
@@ -2065,13 +2111,15 @@ renderFilterChips();
 renderCategoryGrid();
 updateCartUI();
 updateWishlistDot();
-renderProducts(); // shows skeletons until products load
+renderProducts();
 </script>
 
-<!-- Google Maps (async, non-blocking) — replace YOUR_GOOGLE_MAPS_KEY or remove the whole block -->
+<!-- ============ GOOGLE MAPS (OPTIONAL) ============
+     Replace YOUR_GOOGLE_MAPS_KEY with your real key, OR delete this entire block.
+     If you don't have a key, checkout still works — just without address autocomplete. -->
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY&libraries=places&callback=initGoogleMaps">
 </script>
 
 </body>
-</html>
+      </html>
