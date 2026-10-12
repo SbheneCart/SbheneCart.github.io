@@ -47,6 +47,8 @@ a{color:#0878D1;text-decoration:none}
 .nav-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
 .nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;border-radius:999px;padding:2px 7px;min-width:18px;text-align:center}
 .nav-badge[data-empty="true"]{display:none}
+.nav-badge.pulse{animation:badgePulse 1.2s ease-in-out infinite}
+@keyframes badgePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,59,48,.7)}50%{transform:scale(1.15);box-shadow:0 0 0 6px rgba(255,59,48,0)}}
 .sidebar-section-label{font-size:10px;font-weight:700;color:#666;letter-spacing:.8px;text-transform:uppercase;padding:14px 14px 6px;margin-top:8px}
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
 .card-title{margin:0 0 12px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -106,6 +108,7 @@ a{color:#0878D1;text-decoration:none}
 .stat-card.clickable:hover{border-color:var(--blue);transform:translateY(-2px)}
 .stat-card .label{color:var(--muted);font-size:12px;font-weight:500;display:block;margin-bottom:6px}
 .stat-card .value{font-size:24px;font-weight:800;color:#fff;line-height:1}
+.stat-card .sub{font-size:11px;color:var(--muted);margin-top:4px}
 .stat-card .value.blue{color:var(--blue)}
 .stat-card .value.red{color:var(--red)}
 .stat-card .value.green{color:var(--green)}
@@ -133,6 +136,30 @@ a{color:#0878D1;text-decoration:none}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab{padding:9px 16px;background:#0a0a0a;border:1px solid #262626;border-radius:999px;font-size:13px;font-weight:600;color:#fff;white-space:nowrap;flex-shrink:0}
 .tab.active{background:var(--blue);border-color:var(--blue)}
+/* Payment method filter chips */
+.pm-filter-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;scrollbar-width:none}
+.pm-filter-bar::-webkit-scrollbar{display:none}
+.pm-chip{padding:7px 14px;background:#0a0a0a;border:1px solid #262626;border-radius:999px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all .15s}
+.pm-chip:hover{border-color:var(--blue-light)}
+.pm-chip.active{background:var(--blue);border-color:var(--blue)}
+.pm-chip .pm-count{opacity:.7;font-weight:400;margin-left:4px}
+/* Order search bar */
+.order-tools{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.order-search{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:#0a0a0a;border:1px solid #262626;border-radius:10px;padding:0 12px;height:42px}
+.order-search svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+.order-search input{flex:1;border:0;outline:none;background:transparent;color:#fff;font-size:14px;height:100%;padding:0}
+.export-btn{background:#1a1a1a;border:1px solid #262626;border-radius:10px;padding:0 14px;color:#fff;font-size:13px;font-weight:600;height:42px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.export-btn:hover{background:#242424;border-color:var(--blue)}
+.export-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+/* Copy chip */
+.copy-chip{display:inline-flex;align-items:center;gap:4px;background:#1a1a1a;border:1px solid #262626;border-radius:6px;padding:3px 8px;font-size:10.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;margin-left:6px}
+.copy-chip:hover{background:#242424;color:#fff;border-color:var(--blue)}
+.copy-chip.copied{background:var(--green);color:#fff;border-color:var(--green)}
+.copy-chip svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.5}
+/* Cancelled reason banner */
+.cancelled-banner{background:rgba(255,59,48,.08);border:1px solid var(--red);border-radius:10px;padding:12px 14px;margin-top:10px;font-size:12.5px;line-height:1.5}
+.cancelled-banner b{color:var(--red);display:block;margin-bottom:3px}
+.cancelled-banner span{color:var(--muted)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 20px;border-radius:10px;z-index:99999;font-weight:600;font-size:13.5px;box-shadow:0 8px 24px rgba(8,120,209,.4);max-width:90vw;text-align:center;animation:toast-in .25s ease-out}
 .toast.error{background:var(--red);box-shadow:0 8px 24px rgba(255,59,48,.4)}
 .toast.success{background:var(--green);box-shadow:0 8px 24px rgba(0,166,80,.4)}
@@ -150,8 +177,6 @@ a{color:#0878D1;text-decoration:none}
 .security-icon{font-size:44px;margin-bottom:8px;display:block}
 .broadcast-ticker{position:fixed;top:12px;left:12px;right:12px;z-index:5000;background:var(--blue);color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;font-size:13px;text-align:center;box-shadow:0 6px 20px rgba(8,120,209,.4);display:flex;align-items:center;justify-content:center;gap:10px}
 .broadcast-close{background:rgba(255,255,255,.2);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(255,59,48,.7)}70%{box-shadow:0 0 0 8px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
-.pulsing{animation:pulse-ring 1.8s infinite}
 .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;opacity:0;pointer-events:none;transition:opacity .25s}
 .backdrop.open{opacity:1;pointer-events:auto}
 .empty{text-align:center;padding:40px 20px;color:var(--muted)}
@@ -166,8 +191,6 @@ a{color:#0878D1;text-decoration:none}
 .img-preview{aspect-ratio:1;background:#fff;border-radius:8px;overflow:hidden;position:relative;border:1px solid #262626}
 .img-preview img{width:100%;height:100%;object-fit:contain;padding:3px}
 .variant-section{border-top:1px dashed #262626;margin-top:18px;padding-top:14px}
-
-/* Payment verification badge in queue */
 .pay-status-chip{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:4px 10px;border-radius:999px}
 .pay-chip-pending{background:rgba(255,159,10,.15);color:var(--orange);border:1px solid var(--orange)}
 .pay-chip-uploaded{background:rgba(8,120,209,.15);color:var(--blue-light);border:1px solid var(--blue-light)}
@@ -333,8 +356,13 @@ a{color:#0878D1;text-decoration:none}
     <main class="admin-main">
       <section id="page-dash" class="admin-page">
         <div class="stat-grid">
-          <div class="stat-card"><span class="label">Products</span><span class="value" id="stat-products">0</span></div>
-          <div class="stat-card"><span class="label">Revenue</span><span class="value green" id="stat-revenue">R0</span></div>
+          <div class="stat-card">
+            <span class="label">Today's Revenue</span>
+            <span class="value green" id="stat-today-rev">R0</span>
+            <span class="sub" id="stat-today-orders">0 orders today</span>
+          </div>
+          <div class="stat-card"><span class="label">Total Products</span><span class="value" id="stat-products">0</span></div>
+          <div class="stat-card"><span class="label">All-Time Revenue</span><span class="value green" id="stat-revenue">R0</span></div>
           <div class="stat-card"><span class="label">Pending Orders</span><span class="value red" id="stat-pending">0</span></div>
           <div class="stat-card"><span class="label">Customers</span><span class="value blue" id="stat-customers">0</span></div>
           <div class="stat-card clickable" onclick="showPage('payment-queue')">
@@ -343,7 +371,7 @@ a{color:#0878D1;text-decoration:none}
           </div>
         </div>
         <div class="chart-grid">
-          <div class="card"><h3 class="card-title">📈 Revenue (ZAR)</h3><div class="chart-container"><canvas id="revenueChart"></canvas></div></div>
+          <div class="card"><h3 class="card-title">📈 Revenue (Last 7 days)</h3><div class="chart-container"><canvas id="revenueChart"></canvas></div></div>
           <div class="card"><h3 class="card-title">📦 Stock Status</h3><div class="chart-container"><canvas id="stockChart"></canvas></div></div>
         </div>
         <div class="card"><h3 class="card-title">📝 Activity Log</h3><div id="activity-log" style="max-height:220px;overflow-y:auto"></div></div>
@@ -419,7 +447,6 @@ a{color:#0878D1;text-decoration:none}
         </div>
       </section>
 
-      <!-- NEW PAGE: Payment Verification Queue -->
       <section id="page-payment-queue" class="admin-page hidden">
         <div class="card">
           <h3 class="card-title">🔔 Payment Verification Queue</h3>
@@ -434,6 +461,28 @@ a{color:#0878D1;text-decoration:none}
           <button class="tab" id="tab-history" onclick="setOrderTab('history')">✅ Completed</button>
           <button class="tab" id="tab-archived" onclick="setOrderTab('archived')">📦 Archived</button>
         </div>
+
+        <!-- Order tools: search + export -->
+        <div class="order-tools">
+          <div class="order-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="order-search-input" type="text" placeholder="Search by Order ID, name, or phone…" oninput="renderOrders()">
+          </div>
+          <button class="export-btn" onclick="exportOrdersCSV()" title="Export visible orders to CSV">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            CSV
+          </button>
+        </div>
+
+        <!-- Payment method filter chips -->
+        <div class="pm-filter-bar" id="pm-filter-bar">
+          <button class="pm-chip active" data-pm="all" onclick="setPaymentFilter('all')">All payments</button>
+          <button class="pm-chip" data-pm="eft" onclick="setPaymentFilter('eft')">🏦 EFT <span class="pm-count" id="pm-count-eft"></span></button>
+          <button class="pm-chip" data-pm="cash" onclick="setPaymentFilter('cash')">🔑 Cash Send <span class="pm-count" id="pm-count-cash"></span></button>
+          <button class="pm-chip" data-pm="card" onclick="setPaymentFilter('card')">💳 Card <span class="pm-count" id="pm-count-card"></span></button>
+          <button class="pm-chip" data-pm="unpaid" onclick="setPaymentFilter('unpaid')">⏳ Unpaid <span class="pm-count" id="pm-count-unpaid"></span></button>
+        </div>
+
         <div id="orders-map" style="height:200px;border-radius:12px;border:1px solid var(--border);margin-bottom:14px;display:none"></div>
         <div id="orders-list"></div>
       </section>
@@ -506,7 +555,6 @@ a{color:#0878D1;text-decoration:none}
         <div class="card"><h3 class="card-title">📋 Registered Sellers</h3><div id="sellers-list"></div></div>
       </section>
 
-      <!-- NEW PAGE: Seller Revenue -->
       <section id="page-seller-revenue" class="admin-page hidden">
         <div class="card">
           <h3 class="card-title">💰 Seller Performance</h3>
@@ -579,11 +627,8 @@ a{color:#0878D1;text-decoration:none}
 
     <div class="variant-section">
       <label class="form-label" style="margin-top:0;font-size:14px;font-weight:700;color:#fff">🎨 Available Colors</label>
-      <div class="color-hint">
-        <b>Tap to cycle:</b> Not shown → ✅ In stock → ❌ Out of stock → Not shown again.
-      </div>
+      <div class="color-hint"><b>Tap to cycle:</b> Not shown → ✅ In stock → ❌ Out of stock → Not shown again.</div>
       <div id="color-picker" class="color-picker"></div>
-
       <label class="form-label" style="margin-top:14px">Add Custom Color</label>
       <div class="custom-color-row">
         <input type="text" id="custom_color_name" class="form-input" placeholder="e.g. Mint Green">
@@ -599,7 +644,6 @@ a{color:#0878D1;text-decoration:none}
         <option value="clothing">Clothing sizes (XS – 3XL)</option>
         <option value="shoes">Shoe sizes (EU 36 – 46)</option>
       </select>
-
       <div id="size-picker-wrap" class="hidden">
         <label class="form-label" style="margin-top:12px;font-size:14px;font-weight:700;color:#fff">Available Sizes</label>
         <div class="color-hint"><b>Tap to cycle:</b> Not shown → ✅ In stock → ❌ Out of stock → Not shown.</div>
@@ -639,7 +683,7 @@ a{color:#0878D1;text-decoration:none}
 
 <script type="module">
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, inMemoryPersistence, setPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -659,10 +703,12 @@ const auth = getAuth(app);
 if (typeof Notification !== "undefined" && Notification.permission !== "granted") Notification.requestPermission();
 
 const AUTHORIZED_ADMINS = ["sbhenecart@gmail.com","nhlakanipho.ndawonde80@gmail.com"];
+const PAYMENT_DEADLINE_HOURS = 24;
 let activePasskey = "SbheneCartAdmin2026!";
 let currentUser = null;
 let currentPage = "dash";
 let editingId = null;
+let currentPaymentFilter = "all";
 
 let dbCats = [], dbSubs = [], dbSubSubs = [], dbProducts = [], dbOrders = [], dbCustomers = [], dbSellers = [], dbRequests = [], dbCoupons = [], dbBanners = [], dbBroadcasts = [];
 let orderTab = "active";
@@ -701,6 +747,15 @@ function renderActivityLog(){
     ? activityLog.map(l => `<div class="log-entry"><b>${new Date(l.time).toLocaleTimeString()}</b> — ${escapeHtml(l.msg)}</div>`).join('')
     : '<p style="color:#666;font-size:12px">No activity yet</p>';
 }
+
+window.copyText = async (text, label = "Value") => {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast(`${label} copied`, 1500, "success");
+  } catch {
+    prompt(`Copy this ${label}:`, text);
+  }
+};
 
 window.toggleSidebar = () => {
   $("admin-sidebar").classList.toggle("open");
@@ -818,7 +873,7 @@ function renderColorPicker(){
     const isIn = state === "inStock";
     const isOos = state === "outOfStock";
     return `
-      <button type="button" class="color-opt ${isIn ? "active" : ""} ${isOos ? "oos" : ""}" onclick="cycleColor('${escapeHtml(c.name)}')" title="Tap to cycle: Not shown → In stock → Out of stock">
+      <button type="button" class="color-opt ${isIn ? "active" : ""} ${isOos ? "oos" : ""}" onclick="cycleColor('${escapeHtml(c.name)}')">
         <span class="color-dot" style="background:${c.hex}"></span>
         <span class="label">${escapeHtml(c.name)}</span>
         <span class="oos-tag">OUT</span>
@@ -868,7 +923,7 @@ function renderSizePicker(){
     const state = sizeStates[s];
     const isIn = state === "inStock";
     const isOos = state === "outOfStock";
-    return `<button type="button" class="size-opt ${isIn ? "active" : ""} ${isOos ? "oos" : ""}" onclick="cycleSize('${s}')" title="Tap to cycle: Not shown → In stock → Out of stock">${escapeHtml(s)}</button>`;
+    return `<button type="button" class="size-opt ${isIn ? "active" : ""} ${isOos ? "oos" : ""}" onclick="cycleSize('${s}')">${escapeHtml(s)}</button>`;
   }).join('');
 }
 
@@ -1028,21 +1083,15 @@ window.saveProduct = async () => {
 
   const colors = Object.keys(colorStates).map(name => {
     const pal = palette.find(p => p.name === name) || { hex: "#888888" };
-    return {
-      name,
-      hex: pal.hex,
-      outOfStock: colorStates[name] === "outOfStock"
-    };
+    return { name, hex: pal.hex, outOfStock: colorStates[name] === "outOfStock" };
   });
 
   const sizes = Object.keys(sizeStates).map(name => ({
-    name,
-    outOfStock: sizeStates[name] === "outOfStock"
+    name, outOfStock: sizeStates[name] === "outOfStock"
   }));
 
   const payload = {
-    name,
-    price,
+    name, price,
     originalPrice: $("p_original").value ? Number($("p_original").value) : null,
     category,
     subcategory: $("psc").value || "",
@@ -1051,8 +1100,7 @@ window.saveProduct = async () => {
     badge: $("p_badge").value || "",
     flashSaleEnd: ($("p_badge").value === "Sale" && $("p_flash_end").value) ? Date.parse($("p_flash_end").value) : null,
     sizingType: $("p_sizing_type").value,
-    sizes,
-    colors,
+    sizes, colors,
     requiresMeasurements: $("p_requires_sizing").checked,
     visible: $("p_visible").checked,
     isBooking: $("p_is_booking").checked,
@@ -1127,8 +1175,7 @@ window.saveDecorProduct = async () => {
     stock,
     badge: "",
     sizingType: "none",
-    sizes: [],
-    colors: [],
+    sizes: [], colors: [],
     requiresMeasurements: false,
     visible: true,
     isBooking: $("dec_is_booking").checked,
@@ -1211,11 +1258,57 @@ window.setOrderTab = tab => {
   $("tab-" + tab).classList.add("active");
   renderOrders();
 };
+
+window.setPaymentFilter = (pm) => {
+  currentPaymentFilter = pm;
+  document.querySelectorAll(".pm-chip").forEach(c => c.classList.toggle("active", c.dataset.pm === pm));
+  renderOrders();
+};
+
+/* NEW: changeOrderStatus with stock restore on cancel */
 window.updateOrderStatus = async (id, status) => {
+  const order = dbOrders.find(o => o.id === id);
+  if (!order) return;
+
+  // If cancelling an order that wasn't already cancelled, ask whether to restore stock
+  if (status === "Cancelled" && order.status !== "Cancelled") {
+    const restoreStock = confirm("Cancel this order?\n\nOK = Cancel AND restore product stock\nCancel = Just cancel without restoring stock");
+    try {
+      await updateDoc(doc(db, "orders", id), {
+        status,
+        cancelReason: "Cancelled by admin",
+        cancelledAt: Date.now(),
+        cancelledBy: currentUser?.email || "admin"
+      });
+      if (restoreStock) await restoreOrderStock(order);
+      toast(`🔄 Cancelled${restoreStock ? " • stock restored" : ""}`, 3200, "success");
+      logAction(`Order ${id.substring(0,8)} → Cancelled${restoreStock ? " (stock restored)" : ""}`);
+    } catch (e) {
+      console.error(e);
+      alert("Failed: " + e.message);
+    }
+    return;
+  }
+
   await updateDoc(doc(db, "orders", id), { status });
   toast(`🔄 ${status}`);
   logAction(`Order ${id.substring(0,8)} → ${status}`);
 };
+
+async function restoreOrderStock(order) {
+  if (!order.items) return;
+  for (const item of order.items) {
+    if (!item.id) continue;
+    try {
+      const ref = doc(db, "products", item.id);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) continue;
+      const current = Number(snap.data().stock || 0);
+      await updateDoc(ref, { stock: current + Number(item.quantity || 0) });
+    } catch (e) { console.warn("Stock restore failed for", item.id, e); }
+  }
+}
+
 window.updatePaymentStatus = async (id, status) => {
   await updateDoc(doc(db, "orders", id), { "payment.status": status });
   toast(`💳 ${status}`);
@@ -1236,35 +1329,71 @@ window.copyCashPin = async (pin, btn) => {
   }
 };
 
+window.contactOrderCustomer = (phone, name, orderId) => {
+  const clean = (phone || "").replace(/\D/g, "");
+  if (!clean) return toast("No phone number on file", 2500, "error");
+  const msg = encodeURIComponent(`Hi ${name || "there"}, this is SbheneCart. Regarding your order #${(orderId || "").substring(0, 8)} —`);
+  window.open(`https://wa.me/${clean}?text=${msg}`, "_blank");
+};
+
+/* ============ ORDERS LIST ============ */
 function renderOrders(){
   const el = $("orders-list");
   const activeStatuses = ["Pending","Processing","Shipped"];
   const historyStatuses = ["Delivered","Cancelled"];
 
-  const filtered = dbOrders.filter(o => {
+  let filtered = dbOrders.filter(o => {
     if (orderTab === "archived") return o.archived === true;
     if (o.archived === true) return false;
     return orderTab === "active" ? activeStatuses.includes(o.status) : historyStatuses.includes(o.status);
   });
 
+  // Payment method filter
+  if (currentPaymentFilter !== "all") {
+    filtered = filtered.filter(o => {
+      const m = (o.payment?.method || "").toLowerCase();
+      const s = (o.payment?.status || "").toLowerCase();
+      if (currentPaymentFilter === "cash") return m.includes("cash");
+      if (currentPaymentFilter === "card") return m.includes("card") || m.includes("online") || m.includes("payfast");
+      if (currentPaymentFilter === "eft") return !m.includes("cash") && !m.includes("card") && !m.includes("online") && !m.includes("payfast");
+      if (currentPaymentFilter === "unpaid") return s !== "paid" && !s.includes("rejected");
+      return true;
+    });
+  }
+
+  // Order text search
+  const q = ($("order-search-input")?.value || "").trim().toLowerCase();
+  if (q) {
+    filtered = filtered.filter(o => {
+      const ctx = `${o.id} ${o.customer?.name || ""} ${o.customer?.phone || ""}`.toLowerCase();
+      return ctx.includes(q);
+    });
+  }
+
+  // Update payment method counts on chips
+  const allVisible = dbOrders.filter(o => !o.archived);
+  updatePaymentChipCounts(allVisible);
+
   if (!filtered.length) {
-    el.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><h3>No orders here</h3><p>Orders will appear as customers check out.</p></div>`;
+    el.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><h3>No orders here</h3><p>Try a different tab, filter, or search term.</p></div>`;
     return;
   }
 
   el.innerHTML = filtered.map(o => {
     const pay = o.payment?.status || "Pending Verification";
     const payColor = pay === "Paid" ? "var(--green)" : (pay.includes("Pending") || pay.includes("Uploaded") || pay.includes("WhatsApp") ? "var(--orange)" : "var(--red)");
+    const method = o.payment?.method || "—";
+    const isCash = method.toLowerCase().includes("cash");
 
-    // ===== NEW: Richer PoP + Cash Send PIN panel =====
+    // ===== Payment verification panel =====
     const popHtml = (() => {
       const proofUrl = o.payment?.proofOfPaymentUrl;
       const pin = o.payment?.cashSendPin;
-      const method = (o.payment?.method || "").toLowerCase();
-      const isCashSend = method.includes("cash");
+      const depositor = o.payment?.depositorName;
       const hasProof = !!proofUrl;
       const hasPin = !!pin;
-      if (!hasProof && !hasPin) return "";
+      const hasDep = !!depositor;
+      if (!hasProof && !hasPin && !hasDep) return "";
 
       let html = `<div style="margin:12px 0;padding:12px;border:1px dashed var(--blue);border-radius:8px;background:rgba(8,120,209,.04)">`;
       html += `<div style="font-size:11px;font-weight:800;color:var(--blue-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">💳 Payment Verification</div>`;
@@ -1280,7 +1409,14 @@ function renderOrders(){
         </div>`;
       }
 
-      if (hasPin && isCashSend) {
+      if (hasDep) {
+        html += `<div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;padding:10px;margin-bottom:8px">
+          <span style="font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px">👤 Paid from account name</span>
+          <span style="font-size:13.5px;font-weight:700;color:#fff">${escapeHtml(depositor)}</span>
+        </div>`;
+      }
+
+      if (hasPin && isCash) {
         html += `<div style="background:rgba(255,159,10,.08);border:1px solid var(--orange);border-radius:8px;padding:10px">
           <span style="font-size:10.5px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">🔑 Cash Send PIN</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -1294,6 +1430,14 @@ function renderOrders(){
       return html;
     })();
 
+    // Cancelled reason banner
+    const cancelledHtml = (o.status === "Cancelled" && o.cancelReason)
+      ? `<div class="cancelled-banner">
+           <b>❌ ${escapeHtml(o.cancelReason)}</b>
+           <span>${o.cancelledAt ? `On ${new Date(o.cancelledAt).toLocaleString('en-ZA')}` : ""} ${o.cancelledBy ? `• by ${escapeHtml(o.cancelledBy)}` : ""}</span>
+         </div>`
+      : "";
+
     const itemsHtml = o.items?.map(i => {
       const variant = [i.selectedColor, i.selectedSize].filter(Boolean).join(" / ");
       return `<div style="font-size:12px;color:var(--muted)">• ${escapeHtml(i.name)} ${variant ? `(${escapeHtml(variant)}) ` : ""}(×${i.quantity}) — ${money(i.price)}</div>`;
@@ -1304,22 +1448,42 @@ function renderOrders(){
         ? `<button class="btn-secondary btn-block" style="margin-top:8px" onclick="unarchiveOrder('${o.id}')">📂 Restore</button>`
         : "";
 
+    const phone = o.customer?.phone || "";
+    const cleanPhone = phone.replace(/\D/g, "");
+    const canWhatsApp = cleanPhone.length >= 9;
+
     return `
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px">
-            <b style="color:#fff;font-size:13px">Order #${o.id.substring(0,8)}</b><br>
-            <span style="font-size:12px;color:var(--muted)">${escapeHtml(o.customer?.name || "Unknown")} • ${escapeHtml(o.customer?.phone || "-")}</span>
+            <b style="color:#fff;font-size:13px">Order #${o.id.substring(0,8)}</b>
+            <span class="copy-chip" onclick="copyText('${o.id}', 'Order ID')" title="Copy full Order ID">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy ID
+            </span>
+            <br>
+            <span style="font-size:12px;color:var(--muted)">${escapeHtml(o.customer?.name || "Unknown")}</span>
+            ${phone ? `<span class="copy-chip" onclick="copyText('${escapeHtml(phone)}', 'Phone')" title="Copy phone number">📋 ${escapeHtml(phone)}</span>` : ""}
           </div>
           <span style="font-size:15px;font-weight:800;color:var(--blue)">${money(o.total)}</span>
         </div>
         <div style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6">
-          <b style="color:#fff">Address:</b> ${escapeHtml(o.customer?.address || "-")}<br>
-          <b style="color:#fff">Payment:</b> ${escapeHtml(o.payment?.method || "-")} <span style="color:${payColor};font-weight:700">(${escapeHtml(pay)})</span><br>
+          <b style="color:#fff">Address:</b> ${escapeHtml(o.customer?.address || "-")}
+          ${o.customer?.address ? `<span class="copy-chip" onclick="copyText(\`${(o.customer.address || "").replace(/`/g,"'")}\`, 'Address')">📋 Copy</span>` : ""}<br>
+          <b style="color:#fff">Payment:</b> ${escapeHtml(method)} <span style="color:${payColor};font-weight:700">(${escapeHtml(pay)})</span><br>
           ${o.discountApplied ? `<b style="color:#fff">Discount:</b> ${money(o.discountApplied)}<br>` : ""}
         </div>
+
+        ${canWhatsApp ? `
+          <button onclick="contactOrderCustomer('${escapeHtml(phone)}', '${escapeHtml(o.customer?.name || '')}', '${o.id}')" style="width:100%;margin-top:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25D366;padding:10px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
+            💬 WhatsApp Customer
+          </button>
+        ` : ""}
+
         ${popHtml}
+        ${cancelledHtml}
         <div style="margin-top:12px;font-size:12px">${itemsHtml}</div>
+
         <label class="form-label">Status</label>
         <select class="form-select" onchange="updateOrderStatus('${o.id}', this.value)">
           ${["Pending","Processing","Shipped","Delivered","Cancelled"].map(s => `<option ${o.status===s?"selected":""}>${s}</option>`).join('')}
@@ -1334,6 +1498,68 @@ function renderOrders(){
     `;
   }).join('');
 }
+
+function updatePaymentChipCounts(list){
+  const counts = { eft: 0, cash: 0, card: 0, unpaid: 0 };
+  list.forEach(o => {
+    const m = (o.payment?.method || "").toLowerCase();
+    const s = (o.payment?.status || "").toLowerCase();
+    if (m.includes("cash")) counts.cash++;
+    else if (m.includes("card") || m.includes("online") || m.includes("payfast")) counts.card++;
+    else counts.eft++;
+    if (s !== "paid" && !s.includes("rejected")) counts.unpaid++;
+  });
+  const set = (id, n) => { const el = $(id); if (el) el.textContent = n > 0 ? `(${n})` : ""; };
+  set("pm-count-eft", counts.eft);
+  set("pm-count-cash", counts.cash);
+  set("pm-count-card", counts.card);
+  set("pm-count-unpaid", counts.unpaid);
+}
+
+/* NEW: CSV export */
+window.exportOrdersCSV = () => {
+  const activeStatuses = ["Pending","Processing","Shipped"];
+  const historyStatuses = ["Delivered","Cancelled"];
+  let list = dbOrders.filter(o => {
+    if (orderTab === "archived") return o.archived === true;
+    if (o.archived === true) return false;
+    return orderTab === "active" ? activeStatuses.includes(o.status) : historyStatuses.includes(o.status);
+  });
+
+  const q = ($("order-search-input")?.value || "").trim().toLowerCase();
+  if (q) list = list.filter(o => `${o.id} ${o.customer?.name} ${o.customer?.phone}`.toLowerCase().includes(q));
+
+  if (!list.length) return toast("No orders to export", 2500, "error");
+
+  const headers = ["Order ID","Date","Customer","Phone","Address","Payment Method","Payment Status","Status","Total","Items"];
+  const rows = list.map(o => [
+    o.id,
+    o.timestamp ? new Date(o.timestamp).toISOString() : "",
+    o.customer?.name || "",
+    o.customer?.phone || "",
+    (o.customer?.address || "").replace(/\n/g, " "),
+    o.payment?.method || "",
+    o.payment?.status || "",
+    o.status || "",
+    o.total || 0,
+    (o.items || []).map(i => `${i.quantity}x ${i.name}`).join(" | ")
+  ]);
+
+  const csv = [headers, ...rows].map(r => r.map(v => {
+    const s = String(v ?? "");
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }).join(",")).join("\n");
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `sbhenecart-orders-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(`Exported ${list.length} order${list.length === 1 ? "" : "s"}`, 2800, "success");
+  logAction(`CSV export: ${list.length} orders`);
+};
 
 window.adjustCustomerPoints = async (uid, inputId) => {
   const v = $(inputId).value;
@@ -1521,7 +1747,7 @@ function renderApprovals(){
       <img class="list-thumb" src="${p.image || ""}" alt="">
       <div class="list-body">
         <p class="list-title">${escapeHtml(p.name)}</p>
-        <p class="list-meta">R${p.price}</p>
+        <p class="list-meta">R${p.price} ${p.sellerId ? '• from seller' : ''}</p>
       </div>
       <div style="display:flex;gap:6px">
         <button class="btn btn-success" onclick="approveProduct('${p.id}',true)">✓</button>
@@ -1574,7 +1800,7 @@ function renderSellers(){
   `).join('');
 }
 
-/* ============ NEW: SELLER REVENUE ============ */
+/* ============ SELLER REVENUE ============ */
 function renderSellerRevenue(){
   const el = $("seller-revenue-list");
   if (!el) return;
@@ -1590,36 +1816,22 @@ function renderSellerRevenue(){
     const pendingProducts = myProducts.filter(p => !p.approved).length;
     const productIds = new Set(myProducts.map(p => p.id));
 
-    let totalRevenue = 0;
-    let deliveredRevenue = 0;
-    let orderCount = 0;
-    let deliveredCount = 0;
+    let totalRevenue = 0, deliveredRevenue = 0, orderCount = 0, deliveredCount = 0;
 
     dbOrders.forEach(o => {
       const myItems = (o.items || []).filter(i => productIds.has(i.id));
       if (!myItems.length) return;
       orderCount++;
       const lineTotal = myItems.reduce((s, i) => s + (i.price || 0) * (i.quantity || 0), 0);
-      if (o.status === "Delivered") {
-        deliveredRevenue += lineTotal;
-        deliveredCount++;
-      }
+      if (o.status === "Delivered") { deliveredRevenue += lineTotal; deliveredCount++; }
       totalRevenue += lineTotal;
     });
 
     return {
-      id: seller.id,
-      name: seller.name || "Unnamed",
-      email: seller.email || "",
-      phone: seller.phone || "",
+      id: seller.id, name: seller.name || "Unnamed", email: seller.email || "", phone: seller.phone || "",
       active: seller.active !== false,
-      productCount: myProducts.length,
-      liveProducts,
-      pendingProducts,
-      orderCount,
-      deliveredCount,
-      totalRevenue,
-      deliveredRevenue
+      productCount: myProducts.length, liveProducts, pendingProducts,
+      orderCount, deliveredCount, totalRevenue, deliveredRevenue
     };
   });
 
@@ -1684,7 +1896,7 @@ window.filterSellerProducts = (sellerId) => {
   renderProducts(filtered);
 };
 
-/* ============ NEW: PAYMENT VERIFICATION QUEUE ============ */
+/* ============ PAYMENT QUEUE ============ */
 function renderPaymentQueue(){
   const el = $("payment-queue-list");
   if (!el) return;
@@ -1716,6 +1928,7 @@ function renderPaymentQueue(){
 
     const proofUrl = o.payment?.proofOfPaymentUrl;
     const pin = o.payment?.cashSendPin;
+    const depositor = o.payment?.depositorName;
     const isCash = (o.payment?.method || "").toLowerCase().includes("cash");
     const timeAgo = o.timestamp ? new Date(o.timestamp).toLocaleString('en-ZA', { dateStyle: 'medium', timeStyle: 'short' }) : "—";
 
@@ -1744,6 +1957,13 @@ function renderPaymentQueue(){
             </a>
           </div>
         ` : `<div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:10px">No receipt uploaded yet</div>`}
+
+        ${depositor ? `
+          <div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;padding:10px;margin-bottom:8px">
+            <span style="font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px">👤 Paid from account name</span>
+            <span style="font-size:13px;font-weight:700;color:#fff">${escapeHtml(depositor)}</span>
+          </div>
+        ` : ""}
 
         ${(isCash && pin) ? `
           <div style="background:rgba(255,159,10,.08);border:1px solid var(--orange);border-radius:8px;padding:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
@@ -1830,21 +2050,17 @@ window.handleAdminSearch = () => {
   } else if (currentPage === "customers") {
     const filtered = dbCustomers.filter(u => `${u.name} ${u.email}`.toLowerCase().includes(q));
     renderCustomers(filtered);
+  } else if (currentPage === "orders") {
+    renderOrders();
   }
 };
 
-/* ============ SOUND + VOICE ALERT ENGINE ============ */
+/* ============ SOUND + VOICE ============ */
 let voiceAlertsOn = true;
 let browserVoices = [];
 
-function loadVoices(){
-  if (typeof speechSynthesis === "undefined") return;
-  browserVoices = speechSynthesis.getVoices() || [];
-}
-if (typeof speechSynthesis !== "undefined") {
-  loadVoices();
-  speechSynthesis.onvoiceschanged = loadVoices;
-}
+function loadVoices(){ if (typeof speechSynthesis !== "undefined") browserVoices = speechSynthesis.getVoices() || []; }
+if (typeof speechSynthesis !== "undefined") { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
 
 function pickVoice(){
   return browserVoices.find(v => v.lang === "en-ZA")
@@ -1861,9 +2077,7 @@ window.speak = (text) => {
     const u = new SpeechSynthesisUtterance(text);
     const v = pickVoice();
     if (v) u.voice = v;
-    u.rate = 1.0;
-    u.pitch = 1.05;
-    u.volume = 1.0;
+    u.rate = 1.0; u.pitch = 1.05; u.volume = 1.0;
     speechSynthesis.speak(u);
   } catch (e) { console.warn("Speech failed:", e); }
 };
@@ -1888,11 +2102,7 @@ function playChime(){
   if (!audioAlertsOn) return;
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const notes = [
-      { freq: 523.25, delay: 0    },
-      { freq: 659.25, delay: 160  },
-      { freq: 783.99, delay: 320  }
-    ];
+    const notes = [{ freq: 523.25, delay: 0 }, { freq: 659.25, delay: 160 }, { freq: 783.99, delay: 320 }];
     notes.forEach(({ freq, delay }) => {
       setTimeout(() => {
         const osc = ctx.createOscillator();
@@ -1901,10 +2111,8 @@ function playChime(){
         osc.frequency.value = freq;
         gain.gain.setValueAtTime(0.35, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.6);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.6);
       }, delay);
     });
   } catch (e) { console.warn("Chime failed:", e); }
@@ -1912,11 +2120,10 @@ function playChime(){
 
 window.alertNewOrder = (customerName, total) => {
   playChime();
-  setTimeout(() => {
-    speak(`New order on SbheneCart from ${customerName || "a customer"}. Total ${total || ""} rand.`);
-  }, 800);
+  setTimeout(() => speak(`New order on SbheneCart from ${customerName || "a customer"}. Total ${total || ""} rand.`), 800);
 };
 
+/* ============ MAP ============ */
 let adminMap = null, adminMarkers = [];
 window.initAdminMap = () => {
   const div = $("orders-map");
@@ -1945,19 +2152,41 @@ function refreshAdminMapPins(){
     if (!c?.lat || !c?.lng) return;
     const pos = { lat: Number(c.lat), lng: Number(c.lng) };
     const color = o.status === "Cancelled" ? "#FF3B30" : o.status === "Delivered" ? "#00A650" : o.status === "Shipped" ? "#29B6F6" : o.status === "Processing" ? "#FFB300" : "#0878D1";
-    const marker = new google.maps.Marker({
-      position: pos, map: adminMap,
-      icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: color, fillOpacity: 1, strokeColor: "#fff", strokeWeight: 1.5 }
-    });
+    const marker = new google.maps.Marker({ position: pos, map: adminMap, icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: color, fillOpacity: 1, strokeColor: "#fff", strokeWeight: 1.5 } });
     const info = new google.maps.InfoWindow({ content: `<div style="color:#111;font-family:Arial;font-size:12px;line-height:1.4;padding:4px"><b>#${o.id.substring(0,8)}</b><br>${o.customer?.name}<br><b>${o.status}</b> — R${o.total}</div>` });
     marker.addListener("click", () => info.open(adminMap, marker));
-    adminMarkers.push(marker);
-    bounds.extend(pos);
-    has = true;
+    adminMarkers.push(marker); bounds.extend(pos); has = true;
   });
   if (has) adminMap.fitBounds(bounds);
 }
 
+/* ============ AUTO-SWEEP: cancel unpaid orders past 24h ============ */
+let sweptOrderIds = new Set();
+function autoSweepPastDueOrders(){
+  const now = Date.now();
+  dbOrders.forEach(o => {
+    if (sweptOrderIds.has(o.id)) return;
+    if (o.status !== "Pending") return;
+    const pay = o.payment?.status || "";
+    if (pay === "Paid" || pay.includes("Uploaded") || pay.includes("WhatsApp")) return;
+    const deadline = (Number(o.timestamp) || 0) + PAYMENT_DEADLINE_HOURS * 60 * 60 * 1000;
+    if (now < deadline) return;
+    sweptOrderIds.add(o.id);
+    updateDoc(doc(db, "orders", o.id), {
+      status: "Cancelled",
+      cancelReason: "Payment not received within 24 hours",
+      cancelledAt: now,
+      cancelledBy: "system"
+    }).then(() => {
+      logAction(`Auto-cancelled ${o.id.substring(0,8)} — 24h unpaid`);
+    }).catch(err => {
+      console.warn("Auto-cancel failed for", o.id, err);
+      sweptOrderIds.delete(o.id);
+    });
+  });
+}
+
+/* ============ FIRESTORE LISTENERS ============ */
 onSnapshot(collection(db, "categories"), snap => {
   dbCats = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>a.name.localeCompare(b.name));
   renderCategories();
@@ -1968,7 +2197,7 @@ onSnapshot(collection(db, "subcategories"), snap => {
 });
 onSnapshot(collection(db, "subsubcategories"), snap => {
   dbSubSubs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderSubSubcategories();
+  renderSubSubCategories();
 });
 onSnapshot(collection(db, "products"), snap => {
   dbProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1996,6 +2225,9 @@ onSnapshot(collection(db, "orders"), snap => {
   refreshAdminMapPins();
   if ($("payment-queue-list")) renderPaymentQueue();
 
+  // Auto-sweep
+  autoSweepPastDueOrders();
+
   const pending = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
   const badge = $("orders-badge");
   if (badge) {
@@ -2005,13 +2237,14 @@ onSnapshot(collection(db, "orders"), snap => {
 
   if (newOrder) {
     alertNewOrder(newOrder.customer?.name, newOrder.total);
-    toast(`🛒 New order from ${newOrder.customer?.name || "customer"}!`, 5000);
+    toast(`🛒 New order from ${newOrder.customer?.name || "customer"}!`, 5000, "success");
     logAction(`New order: ${money(newOrder.total)}`);
+    if (badge) {
+      badge.classList.add("pulse");
+      setTimeout(() => badge.classList.remove("pulse"), 8000);
+    }
     if (typeof Notification !== "undefined" && Notification.permission === "granted") {
-      new Notification("🛒 New SbheneCart Order", {
-        body: `${newOrder.customer?.name || "Customer"} — R${newOrder.total}`,
-        tag: newOrder.id
-      });
+      new Notification("🛒 New SbheneCart Order", { body: `${newOrder.customer?.name || "Customer"} — R${newOrder.total}`, tag: newOrder.id });
     }
   }
 });
@@ -2044,12 +2277,23 @@ onSnapshot(collection(db, "broadcasts"), snap => {
 
 function renderStats(){
   $("stat-products").textContent = dbProducts.length;
+
   const rev = dbOrders.filter(o => o.status === "Delivered").reduce((s,o) => s + Number(o.total||0), 0);
   $("stat-revenue").textContent = money(rev);
+
+  // Today's stats
+  const startOfToday = new Date();
+  startOfToday.setHours(0,0,0,0);
+  const todayTs = startOfToday.getTime();
+  const todayOrders = dbOrders.filter(o => (o.timestamp || 0) >= todayTs && o.status !== "Cancelled");
+  const todayRevenue = todayOrders.filter(o => o.status === "Delivered").reduce((s,o) => s + Number(o.total||0), 0);
+  const todayCount = todayOrders.length;
+  if ($("stat-today-rev")) $("stat-today-rev").textContent = money(todayRevenue);
+  if ($("stat-today-orders")) $("stat-today-orders").textContent = `${todayCount} order${todayCount === 1 ? "" : "s"} today`;
+
   $("stat-pending").textContent = dbOrders.filter(o => o.status === "Pending" && !o.archived).length;
   $("stat-customers").textContent = dbCustomers.length;
 
-  // Payment verification count
   const payQueueEl = $("stat-payqueue");
   if (payQueueEl) {
     const count = dbOrders.filter(o => {
@@ -2160,7 +2404,7 @@ function renderSubcategories(){
   }
 }
 
-function renderSubSubcategories(){
+function renderSubSubCategories(){
   const el = $("subsubcats");
   if (el) el.innerHTML = dbSubSubs.length ? dbSubSubs.map(s => `
     <div class="list-item">
@@ -2176,9 +2420,6 @@ function renderSubSubcategories(){
 renderActivityLog();
 </script>
 
-<!-- ============ GOOGLE MAPS (OPTIONAL) ============
-     Replace YOUR_GOOGLE_MAPS_KEY with your real key, OR delete this entire block.
-     If you don't have a key, orders still work — just no map pins. -->
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY&callback=initAdminMap">
 </script>
